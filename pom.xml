@@ -6,8 +6,9 @@
 
     <groupId>ru.otus.kasymbekovPN</groupId>
     <artifactId>otusJ</artifactId>
-    <packaging>pom</packaging>
     <version>2019-06-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
 
     <description>Repository for homework</description>
 
@@ -22,11 +23,22 @@
     </modules>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <!-- region abs-->
+        <java.encoding>UTF-8</java.encoding>
+        <java.version>11</java.version>
+        <!-- endregion-->
+        <!-- region general-->
+        <project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEnconing>${java.encoding}</project.reporting.outputEnconing>
+        <!-- endregion-->
+        <!-- region plugins-->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.assembly.plugin.version>3.1.1</maven.assembly.plugin.version>
+        <!-- endregion -->
+        <!-- region libraries-->
         <com.google.guava.version>28.0-jre</com.google.guava.version>
-        <my.variable>42</my.variable>
+        <!-- endregion -->
     </properties>
 
     <dependencyManagement>
@@ -45,7 +57,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>${maven.assembly.plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
