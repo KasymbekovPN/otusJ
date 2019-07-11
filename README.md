@@ -3,3 +3,7 @@
 ## Студент 
 Pavel Kasymbekov (Павел Касымбеков)<br>
 [kasymbekovPN@yandex.ru]()
+
+## Ветки : ДЗ
+* hw01-maven : 1 
+* hw02-DIYArrayList : 2

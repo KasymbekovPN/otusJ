@@ -5,3 +5,4 @@
 hw01-maven/target/maven-archiver/pom.properties
 *.lst
 L01-maven/target/classes/META-INF/L01maven.kotlin_module
+hw02-DIYArrayList/

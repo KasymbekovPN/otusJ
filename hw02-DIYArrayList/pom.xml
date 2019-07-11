@@ -11,15 +11,8 @@
         <version>2019-06-SNAPSHOT</version>
     </parent>
 
-    <artifactId>hw01-maven</artifactId>
-    <name>hw01-maven</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-    </dependencies>
+    <artifactId>hw02-DIYArrayList</artifactId>
+    <name>hw02-DIYArrayList</name>
 
     <build>
         <finalName>${project.name}</finalName>
@@ -34,7 +27,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                ru.otus.kasymbekovPN.HW01.HelloOtus
+                                ru.otus.kasymbekovPN.HW02.DIYArrayListTestDrive
                             </mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
