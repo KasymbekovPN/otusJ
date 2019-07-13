@@ -27,7 +27,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                ru.otus.kasymbekovPN.HW02.DIYArrayListTestDrive
+                                DIYArrayListTestDrive
                             </mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
