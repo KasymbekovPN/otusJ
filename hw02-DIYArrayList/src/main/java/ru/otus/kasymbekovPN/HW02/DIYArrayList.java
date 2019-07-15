@@ -3,8 +3,7 @@ package ru.otus.kasymbekovPN.HW02;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, RandomAccess*/
-{
+public class DIYArrayList<T> implements List<T> {
     //region private members
     //region private final members
     private static final int DEFAULT_CAPACITY = 21;
@@ -22,40 +21,28 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
     //endregion
 
     //region constructors
-    public DIYArrayList(int initCapacity)
-    {
-        if (0 == initCapacity)
-        {
+    public DIYArrayList(int initCapacity) {
+        if (0 == initCapacity) {
             this.data = EMPTY_DATA;
-        }
-        else if (0 < initCapacity)
-        {
+        } else if (0 < initCapacity) {
             this.data = new Object[initCapacity];
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("Illegal Capacity (less than zero) : " + initCapacity);
         }
     }
 
-    public DIYArrayList()
-    {
+    public DIYArrayList() {
         this.data = DEFAULT_CAPACITY_EMPTY_DATA;
     }
 
-    public DIYArrayList(Collection<? extends T> initData)
-    {
+    public DIYArrayList(Collection<? extends T> initData) {
         this.data = initData.toArray();
-        if(0 != (size = this.data.length))
-        {
+        if(0 != (size = this.data.length)) {
             // https://bugs.openjdk.java.net/browse/JDK-6260652
-            if (data.getClass() != Object[].class)
-            {
+            if (data.getClass() != Object[].class) {
                 data = Arrays.copyOf(data, size, Object[].class);
             }
-        }
-        else
-        {
+        } else {
             this.data = EMPTY_DATA;
         }
     }
@@ -65,41 +52,33 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
 
     //region public
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder("DIYArray[");
-        if (data != null)
-        {
-            for(int i = 0; i < data.length; i++)
-            {
+        if (data != null) {
+            for(int i = 0; i < data.length; i++) {
                 sb.append(
                         i + " : " +
                         (data[i] == null ? "null" : data[i].toString()) +
                         (i == data.length - 1 ? ' ' : ", ")
                 );
             }
-
             sb.append("]\nsize = " + size);
         }
-
         return sb.toString();
     }
 
     @Override
-    public boolean add(T t)
-    {
+    public boolean add(T t) {
         add(size(), t);
         return true;
     }
 
     @Override
-    public void add(int index, T element)
-    {
+    public void add(int index, T element) {
         rangeCheckForAdd(index);
         final int s;
         Object[] data;
-        if ((s = size) == (data = this.data).length)
-        {
+        if ((s = size) == (data = this.data).length) {
             data = grow();
         }
         System.arraycopy(data, index, data, index + 1, s - index);
@@ -108,28 +87,23 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
     }
 
     @Override
-    public int size()
-    {
+    public int size() {
         return size;
     }
 
     @Override
-    public Object[] toArray()
-    {
+    public Object[] toArray() {
         return Arrays.copyOf(data, size);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T1> T1[] toArray(T1[] array)
-    {
-        if (array.length < size)
-        {
+    public <T1> T1[] toArray(T1[] array) {
+        if (array.length < size) {
             return (T1[]) Arrays.copyOf(data, size, array.getClass());
         }
         System.arraycopy(data, 0, array, 0, size);
-        if (array.length > size)
-        {
+        if (array.length > size) {
             array[size] = null;
         }
 
@@ -137,15 +111,13 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
     }
 
     @Override
-    public T get(int index)
-    {
+    public T get(int index) {
         Objects.checkIndex(index, size);
         return data(index);
     }
 
     @Override
-    public T set(int index, T element)
-    {
+    public T set(int index, T element) {
         Objects.checkIndex(index, size);
         T oldVal = data(index);
         data[index] = element;
@@ -153,14 +125,12 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
     }
 
     @Override
-    public ListIterator<T> listIterator()
-    {
+    public ListIterator<T> listIterator() {
         return new ListItr(0);
     }
 
     @Override
-    public ListIterator<T> listIterator(int index)
-    {
+    public ListIterator<T> listIterator(int index) {
         return new ListItr(index);
     }
     //endregion
@@ -168,28 +138,22 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
     //region private
 
     //region not static
-    private Object[] grow()
-    {
+    private Object[] grow() {
         return grow(size + 1);
     }
 
-    private Object[] grow(int minCap)
-    {
+    private Object[] grow(int minCap) {
         return data = Arrays.copyOf(data, newCapacity(minCap));
     }
 
-    private int newCapacity(int minCap)
-    {
+    private int newCapacity(int minCap) {
         int oldCap = data.length;
         int newCap = oldCap + (oldCap >> 1);
-        if (newCap <= minCap)
-        {
-            if (data == DEFAULT_CAPACITY_EMPTY_DATA)
-            {
+        if (newCap <= minCap) {
+            if (data == DEFAULT_CAPACITY_EMPTY_DATA) {
                 return Math.max(DEFAULT_CAPACITY, minCap);
             }
-            if (0 > minCap)
-            {
+            if (0 > minCap) {
                 throw new OutOfMemoryError();
             }
 
@@ -202,15 +166,12 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
     }
 
     @SuppressWarnings("unchecked")
-    private T data(int index)
-    {
+    private T data(int index) {
         return (T) data[index];
     }
 
-    private void rangeCheckForAdd(int index)
-    {
-        if (0 > index || index > size())
-        {
+    private void rangeCheckForAdd(int index) {
+        if (0 > index || index > size()) {
             throw new IndexOutOfBoundsException("Index : " + index + ", size : " + size);
         }
     }
@@ -218,16 +179,13 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
 
     //region static
     @SuppressWarnings("unchecked")
-    static private <T> T elementAt(Object[] d, int index)
-    {
+    static private <T> T elementAt(Object[] d, int index) {
         return (T) d[index];
     }
 
-    static private int hugeCapacity(int minCap)
+    static private int hugeCapacity(int minCap) {
 
-    {
-        if (0 > minCap)
-        {
+        if (0 > minCap) {
             throw new OutOfMemoryError();
         }
 
@@ -243,118 +201,99 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
 
     //region not implemented methods
     @Override
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         throw new UnsupportedOperationException("isEmpty");
     }
 
     @Override
-    public boolean contains(Object o)
-    {
+    public boolean contains(Object o) {
         throw new UnsupportedOperationException("contains");
     }
 
     @Override
-    public Iterator<T> iterator()
-    {
+    public Iterator<T> iterator() {
         throw new UnsupportedOperationException("iterator");
     }
 
     @Override
-    public boolean remove(Object o)
-    {
+    public boolean remove(Object o) {
         throw new UnsupportedOperationException("remove");
     }
 
     @Override
-    public boolean containsAll(Collection<?> c)
-    {
+    public boolean containsAll(Collection<?> c) {
         throw new UnsupportedOperationException("containsAll");
     }
 
     @Override
-    public boolean addAll(Collection<? extends T> c)
-    {
+    public boolean addAll(Collection<? extends T> c) {
         throw new UnsupportedOperationException("addAll");
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends T> c)
-    {
+    public boolean addAll(int index, Collection<? extends T> c) {
         throw new UnsupportedOperationException("addAll");
     }
 
     @Override
-    public boolean removeAll(Collection<?> c)
-    {
+    public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException("removeAll");
     }
 
     @Override
-    public boolean retainAll(Collection<?> c)
-    {
+    public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException("retainAll");
     }
 
     @Override
-    public void clear()
-    {
+    public void clear() {
         throw new UnsupportedOperationException("clear");
     }
 
     @Override
-    public T remove(int index)
-    {
+    public T remove(int index) {
         throw new UnsupportedOperationException("remove");
     }
 
     @Override
-    public int indexOf(Object o)
-    {
+    public int indexOf(Object o) {
         throw new UnsupportedOperationException("indexOf");
     }
 
     @Override
-    public int lastIndexOf(Object o)
-    {
+    public int lastIndexOf(Object o) {
         throw new UnsupportedOperationException("lastIndexOf");
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex)
-    {
+    public List<T> subList(int fromIndex, int toIndex) {
         throw new UnsupportedOperationException("subList");
     }
 
     //endregion
 
     //region inner classes
-    private class Itr implements Iterator<T>
-    {
+    private class Itr implements Iterator<T> {
         int cursor;
         int lastRet = -1;
         int expectedModCount = modCount;
 
         Itr() {}
 
-        public boolean hasNext()
-        {
+        public boolean hasNext() {
             return cursor != size;
         }
 
         @SuppressWarnings("unchecked")
-        public T next()
-        {
+        public T next() {
             checkForComodification();
             int i = cursor;
-            if (i >= size)
-            {
+            if (i >= size) {
                 throw new NoSuchElementException();
             }
 
             Object[] data = DIYArrayList.this.data;
-            if (i >= data.length)
-            {
+            if (i >= data.length) {
                 throw new ConcurrentModificationException();
             }
 
@@ -362,23 +301,18 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
             return (T) data[lastRet = i];
         }
 
-
-        public void remove()
-        {
-            if (0 > lastRet)
-            {
+        public void remove() {
+            if (0 > lastRet) {
                 throw new IllegalStateException();
             }
             checkForComodification();
 
-            try
-            {
+            try {
                 DIYArrayList.this.remove(lastRet);
                 cursor = lastRet;
                 lastRet = -1;
                 expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex)
-        {
+            } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -388,15 +322,12 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
             Objects.requireNonNull(action);
             final int size = DIYArrayList.this.size;
             int i = cursor;
-            if (i < size)
-            {
+            if (i < size) {
                 final Object[] d = data;
-                if (i >= d.length)
-                {
+                if (i >= d.length) {
                     throw new ConcurrentModificationException();
                 }
-                for( ; i < size && modCount == expectedModCount; i++)
-                {
+                for( ; i < size && modCount == expectedModCount; i++) {
                     action.accept(elementAt(d, i));
                 }
 
@@ -406,52 +337,42 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
             }
         }
 
-        final void checkForComodification()
-        {
-            if (modCount != expectedModCount)
-            {
+        final void checkForComodification() {
+            if (modCount != expectedModCount) {
                 throw new ConcurrentModificationException();
             }
         }
     }
 
-    private class ListItr extends Itr implements ListIterator<T>
-    {
-        ListItr(int index)
-        {
+    private class ListItr extends Itr implements ListIterator<T> {
+        ListItr(int index) {
             super();
             cursor = index;
         }
 
-        public boolean hasPrevious()
-        {
+        public boolean hasPrevious() {
             return cursor != 0;
         }
 
-        public int nextIndex()
-        {
+        public int nextIndex() {
             return cursor;
         }
 
-        public int previousIndex()
-        {
+        public int previousIndex() {
             return cursor - 1;
         }
 
         @SuppressWarnings("unchecked")
-        public T previous()
-        {
+        public T previous() {
             checkForComodification();
 
             int i = cursor - 1;
-            if (i < 0)
-            {
+            if (i < 0) {
                 throw new NoSuchElementException();
             }
 
             Object[] data = DIYArrayList.this.data;
-            if (i >= data.length)
-            {
+            if (i >= data.length) {
                 throw new ConcurrentModificationException();
             }
 
@@ -459,26 +380,21 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
             return (T) data[lastRet = i];
         }
 
-        public void set(T e)
-        {
-            if (lastRet < 0)
-            {
+        public void set(T e) {
+            if (lastRet < 0) {
                 throw new IllegalStateException();
             }
 
             checkForComodification();
 
-            try
-            {
+            try {
                 DIYArrayList.this.set(lastRet, e);
-            } catch (IndexOutOfBoundsException ex)
-            {
+            } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }
 
-        public void add(T e)
-        {
+        public void add(T e) {
             checkForComodification();
 
             try {
@@ -487,8 +403,7 @@ public class DIYArrayList<T> /*extends AbstractList<T>*/ implements List<T>/*, R
                 cursor = i + 1;
                 lastRet = -1;
                 expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex)
-            {
+            } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
             }
         }

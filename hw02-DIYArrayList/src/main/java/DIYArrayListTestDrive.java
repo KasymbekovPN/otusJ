@@ -3,10 +3,8 @@ import ru.otus.kasymbekovPN.HW02.DIYArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DIYArrayListTestDrive
-{
-    static public void main(String... args)
-    {
+public class DIYArrayListTestDrive {
+    static public void main(String... args) {
         List<Integer> diy1 = new DIYArrayList<>();
         System.out.println("\nInit diy1, constructor without args");
         System.out.println("diy1 : " + diy1);
@@ -17,8 +15,7 @@ public class DIYArrayListTestDrive
 
         int begin = 0;
         int end = 50;
-        for (int i = begin; i <= end; i++)
-        {
+        for (int i = begin; i <= end; i++) {
             diy1.add(i);
         }
         System.out.println("\nElements with values from "+ begin +" to " + end + " was sequence add into diy1");
@@ -40,8 +37,7 @@ public class DIYArrayListTestDrive
         System.out.println("diy3 : " + diy3);
 
         List<Integer> diy5 = new DIYArrayList<>();
-        for (int i = begin; i <= end; i++)
-        {
+        for (int i = begin; i <= end; i++) {
             diy5.add(100 + i);
         }
         System.out.println("\nElements with values from "+ (begin + 100) +" to " + (end + 100) + " was sequence add into diy5");
