@@ -7,3 +7,4 @@ Pavel Kasymbekov (Павел Касымбеков)<br>
 ## Ветки : ДЗ
 * hw01-maven : 1 
 * hw02-DIYArrayList : 2
+* hw03-annotation : 3
