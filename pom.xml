@@ -21,6 +21,7 @@
     <modules>
         <module>hw01-maven</module>
         <module>hw02-DIYArrayList</module>
+        <module>hw04-autoLog</module>
     </modules>
 
     <properties>
@@ -39,6 +40,7 @@
         <!-- endregion -->
         <!-- region libraries-->
         <com.google.guava.version>28.0-jre</com.google.guava.version>
+        <asm.version>7.1</asm.version>
         <!-- endregion -->
     </properties>
 
