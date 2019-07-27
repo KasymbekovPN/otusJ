@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW03.starterAnnotations;
+package ru.otus.kasymbekovPN.HW03.starter.annotations;
 
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;

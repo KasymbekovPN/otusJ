@@ -24,7 +24,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.kasymbekovPN.HW03.Starter</mainClass>
+                            <mainClass>ru.otus.kasymbekovPN.HW03.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
