@@ -29,10 +29,10 @@ public class Starter {
                 SeparatedMethods separatedMethods = Starter.separateMethods(aClass.getDeclaredMethods());
 
                 TestResults testResults = new TestResults();
-                if (Starter.invokeOther(StarterBeforeAll.class, separatedMethods, null)){
+                if (Starter.invokeAnnotationMethods(StarterBeforeAll.class, separatedMethods, null)){
                     testResults = Starter.invokeTest(separatedMethods, aClass);
                 }
-                Starter.invokeOther(StarterAfterAll.class, separatedMethods,null);
+                Starter.invokeAnnotationMethods(StarterAfterAll.class, separatedMethods,null);
 
                 testResults.print();
 
@@ -63,7 +63,7 @@ public class Starter {
         return sepMethods;
     }
 
-    private static boolean invokeOther(Class key, SeparatedMethods separatedMethods, Object instance){
+    private static boolean invokeAnnotationMethods(Class key, SeparatedMethods separatedMethods, Object instance){
 
         List<Method> methodList = separatedMethods.getMethodList(key);
         int size = methodList.size();
@@ -116,21 +116,15 @@ public class Starter {
             try {
                 Object instance = aClass.getConstructors()[0].newInstance();
 
-                if (Starter.invokeOther(StarterBeforeEach.class, separatedMethods, instance)){
+                if (Starter.invokeAnnotationMethods(StarterBeforeEach.class, separatedMethods, instance)){
                     method.invoke(instance);
                     if (!msg.isEmpty()){
                         System.out.println(method.getAnnotation(StarterTest.class).offset() + msg);
                     }
                 }
 
-                Starter.invokeOther(StarterAfterEach.class, separatedMethods, instance);
-            } catch (InstantiationException e) {
-                success = false;
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                success = false;
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+                Starter.invokeAnnotationMethods(StarterAfterEach.class, separatedMethods, instance);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 success = false;
                 e.printStackTrace();
             }
