@@ -40,6 +40,7 @@
         <!-- endregion -->
         <!-- region libraries-->
         <com.google.guava.version>28.0-jre</com.google.guava.version>
+        <junit-jupiter.version>5.3.2</junit-jupiter.version>
         <!-- endregion -->
     </properties>
 
@@ -50,8 +51,37 @@
                 <artifactId>guava</artifactId>
                 <version>${com.google.guava.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.3.2</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
