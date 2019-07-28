@@ -1,21 +1,33 @@
 package ru.otus.kasymbekovPN.HW04;
 
 import ru.otus.kasymbekovPN.HW04.accumulator.Accumulator;
+import ru.otus.kasymbekovPN.HW04.accumulator.AccumulatorWithoutInterface;
+import ru.otus.kasymbekovPN.HW04.accumulator.ICalc;
+
+import java.util.Optional;
 
 /*
-java -javaagent:hw04.jar -jar hw04.jar
+    run from ../target:
+        line for run with logs:
+            java -jar hw04.jar -l
+        line for run without log:
+            java -jar hw04.jar
  */
-public class Demo {
+public class Demo{
     public static void main(String... args) {
-        //<
-        System.out.println("main");
-        //<
 
-        Accumulator accumulator = new Accumulator(100.0);
-        System.out.println("main : " + accumulator.add(150.0));
-        System.out.println("main : " + accumulator.sud(70.0));
-        System.out.println("main : " + accumulator.prod(15.2));
-        System.out.println("main : " + accumulator.div(-12.586));
-        System.out.println("main : " + accumulator.getValue());
+        Optional<ICalc> aClass = ClassInvoker.createClass(Accumulator.class, args);
+
+        if (aClass.isPresent()){
+            ICalc iCalc = aClass.get();
+            System.out.println("Result after +123.456 : " + iCalc.add(123.456));
+            System.out.println("Result after -45.321 : " + iCalc.sub(145.321));
+            System.out.println("Result after *147.568 : " + iCalc.prod(147.568));
+            System.out.println("Result after /(-78.25) : " + iCalc.div(-78.25));
+            System.out.println("Result after +100 (without log) : " + iCalc.addWithoutLog(100.0));
+        }
+
+        Optional<ICalc> aClass2 = ClassInvoker.createClass(AccumulatorWithoutInterface.class, args);
+        System.out.println(aClass2.isPresent());
     }
 }

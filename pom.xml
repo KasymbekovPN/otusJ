@@ -40,7 +40,6 @@
         <!-- endregion -->
         <!-- region libraries-->
         <com.google.guava.version>28.0-jre</com.google.guava.version>
-        <asm.version>7.1</asm.version>
         <!-- endregion -->
     </properties>
 
