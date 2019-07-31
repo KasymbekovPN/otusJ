@@ -4,65 +4,45 @@ import ru.otus.kasymbekovPN.HW04.accumulator.ICalc;
 import ru.otus.kasymbekovPN.HW04.annotations.Log;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 class ClassInvoker {
 
-    private final static String LOG_ON_CMD = "-l";
-
-    private static boolean logOn;
-
-    static Optional<ICalc> createClass(Class aClass, String... args){
-
-        setLogMode(args);
-
-        Optional<ICalc> opt = Optional.empty();
-        try {
-            Object instance = aClass.getConstructors()[0].newInstance();
-
-            List<Class<?>> interfaces = Arrays.asList(instance.getClass().getInterfaces());
-            if (interfaces.contains(ICalc.class)){
-                InvocationHandler hand = new ICalcInvocationHandler(instance);
-
-                opt = Optional.of((ICalc) Proxy.newProxyInstance(ClassInvoker.class.getClassLoader(),
-                        new Class<?>[]{ICalc.class}, hand));
-            }
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return opt;
+    static Optional<ICalc> iCreateClass(ICalc instance, boolean logMode){
+        return instance == null
+                ? Optional.empty()
+                : Optional.of((ICalc)Proxy.newProxyInstance(ClassInvoker.class.getClassLoader(),
+                new Class<?>[]{ICalc.class},
+                new ICalcInvocationHandler(instance, logMode)));
     }
 
     static class ICalcInvocationHandler implements InvocationHandler {
         private final ICalc iCalc;
+        private final List<String> logMethodNames;
 
-        ICalcInvocationHandler(Object iCalc){
-            this.iCalc = (ICalc) iCalc;
+        ICalcInvocationHandler(ICalc iCalc, boolean logMode){
+            this.iCalc = iCalc;
+            logMethodNames = new ArrayList<>();
+            if (logMode){
+                for (Method method : iCalc.getClass().getMethods()) {
+                    if (method.isAnnotationPresent(Log.class)){
+                        logMethodNames.add(method.getName());
+                    }
+                }
+            }
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (logOn){
-                Method iCalcMethod = iCalc.getClass().getMethod(method.getName(), double.class);
-                if (iCalcMethod.isAnnotationPresent(Log.class)){
-                    log(iCalcMethod.getName(), args);
-                }
+            if (logMethodNames.contains(method.getName())){
+                log(method.getName(), args);
             }
 
             return method.invoke(iCalc, args);
-        }
-    }
-
-    private static void setLogMode(String... args){
-        logOn = false;
-        if (args.length >= 1){
-            logOn = args[0].equals(LOG_ON_CMD);
         }
     }
 
