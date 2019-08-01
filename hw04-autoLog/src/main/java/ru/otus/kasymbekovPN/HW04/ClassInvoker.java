@@ -1,47 +1,44 @@
 package ru.otus.kasymbekovPN.HW04;
 
 import ru.otus.kasymbekovPN.HW04.accumulator.ICalc;
+import ru.otus.kasymbekovPN.HW04.accumulator.MethodSign;
 import ru.otus.kasymbekovPN.HW04.annotations.Log;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class ClassInvoker {
 
-    static Optional<ICalc> iCreateClass(ICalc instance, boolean logMode){
-        return instance == null
-                ? Optional.empty()
-                : Optional.of((ICalc)Proxy.newProxyInstance(ClassInvoker.class.getClassLoader(),
-                new Class<?>[]{ICalc.class},
-                new ICalcInvocationHandler(instance, logMode)));
+    static ICalc createClass(ICalc instance, boolean logMode){
+        return logMode
+                ? (ICalc)Proxy.newProxyInstance(ClassInvoker.class.getClassLoader(),
+                    new Class<?>[]{ICalc.class},
+                    new ICalcInvocationHandler(instance))
+                : instance;
     }
 
     static class ICalcInvocationHandler implements InvocationHandler {
         private final ICalc iCalc;
-        private final List<String> logMethodNames;
+        private final Set<MethodSign> logMethods;
 
-        ICalcInvocationHandler(ICalc iCalc, boolean logMode){
+        ICalcInvocationHandler(ICalc iCalc){
             this.iCalc = iCalc;
-            logMethodNames = new ArrayList<>();
-            if (logMode){
-                for (Method method : iCalc.getClass().getMethods()) {
-                    if (method.isAnnotationPresent(Log.class)){
-                        logMethodNames.add(method.getName());
-                    }
+
+            logMethods = new TreeSet<>();
+            for (Method method : iCalc.getClass().getMethods()) {
+                if (method.isAnnotationPresent(Log.class)){
+                    logMethods.add(new MethodSign(method));
                 }
             }
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (logMethodNames.contains(method.getName())){
+            if (logMethods.contains(new MethodSign(method))){
                 log(method.getName(), args);
             }
-
             return method.invoke(iCalc, args);
         }
     }

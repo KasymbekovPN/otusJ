@@ -11,6 +11,11 @@ public class Accumulator implements ICalc{
         return this.value += value;
     }
 
+    @Override
+    public double add(double v1, double v2) {
+        return this.value += v1 + v2;
+    }
+
     @Log
     @Override
     public double sub(double value) {

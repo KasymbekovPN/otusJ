@@ -3,8 +3,6 @@ package ru.otus.kasymbekovPN.HW04;
 import ru.otus.kasymbekovPN.HW04.accumulator.Accumulator;
 import ru.otus.kasymbekovPN.HW04.accumulator.ICalc;
 
-import java.util.Optional;
-
 /*
     run from ../target:
         line for run with logs:
@@ -20,15 +18,13 @@ public class Demo{
 
         final boolean logMode = parseArguments(args);
 
-        Optional<ICalc> aClass = ClassInvoker.iCreateClass(new Accumulator(), logMode);
-        if (aClass.isPresent()){
-            ICalc iCalc = aClass.get();
-            System.out.println("Result after +123.456 : " + iCalc.add(123.456));
-            System.out.println("Result after -45.321 : " + iCalc.sub(145.321));
-            System.out.println("Result after *147.568 : " + iCalc.prod(147.568));
-            System.out.println("Result after /(-78.25) : " + iCalc.div(-78.25));
-            System.out.println("Result after +100 (without log) : " + iCalc.addWithoutLog(100.0));
-        }
+        ICalc iCalc = ClassInvoker.createClass(new Accumulator(), logMode);
+        System.out.println("Result after +123.456 : " + iCalc.add(123.456) + "\n");
+        System.out.println("Result after +100.0 +200.0 : " + iCalc.add(100.0, 200.0) + "\n");
+        System.out.println("Result after -45.321 : " + iCalc.sub(145.321) + "\n");
+        System.out.println("Result after *147.568 : " + iCalc.prod(147.568) + "\n");
+        System.out.println("Result after /(-78.25) : " + iCalc.div(-78.25) + "\n");
+        System.out.println("Result after +100 (without log) : " + iCalc.addWithoutLog(100.0) + "\n");
     }
 
     static private boolean parseArguments(String... args){
