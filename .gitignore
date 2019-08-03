@@ -6,3 +6,5 @@ hw01-maven/target/maven-archiver/pom.properties
 *.lst
 L01-maven/target/classes/META-INF/L01maven.kotlin_module
 hw02-DIYArrayList/target/maven-archiver/pom.properties
+hw04-autoLog/target/maven-archiver/pom.properties
+hw03-annotation/target/maven-archiver/pom.properties
