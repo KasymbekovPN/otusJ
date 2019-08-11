@@ -22,10 +22,6 @@ public class BanknotesHeaps implements IBanknotesHeaps {
         return new BanknotesHeaps(heaps);
     }
 
-    public static BanknotesHeaps makeInstance(Map<ECurrency, IHeapOfIdenticalBankNotes> heaps){
-        return new BanknotesHeaps(heaps);
-    }
-
     public static BanknotesHeaps makeInstance(int number_10, int number_50, int number_100,
                                               int number_200, int number_500, int number_1000,
                                               int number_2000, int number_5000,
@@ -46,15 +42,8 @@ public class BanknotesHeaps implements IBanknotesHeaps {
 
         for (int i = 0; i < allItem.size(); i++){
             ECurrency currency = allItem.get(i);
-
             int number = NumberDiapason.putInRange(numberList.get(i));
-            //<
-//            int number = numberList.get(i);
-//            if (number > NumberDiapason.MAX_NUMBER){
-//                number = NumberDiapason.MAX_NUMBER;
-//            } else if (number < NumberDiapason.MIN_NUMBER) {
-//                number = NumberDiapason.MIN_NUMBER;
-//            }
+
             dummy.setNumber(number);
             dummy.setDenomination(currency);
             heaps.put(currency, dummy.clone());
@@ -85,33 +74,17 @@ public class BanknotesHeaps implements IBanknotesHeaps {
         return heaps;
     }
 
-    //< заменить на метод change
     @Override
     public boolean add(IBanknotesHeaps heaps) {
-        boolean success = true;
-        Set<IHeapOfIdenticalBankNotes> thisHeaps = new HashSet<>();
-
-        for (Map.Entry<ECurrency, IHeapOfIdenticalBankNotes> entry : heaps.getHeaps().entrySet()){
-            ECurrency key = entry.getKey();
-            IHeapOfIdenticalBankNotes thisHeap = this.heaps.get(key);
-            IHeapOfIdenticalBankNotes otherHeap = entry.getValue();
-            success &= thisHeap.add(otherHeap);
-
-            thisHeaps.add(thisHeap);
-        }
-
-        if (success){
-            for (IHeapOfIdenticalBankNotes thisHeap : thisHeaps) {
-                thisHeap.confirmChange();
-            }
-        }
-
-        return success;
+        return action(heaps, true);
     }
 
-    //< заменить на метод change
     @Override
     public boolean sub(IBanknotesHeaps heaps) {
+        return action(heaps, false);
+    }
+
+    private boolean action(IBanknotesHeaps heaps, boolean isAdd){
         boolean success = true;
         Set<IHeapOfIdenticalBankNotes> thisHeaps = new HashSet<>();
 
@@ -119,7 +92,8 @@ public class BanknotesHeaps implements IBanknotesHeaps {
             ECurrency key = entry.getKey();
             IHeapOfIdenticalBankNotes thisHeap = this.heaps.get(key);
             IHeapOfIdenticalBankNotes otherHeap = entry.getValue();
-            success &= thisHeap.sub(otherHeap);
+
+            success &= (isAdd ? thisHeap.add(otherHeap) : thisHeap.sub(otherHeap));
 
             thisHeaps.add(thisHeap);
         }

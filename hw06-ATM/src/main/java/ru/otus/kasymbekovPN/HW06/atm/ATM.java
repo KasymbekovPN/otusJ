@@ -50,10 +50,6 @@ public class ATM {
                     int perfectNumber = modulo / value;
                     if (0 < perfectNumber){
                         number = Math.min(number, perfectNumber);
-
-                        //< solid ?
-//                        heaps.put(currency, new BanknotesHeap(currency, number));
-                        //<
                         IHeapOfIdenticalBankNotes clone = dummy.clone();
                         clone.setNumber(number);
                         clone.setDenomination(currency);
@@ -66,13 +62,9 @@ public class ATM {
             }
         }
 
-        IHeapOfIdenticalBankNotes zero = dummy.clone();
-        return new SimplePair<>(sum == money, BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), zero));
-        //<
-//        return new SimplePair<>(sum == money,
-//                BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), new BanknotesHeap(0)));
-        //<
-//        return new SimplePair<>(sum == money,
-//                BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), new BanknotesHeap(ECurrency.VALUE_10, 0)));
+        return new SimplePair<>(
+                sum == money,
+                BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), dummy.clone())
+        );
     }
 }

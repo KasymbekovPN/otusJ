@@ -2,8 +2,6 @@ package ru.otus.kasymbekovPN.HW06.banknotes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public enum ECurrency {
     VALUE_10(10),

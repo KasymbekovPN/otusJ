@@ -3,8 +3,6 @@ package ru.otus.kasymbekovPN.HW06.banknotes;
 import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
 
 public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
-//    private final static int MIN_NUMBER = 0;
-
     private int number;
     private ECurrency banknoteDenomination;
 
@@ -12,16 +10,10 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
         this.number = number;
     }
 
-    public BanknotesHeap(ECurrency banknoteDenomination, int number){
+    private BanknotesHeap(ECurrency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }
-
-    //<
-//    public BanknotesHeap(IHeapOfIdenticalBankNotes heap){
-//        this.banknoteDenomination = heap.getDenomination();
-//        this.number = heap.getNumber();
-//    }
 
     @Override
     public boolean add(IHeapOfIdenticalBankNotes heap) {
@@ -39,8 +31,6 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
 
     @Override
     public void confirmChange() {
-//        number = MIN_NUMBER;
-        //<
         number = NumberDiapason.MIN_NUMBER;
     }
 
@@ -69,19 +59,6 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
         banknoteDenomination = denomination;
     }
 
-    @Override
-    public boolean isEmpty() {
-//        return MIN_NUMBER == number;
-        //<
-        return NumberDiapason.MIN_NUMBER == number;
-    }
-
-    @Override
-    public boolean isFull() {
-        return !isEmpty();
-    }
-
-    //< default
     @Override
     public void display() {
         System.out.println("Denomination : " + banknoteDenomination.getValue()

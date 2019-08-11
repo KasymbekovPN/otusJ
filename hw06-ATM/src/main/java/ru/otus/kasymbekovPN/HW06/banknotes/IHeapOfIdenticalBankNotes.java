@@ -9,8 +9,6 @@ public interface IHeapOfIdenticalBankNotes {
     int get();
     ECurrency getDenomination();
     void setDenomination(ECurrency denomination);
-    boolean isEmpty();
-    boolean isFull();
     void display();
     IHeapOfIdenticalBankNotes clone();
 }
