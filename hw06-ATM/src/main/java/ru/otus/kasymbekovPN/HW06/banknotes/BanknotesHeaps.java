@@ -1,7 +1,6 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +14,8 @@ public class BanknotesHeaps implements IBanknotesHeaps {
             if (!heaps.containsKey(eCurrency)){
                 dummy.setDenomination(eCurrency);
                 heaps.put(eCurrency, dummy.clone());
+            } else {
+                heaps.get(eCurrency).setDenomination(eCurrency);
             }
         }
 
@@ -89,6 +90,6 @@ public class BanknotesHeaps implements IBanknotesHeaps {
             heap.display();
             sum += heap.get();
         }
-        System.out.println("---\nИтого : " + sum);
+        System.out.println("Total : " + sum);
     }
 }

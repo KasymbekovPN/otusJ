@@ -5,6 +5,7 @@ public interface IHeapOfIdenticalBankNotes {
     boolean sub(IHeapOfIdenticalBankNotes heap);
     void confirmChange();
     int getNumber();
+    void setNumber(int number);
     int get();
     ECurrency getDenomination();
     void setDenomination(ECurrency denomination);

@@ -10,15 +10,20 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
     private ECurrency banknoteDenomination;
     private IHeapOfIdenticalBankNotes newHeap;
 
-    public ATMHeap(ECurrency banknoteDenomination, int number){
+    public ATMHeap(int number){
+        this.number = number;
+    }
+
+    private ATMHeap(ECurrency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }
 
-    public ATMHeap(IHeapOfIdenticalBankNotes heap){
-        this.banknoteDenomination = heap.getDenomination();
-        this.number = heap.getNumber();
-    }
+    //<
+//    public ATMHeap(IHeapOfIdenticalBankNotes heap){
+//        this.banknoteDenomination = heap.getDenomination();
+//        this.number = heap.getNumber();
+//    }
 
     @Override
     public boolean add(IHeapOfIdenticalBankNotes heap) {
@@ -50,6 +55,11 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
     }
 
     @Override
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    @Override
     public int get() {
         return getDenomination().getValue() * getNumber();
     }
@@ -77,7 +87,8 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
     //< default
     @Override
     public void display() {
-        System.out.println("Номинал : " + banknoteDenomination + ", количество : " + number + ", сумма : " + get());
+        System.out.println("Denomination : " + banknoteDenomination.getValue()
+                + ", number : " + number + ", sum : " + get());
     }
 
     @Override

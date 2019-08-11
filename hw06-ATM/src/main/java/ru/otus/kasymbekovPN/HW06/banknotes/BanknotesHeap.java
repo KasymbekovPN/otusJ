@@ -6,15 +6,20 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
     private int number;
     private ECurrency banknoteDenomination;
 
+    public BanknotesHeap(int number){
+        this.number = number;
+    }
+
     public BanknotesHeap(ECurrency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }
 
-    public BanknotesHeap(IHeapOfIdenticalBankNotes heap){
-        this.banknoteDenomination = heap.getDenomination();
-        this.number = heap.getNumber();
-    }
+    //<
+//    public BanknotesHeap(IHeapOfIdenticalBankNotes heap){
+//        this.banknoteDenomination = heap.getDenomination();
+//        this.number = heap.getNumber();
+//    }
 
     @Override
     public boolean add(IHeapOfIdenticalBankNotes heap) {
@@ -38,6 +43,11 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
     @Override
     public int getNumber() {
         return number;
+    }
+
+    @Override
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     @Override
@@ -68,7 +78,8 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
     //< default
     @Override
     public void display() {
-        System.out.println("Номинал : " + banknoteDenomination + ", количество : " + number + ", сумма : " + get());
+        System.out.println("Denomination : " + banknoteDenomination.getValue()
+                + ", number : " + number + ", sum : " + get());
     }
 
     @Override
