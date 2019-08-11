@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW06.atm;
 
 import ru.otus.kasymbekovPN.HW06.banknotes.*;
+import ru.otus.kasymbekovPN.HW06.utils.SimplePair;
 
 import java.util.*;
 
@@ -15,18 +16,42 @@ public class ATM {
         cells.display();
     }
 
-    public boolean add(IBanknotesHeaps heaps){
-        return cells.add(heaps);
+    public ATMActionResult add(IBanknotesHeaps heaps){
+        boolean result = cells.add(heaps);
+        return new ATMActionResult(cells, heaps, result);
     }
+    //<
+//    public boolean add(IBanknotesHeaps heaps){
+//        return cells.add(heaps);
+//    }
 
-    public IBanknotesHeaps sub(int money){
-        IBanknotesHeaps heaps = makeMinHeap(money);
-        if (null != heaps){
-            cells.sub(heaps);
+    public ATMActionResult sub(int money){
+        SimplePair<Boolean, IBanknotesHeaps> pair = makeMinHeap(money);
+        boolean result = false;
+        if (pair.getFirst()){
+            result = cells.sub(pair.getSecond());
+            return new ATMActionResult(cells, pair.getSecond(), result);
+        } else {
+            return new ATMActionResult(cells, money);
         }
 
-        return heaps;
+
+
+        //<
+//        IBanknotesHeaps heaps = makeMinHeap(money);
+//        boolean result = cells.sub(heaps);
+//        return new ATMActionResult(cells, heaps, result);
     }
+    //<
+//    public IBanknotesHeaps sub(int money){
+//        IBanknotesHeaps heaps = makeMinHeap(money);
+//        cells.sub(heaps);
+//        //<
+////        if (null != heaps){
+////            cells.sub(heaps);
+////        }
+//        return heaps;
+//    }
 
     //<
 //    public boolean sub(int money, IBanknotesHeaps heaps){
@@ -65,53 +90,107 @@ public class ATM {
 //        return false;
 //    }
 
-    private IBanknotesHeaps makeMinHeap(int money){
+    private SimplePair<Boolean, IBanknotesHeaps> makeMinHeap(int money){
         List<ECurrency> currencies = new ArrayList<>(ECurrency.getAllItem());
         Collections.reverse(currencies);
 
         Map<ECurrency, IHeapOfIdenticalBankNotes> heaps = new HashMap<>();
 
-        int modulo = money;
         int sum = 0;
-        for (ECurrency currency : currencies) {
+        if (money > 0){
+            int modulo = money;
+            for (ECurrency currency : currencies) {
+                IHeapOfIdenticalBankNotes heap = cells.getHeaps().get(currency);
+                int value = heap.getDenomination().getValue();
+                int number = heap.getNumber();
 
-            //<
-            System.out.println("++ : " + currency);
-
-            IHeapOfIdenticalBankNotes heap = cells.getHeaps().get(currency);
-            int value = heap.getDenomination().getValue();
-            int number = heap.getNumber();
-
-            if (0 < number){
-
-                //<
-                System.out.println("+++ : " + currency + " : " + number);
-
-                int perfectNumber = modulo / value;
-                if (0 < perfectNumber){
-                    number = Math.min(number, perfectNumber);
-
-                    //< solid ?
-                    heaps.put(currency, new BanknotesHeap(currency, number));
-                    //<
-
-                    sum += number * value;
-
-                    //<
-                    System.out.println("++++ : modulo : " + modulo + ", number : " + number);
-                    modulo = modulo - (number * value);
-                    //<
-                    System.out.println("+++++ modulo : " + modulo);
+                if (0 < number){
+                    int perfectNumber = modulo / value;
+                    if (0 < perfectNumber){
+                        number = Math.min(number, perfectNumber);
+                        //< solid ?
+                        heaps.put(currency, new BanknotesHeap(currency, number));
+                        //<
+                        sum += number * value;
+                        modulo = modulo - (number * value);
+                    }
                 }
             }
         }
 
         //<
-        System.out.println(sum + " : " + money);
-
+//        System.out.println(sum + " : " + money);
         //< solid ?
-        return sum == money ? BanknotesHeaps.makeInstance(heaps, new BanknotesHeap(ECurrency.VALUE_10, 0)) : null;
+//        return sum == money ? BanknotesHeaps.makeInstance(heaps) : null;
+        //<
+//        return BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), new BanknotesHeap(ECurrency.VALUE_10, 0));
+
+        return new SimplePair<>(sum == money,
+                BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), new BanknotesHeap(ECurrency.VALUE_10, 0)));
     }
+
+    //<
+//    //< money <= 0 ???
+//    private IBanknotesHeaps makeMinHeap(int money){
+//        List<ECurrency> currencies = new ArrayList<>(ECurrency.getAllItem());
+//        Collections.reverse(currencies);
+//
+//        Map<ECurrency, IHeapOfIdenticalBankNotes> heaps = new HashMap<>();
+//
+//        int sum = 0;
+//        if (money > 0){
+//            int modulo = money;
+//            for (ECurrency currency : currencies) {
+//
+//                //<
+////                System.out.println("++ : " + currency);
+//
+//                IHeapOfIdenticalBankNotes heap = cells.getHeaps().get(currency);
+//                int value = heap.getDenomination().getValue();
+//                int number = heap.getNumber();
+//                //<
+////            int numberForHeap = 0;
+//
+//                if (0 < number){
+//
+//                    //<
+////                    System.out.println("+++ : " + currency + " : " + number);
+//
+//                    int perfectNumber = modulo / value;
+//                    if (0 < perfectNumber){
+//                        number = Math.min(number, perfectNumber);
+//
+//                        //< solid ?
+//                        heaps.put(currency, new BanknotesHeap(currency, number));
+//                        //<
+////                    numberForHeap = number;
+//
+//                        sum += number * value;
+//
+//                        //<
+////                        System.out.println("++++ : modulo : " + modulo + ", number : " + number);
+//                        modulo = modulo - (number * value);
+//                        //<
+////                        System.out.println("+++++ modulo : " + modulo);
+//                    }
+//                }
+//
+//                //< solid?
+////            heaps.put(currency, new BanknotesHeap(currency, numberForHeap));
+//            }
+//        }
+//
+//        //<
+//        System.out.println(sum + " : " + money);
+//
+//        //< solid ?
+////        return sum == money ? BanknotesHeaps.makeInstance(heaps) : null;
+//        //<
+//
+//
+//        return BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), new BanknotesHeap(ECurrency.VALUE_10, 0));
+//    }
+
 
     //<
 //    private Map<ECurrency, IHeapOfIdenticalBankNotes> cells;

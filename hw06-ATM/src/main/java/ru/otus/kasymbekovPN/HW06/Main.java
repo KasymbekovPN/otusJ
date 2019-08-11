@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW06;
 
 import ru.otus.kasymbekovPN.HW06.atm.ATM;
+import ru.otus.kasymbekovPN.HW06.atm.ATMActionResult;
 import ru.otus.kasymbekovPN.HW06.banknotes.*;
 
 import java.awt.*;
@@ -30,27 +31,50 @@ public class Main {
 
         System.out.println("----");
 
-        System.out.println("add result : " + atm.add(pBanknotesHeaps));
-        atm.display();
-
-        System.out.println("---");
-        pBanknotesHeaps.display();
+        ATMActionResult res = atm.add(pBanknotesHeaps);
+        res.display();
 
         System.out.println("-----");
-        //<
+
+
+
+//        //<
+////        pHeap = new HashMap<>();
+////        pBanknotesHeaps = BanknotesHeaps.makeInstance(pHeap, new BanknotesHeap(ECurrency.VALUE_10, 0));
+////        System.out.println("sub result : " + atm.sub(100_100, pBanknotesHeaps));
+
+        res = atm.sub(100_100);
+        res.display();
+
+
+        res = atm.sub(200_000);
+        res.display();
+
+//        IBanknotesHeaps sub = atm.sub(100_100);
+//
+////        if (null != sub){
+//            System.out.println("--- sub");
+//            //<
+//            sub.display();
+////        }
+//
+//        System.out.println("---");
+//        atm.display();
+//
 //        pHeap = new HashMap<>();
-//        pBanknotesHeaps = BanknotesHeaps.makeInstance(pHeap, new BanknotesHeap(ECurrency.VALUE_10, 0));
-//        System.out.println("sub result : " + atm.sub(100_100, pBanknotesHeaps));
-        IBanknotesHeaps sub = atm.sub(300_100);
-
-        if (null != sub){
-            System.out.println("--- sub");
-            //<
-            sub.display();
-        }
-
-        System.out.println("---");
-        atm.display();
+//        pHeap.put(ECurrency.VALUE_10, new BanknotesHeap(ECurrency.VALUE_10, 10_000));
+//        BanknotesHeaps banknotesHeaps1 = BanknotesHeaps.makeInstance(pHeap, new BanknotesHeap(ECurrency.VALUE_10, 0));
+//
+//        System.out.println("....");
+//        banknotesHeaps1.display();
+//
+//        System.out.println("add result : " + atm.add(banknotesHeaps1));
+//
+//        System.out.println("atm : ");
+//        atm.display();
+//
+//        System.out.println("banknotesHeap1");
+//        banknotesHeaps1.display();
 
 
     }
