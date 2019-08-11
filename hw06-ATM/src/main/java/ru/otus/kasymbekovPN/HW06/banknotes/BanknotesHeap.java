@@ -1,7 +1,9 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
+import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
+
 public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
-    private final static int MIN_NUMBER = 0;
+//    private final static int MIN_NUMBER = 0;
 
     private int number;
     private ECurrency banknoteDenomination;
@@ -37,7 +39,9 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
 
     @Override
     public void confirmChange() {
-        number = MIN_NUMBER;
+//        number = MIN_NUMBER;
+        //<
+        number = NumberDiapason.MIN_NUMBER;
     }
 
     @Override
@@ -67,7 +71,9 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
 
     @Override
     public boolean isEmpty() {
-        return MIN_NUMBER == number;
+//        return MIN_NUMBER == number;
+        //<
+        return NumberDiapason.MIN_NUMBER == number;
     }
 
     @Override

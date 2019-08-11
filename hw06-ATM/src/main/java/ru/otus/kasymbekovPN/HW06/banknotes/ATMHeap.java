@@ -1,8 +1,11 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
+import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
+
 public class ATMHeap implements IHeapOfIdenticalBankNotes{
-    private final static int MIN_NUMBER = 0;
-    private final static int MAX_NUMBER = 8_000;
+    //<
+//    private final static int MIN_NUMBER = 0;
+//    private final static int MAX_NUMBER = 8_000;
 
     private boolean isAdd;
     private int number;
@@ -30,7 +33,9 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
         this.isAdd = true;
         this.newHeap = heap;
         this.newNumber = number + heap.getNumber();
-        return MAX_NUMBER >= newNumber;
+        return NumberDiapason.MAX_NUMBER >= newNumber;
+        //<
+//        return MAX_NUMBER >= newNumber;
     }
 
     @Override
@@ -38,7 +43,9 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
         this.isAdd = false;
         this.newHeap = heap;
         this.newNumber = number - heap.getNumber();
-        return MIN_NUMBER <= newNumber;
+        return NumberDiapason.MIN_NUMBER <= newNumber;
+        //<
+//        return MIN_NUMBER <= newNumber;
     }
 
     @Override
@@ -76,12 +83,16 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
 
     @Override
     public boolean isEmpty() {
-        return MIN_NUMBER == number;
+//        return MIN_NUMBERER == number;
+        //<
+        return NumberDiapason.MIN_NUMBER == number;
     }
 
     @Override
     public boolean isFull() {
-        return MAX_NUMBER == number;
+//        return MAX_NUMBER == number;
+        //<
+        return NumberDiapason.MAX_NUMBER == number;
     }
 
     //< default
