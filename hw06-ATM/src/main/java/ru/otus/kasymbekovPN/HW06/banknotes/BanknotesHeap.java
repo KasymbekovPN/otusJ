@@ -17,16 +17,12 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
 
     @Override
     public boolean add(IHeapOfIdenticalBankNotes heap) {
-        banknoteDenomination = heap.getDenomination();
-        number = heap.getNumber();
-        return true;
+        return false;
     }
 
     @Override
     public boolean sub(IHeapOfIdenticalBankNotes heap) {
-        banknoteDenomination = heap.getDenomination();
-        number = heap.getNumber();
-        return true;
+        return false;
     }
 
     @Override
