@@ -52,13 +52,13 @@
 Для мажорных сборок лучший результат: от 12.2% до 15.8% от общего времени,<br>
 в течении которого производятся мажорные сборки - показал Serial GC.<br>
 
-**Исходя из выше описаного можно сделать вывод, что лучшим GC для ПК, на**<br>
-**котором производились измерения будет являться Serial GC. т.к он**<br>
-**занимает меньше времени для выполнения сборок, что беспечивает лучший**<br>
-**отклик приложения.**<br>
+**Исходя из выше описаного можно сделать вывод, что лучшим GC для ПК, на
+котором производились измерения будет являться Serial GC. т.к он
+занимает меньше времени для выполнения сборок, что беспечивает лучший
+отклик приложения.**
 ---
 
-###-XX:+UseSerialGC -Xms128m -Xmx128m 
+### -XX:+UseSerialGC -Xms128m -Xmx128m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -149,7 +149,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 49,79 (1/мин)
 + Время до OutMemoryError : 72.127 (c)
 
-###-XX:+UseParallelGC -Xms128m -Xmx128m 
+### -XX:+UseParallelGC -Xms128m -Xmx128m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -257,7 +257,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 53,89 (1/мин)
 + Время до OutMemoryError : 78.861 (c)
 
-###-XX:+UseG1GC -Xms128m -Xmx128m 
+### -XX:+UseG1GC -Xms128m -Xmx128m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -398,7 +398,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 10,82 (1/мин)
 + Время до OutMemoryError : 66.852 (c)
 
-###-XX:+UseSerialGC -Xms512m -Xmx512m 
+### -XX:+UseSerialGC -Xms512m -Xmx512m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -471,7 +471,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 9,88 (1/мин)
 + Время до OutMemoryError : 229.751 (c)
 
-###-XX:+UseParallelGC -Xms512m -Xmx512m 
+### -XX:+UseParallelGC -Xms512m -Xmx512m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -553,7 +553,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 9,70 (1/мин)
 + Время до OutMemoryError : 237.376 (c)
 
-###-XX:+UseG1GC -Xms512m -Xmx512m 
+### -XX:+UseG1GC -Xms512m -Xmx512m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -637,7 +637,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 142,80 (1/мин)
 + Время до OutMemoryError : 226.759 (c)
 
-###-XX:+UseSerialGC -Xms1024m -Xmx1024m 
+### -XX:+UseSerialGC -Xms1024m -Xmx1024m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -717,7 +717,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 5,15 (1/мин)
 + Время до OutMemoryError : 532.785 (c)
 
-###-XX:+UseParallelGC -Xms1024m -Xmx1024m 
+### -XX:+UseParallelGC -Xms1024m -Xmx1024m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
@@ -805,7 +805,7 @@ startTime|gcAction|gcCause|duration
 + Количество мажорных сборок в минуту : 5,27 (1/мин)
 + Время до OutMemoryError : 552.778 (c)
 
-###-XX:+UseG1GC -Xms1024m -Xmx1024m 
+### -XX:+UseG1GC -Xms1024m -Xmx1024m 
 
 startTime|gcAction|gcCause|duration
 ---|---|---|---
