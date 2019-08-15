@@ -33,7 +33,7 @@ public class ATM {
     }
 
     private SimplePair<Boolean, IBanknotesHeaps> makeMinHeap(int money, IHeapOfIdenticalBankNotes dummy){
-        List<ECurrency> currencies = new ArrayList<>(ECurrency.getAllItem());
+        List<ECurrency> currencies = Arrays.asList(ECurrency.values());
         Collections.reverse(currencies);
 
         Map<ECurrency, IHeapOfIdenticalBankNotes> heaps = new HashMap<>();

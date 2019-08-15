@@ -10,7 +10,7 @@ public class BanknotesHeaps implements IBanknotesHeaps {
     public static BanknotesHeaps makeInstance(Map<ECurrency, IHeapOfIdenticalBankNotes> heaps,
                                       IHeapOfIdenticalBankNotes dummy){
 
-        for (ECurrency eCurrency : ECurrency.getAllItem()) {
+        for (ECurrency eCurrency : ECurrency.values()) {
             if (!heaps.containsKey(eCurrency)){
                 dummy.setDenomination(eCurrency);
                 heaps.put(eCurrency, dummy.clone());
@@ -37,11 +37,11 @@ public class BanknotesHeaps implements IBanknotesHeaps {
             add(number_5000);
         }};
 
-        List<ECurrency> allItem = ECurrency.getAllItem();
+        ECurrency[] allItems = ECurrency.values();
         Map<ECurrency, IHeapOfIdenticalBankNotes> heaps = new HashMap<>();
 
-        for (int i = 0; i < allItem.size(); i++){
-            ECurrency currency = allItem.get(i);
+        for (int i = 0; i < allItems.length; i++){
+            ECurrency currency = allItems[i];
             int number = NumberDiapason.putInRange(numberList.get(i));
 
             dummy.setNumber(number);
@@ -53,11 +53,11 @@ public class BanknotesHeaps implements IBanknotesHeaps {
     }
 
     public static BanknotesHeaps makeInstance(int number, IHeapOfIdenticalBankNotes dummy){
-        List<ECurrency> allItem = ECurrency.getAllItem();
+        final ECurrency[] allItems = ECurrency.values();
         Map<ECurrency, IHeapOfIdenticalBankNotes> heaps = new HashMap<>();
 
         number = NumberDiapason.putInRange(number);
-        for (ECurrency currency : allItem) {
+        for (ECurrency currency : allItems) {
             dummy.setNumber(number);
             dummy.setDenomination(currency);
             heaps.put(currency, dummy.clone());
@@ -110,7 +110,7 @@ public class BanknotesHeaps implements IBanknotesHeaps {
     @Override
     public void display() {
         int sum = 0;
-        for (ECurrency eCurrency : ECurrency.getAllItem()) {
+        for (ECurrency eCurrency : ECurrency.values()) {
             IHeapOfIdenticalBankNotes heap = heaps.get(eCurrency);
             heap.display();
             sum += heap.get();

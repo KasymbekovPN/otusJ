@@ -15,19 +15,6 @@ public enum ECurrency {
 
     final private int value;
 
-    static public List<ECurrency> getAllItem(){
-        return new ArrayList<>(){{
-            add(ECurrency.VALUE_10);
-            add(ECurrency.VALUE_50);
-            add(ECurrency.VALUE_100);
-            add(ECurrency.VALUE_200);
-            add(ECurrency.VALUE_500);
-            add(ECurrency.VALUE_1000);
-            add(ECurrency.VALUE_2000);
-            add(ECurrency.VALUE_5000);
-        }};
-    }
-
     public int getValue() {
         return value;
     }
