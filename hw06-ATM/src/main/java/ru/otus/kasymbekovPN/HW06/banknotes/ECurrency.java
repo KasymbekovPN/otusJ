@@ -32,7 +32,7 @@ public enum ECurrency {
         return value;
     }
 
-    private ECurrency(int value){
+    ECurrency(int value){
         this.value = value;
     }
 }

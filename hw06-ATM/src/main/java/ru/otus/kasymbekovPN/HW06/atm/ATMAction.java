@@ -10,7 +10,7 @@ public enum ATMAction {
         return name;
     }
 
-    private ATMAction(String name){
+    ATMAction(String name){
         this.name = name;
     }
 }
