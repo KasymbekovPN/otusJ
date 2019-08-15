@@ -1,14 +1,15 @@
 package ru.otus.kasymbekovPN.HW06.atm;
 
 import ru.otus.kasymbekovPN.HW06.banknotes.*;
+import ru.otus.kasymbekovPN.HW06.banknotes.Currency;
 import ru.otus.kasymbekovPN.HW06.utils.SimplePair;
 
 import java.util.*;
 
 public class ATM {
-    private IBanknotesHeaps cells;
+    private BanknotesHeaps cells;
 
-    public ATM(IBanknotesHeaps cells){
+    public ATM(BanknotesHeaps cells){
         this.cells = cells;
     }
 
@@ -16,13 +17,13 @@ public class ATM {
         cells.display();
     }
 
-    public ATMActionResult add(IBanknotesHeaps heaps){
+    public ATMActionResult add(BanknotesHeaps heaps){
         boolean result = cells.add(heaps);
         return new ATMActionResult(cells, heaps, ATMAction.ADD, result);
     }
 
-    public ATMActionResult sub(int money, IHeapOfIdenticalBankNotes dummy){
-        SimplePair<Boolean, IBanknotesHeaps> pair = makeMinHeap(money, dummy);
+    public ATMActionResult sub(int money, HeapOfIdenticalBanknotes dummy){
+        SimplePair<Boolean, BanknotesHeaps> pair = makeMinHeap(money, dummy);
         boolean result;
         if (pair.getFirst()){
             result = cells.sub(pair.getSecond());
@@ -32,17 +33,17 @@ public class ATM {
         }
     }
 
-    private SimplePair<Boolean, IBanknotesHeaps> makeMinHeap(int money, IHeapOfIdenticalBankNotes dummy){
-        List<ECurrency> currencies = Arrays.asList(ECurrency.values());
+    private SimplePair<Boolean, BanknotesHeaps> makeMinHeap(int money, HeapOfIdenticalBanknotes dummy){
+        List<Currency> currencies = Arrays.asList(Currency.values());
         Collections.reverse(currencies);
 
-        Map<ECurrency, IHeapOfIdenticalBankNotes> heaps = new HashMap<>();
+        Map<Currency, HeapOfIdenticalBanknotes> heaps = new HashMap<>();
 
         int sum = 0;
         if (money > 0){
             int modulo = money;
-            for (ECurrency currency : currencies) {
-                IHeapOfIdenticalBankNotes heap = cells.getHeaps().get(currency);
+            for (Currency currency : currencies) {
+                HeapOfIdenticalBanknotes heap = cells.getHeaps().get(currency);
                 int value = heap.getDenomination().getValue();
                 int number = heap.getNumber();
 
@@ -50,7 +51,7 @@ public class ATM {
                     int perfectNumber = modulo / value;
                     if (0 < perfectNumber){
                         number = Math.min(number, perfectNumber);
-                        IHeapOfIdenticalBankNotes clone = dummy.clone();
+                        HeapOfIdenticalBanknotes clone = dummy.clone();
                         clone.setNumber(number);
                         clone.setDenomination(currency);
                         heaps.put(currency, clone);
@@ -64,7 +65,7 @@ public class ATM {
 
         return new SimplePair<>(
                 sum == money,
-                BanknotesHeaps.makeInstance((sum == money ? heaps : new HashMap<>()), dummy.clone())
+                BanknotesHeapsImpl.makeInstance((sum == money ? heaps : new HashMap<>()), dummy.clone())
         );
     }
 }

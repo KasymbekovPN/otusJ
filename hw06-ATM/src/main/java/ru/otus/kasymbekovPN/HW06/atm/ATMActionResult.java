@@ -1,6 +1,6 @@
 package ru.otus.kasymbekovPN.HW06.atm;
 
-import ru.otus.kasymbekovPN.HW06.banknotes.IBanknotesHeaps;
+import ru.otus.kasymbekovPN.HW06.banknotes.BanknotesHeaps;
 
 public class ATMActionResult {
 
@@ -10,18 +10,18 @@ public class ATMActionResult {
 
     private boolean result;
     private int humanMoney = HUMAN_MONEY_DEFAULT_VALUE;
-    private IBanknotesHeaps atmHeap;
-    private IBanknotesHeaps newHeap;
+    private BanknotesHeaps atmHeap;
+    private BanknotesHeaps newHeap;
     private ATMAction action;
 
-    ATMActionResult(IBanknotesHeaps atmHeap, IBanknotesHeaps newHeap, ATMAction action, boolean result){
+    ATMActionResult(BanknotesHeaps atmHeap, BanknotesHeaps newHeap, ATMAction action, boolean result){
         this.result = result;
         this.atmHeap = atmHeap;
         this.newHeap = newHeap;
         this.action = action;
     }
 
-    ATMActionResult(IBanknotesHeaps atmHeap, int humanMoney, ATMAction action){
+    ATMActionResult(BanknotesHeaps atmHeap, int humanMoney, ATMAction action){
         this.result = false;
         this.atmHeap = atmHeap;
         this.humanMoney = humanMoney;

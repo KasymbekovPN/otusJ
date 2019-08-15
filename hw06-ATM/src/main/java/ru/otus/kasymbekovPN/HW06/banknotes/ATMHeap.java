@@ -2,24 +2,24 @@ package ru.otus.kasymbekovPN.HW06.banknotes;
 
 import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
 
-public class ATMHeap implements IHeapOfIdenticalBankNotes{
+public class ATMHeap implements HeapOfIdenticalBanknotes {
     private boolean isAdd;
     private int number;
     private int newNumber;
-    private ECurrency banknoteDenomination;
-    private IHeapOfIdenticalBankNotes newHeap;
+    private Currency banknoteDenomination;
+    private HeapOfIdenticalBanknotes newHeap;
 
     public ATMHeap(int number){
         this.number = number;
     }
 
-    private ATMHeap(ECurrency banknoteDenomination, int number){
+    private ATMHeap(Currency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }
 
     @Override
-    public boolean add(IHeapOfIdenticalBankNotes heap) {
+    public boolean add(HeapOfIdenticalBanknotes heap) {
         this.isAdd = true;
         this.newHeap = heap;
         this.newNumber = number + heap.getNumber();
@@ -27,7 +27,7 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
     }
 
     @Override
-    public boolean sub(IHeapOfIdenticalBankNotes heap) {
+    public boolean sub(HeapOfIdenticalBanknotes heap) {
         this.isAdd = false;
         this.newHeap = heap;
         this.newNumber = number - heap.getNumber();
@@ -58,12 +58,12 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
     }
 
     @Override
-    public ECurrency getDenomination() {
+    public Currency getDenomination() {
         return banknoteDenomination;
     }
 
     @Override
-    public void setDenomination(ECurrency denomination) {
+    public void setDenomination(Currency denomination) {
         banknoteDenomination = denomination;
     }
 
@@ -74,7 +74,7 @@ public class ATMHeap implements IHeapOfIdenticalBankNotes{
     }
 
     @Override
-    public IHeapOfIdenticalBankNotes clone() {
+    public HeapOfIdenticalBanknotes clone() {
         return new ATMHeap(banknoteDenomination, number);
     }
 }

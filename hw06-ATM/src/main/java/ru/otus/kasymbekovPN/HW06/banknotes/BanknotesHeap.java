@@ -2,26 +2,26 @@ package ru.otus.kasymbekovPN.HW06.banknotes;
 
 import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
 
-public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
+public class BanknotesHeap implements HeapOfIdenticalBanknotes {
     private int number;
-    private ECurrency banknoteDenomination;
+    private Currency banknoteDenomination;
 
     public BanknotesHeap(int number){
         this.number = number;
     }
 
-    private BanknotesHeap(ECurrency banknoteDenomination, int number){
+    private BanknotesHeap(Currency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }
 
     @Override
-    public boolean add(IHeapOfIdenticalBankNotes heap) {
+    public boolean add(HeapOfIdenticalBanknotes heap) {
         return false;
     }
 
     @Override
-    public boolean sub(IHeapOfIdenticalBankNotes heap) {
+    public boolean sub(HeapOfIdenticalBanknotes heap) {
         return false;
     }
 
@@ -46,12 +46,12 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
     }
 
     @Override
-    public ECurrency getDenomination() {
+    public Currency getDenomination() {
         return banknoteDenomination;
     }
 
     @Override
-    public void setDenomination(ECurrency denomination) {
+    public void setDenomination(Currency denomination) {
         banknoteDenomination = denomination;
     }
 
@@ -62,7 +62,7 @@ public class BanknotesHeap implements IHeapOfIdenticalBankNotes {
     }
 
     @Override
-    public IHeapOfIdenticalBankNotes clone() {
+    public HeapOfIdenticalBanknotes clone() {
         return new BanknotesHeap(banknoteDenomination, number);
     }
 }

@@ -13,7 +13,7 @@ public class Main {
         /*
             Fill ATM
          */
-        var heaps = BanknotesHeaps.makeInstance(
+        var heaps = BanknotesHeapsImpl.makeInstance(
                 100, 0, 0, 200,
                 0, 0, 0, 0, new ATMHeap(0)
         );
@@ -25,7 +25,7 @@ public class Main {
         /*
             Try add heap of banknotes into ATM (success)
          */
-        heaps = BanknotesHeaps.makeInstance(
+        heaps = BanknotesHeapsImpl.makeInstance(
                 0, 0, 0, 250,
                 0, 20, 0, 0, new BanknotesHeap(0));
         System.out.println("### HUMAN ###");
@@ -52,7 +52,7 @@ public class Main {
         /*
             Try add heap of banknotes (10 * 10_000) into ATM (failure)
          */
-        heaps = BanknotesHeaps.makeInstance(
+        heaps = BanknotesHeapsImpl.makeInstance(
                 10_000, 0, 0, 0,
                 0, 0, 0, 0, new BanknotesHeap(0));
         System.out.println("Try add heap of banknotes (10 * 10_000) into ATM");
@@ -66,7 +66,7 @@ public class Main {
         /*
             Add all denominations of 1_000
          */
-        heaps = BanknotesHeaps.makeInstance(1_000, new BanknotesHeap(0));
+        heaps = BanknotesHeapsImpl.makeInstance(1_000, new BanknotesHeap(0));
         System.out.println("Add all denominations of 1_000");
         System.out.println("### HUMAN ###");
         heaps.display();

@@ -1,9 +1,6 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public enum ECurrency {
+public enum Currency {
     VALUE_10(10),
     VALUE_50(50),
     VALUE_100(100),
@@ -19,7 +16,7 @@ public enum ECurrency {
         return value;
     }
 
-    ECurrency(int value){
+    Currency(int value){
         this.value = value;
     }
 }
