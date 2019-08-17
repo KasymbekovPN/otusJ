@@ -1,5 +1,8 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
+/**
+ * Перечисление номиналов банкнот.
+ */
 public enum Currency {
     VALUE_10(10),
     VALUE_50(50),
@@ -10,6 +13,9 @@ public enum Currency {
     VALUE_2000(2000),
     VALUE_5000(5000);
 
+    /**
+     * Числовое вырожение номинала банкноты.
+     */
     final private int value;
 
     public int getValue() {

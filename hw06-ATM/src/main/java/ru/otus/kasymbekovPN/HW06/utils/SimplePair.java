@@ -1,5 +1,10 @@
 package ru.otus.kasymbekovPN.HW06.utils;
 
+/**
+ * Утилитарный, шаблонный класс для организации пары.
+ * @param <E1> тип ключа.
+ * @param <E2> тип значения.
+ */
 public class SimplePair<E1, E2> {
     private E1 first;
     private E2 second;
