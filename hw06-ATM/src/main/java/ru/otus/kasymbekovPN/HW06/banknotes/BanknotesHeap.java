@@ -30,7 +30,7 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes {
      * @param banknoteDenomination номинал банкнот
      * @param number количество банкнот
      */
-    private BanknotesHeap(Currency banknoteDenomination, int number){
+    public BanknotesHeap(Currency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }

@@ -47,7 +47,7 @@ public class ATMHeap implements HeapOfIdenticalBanknotes {
      * @param banknoteDenomination номинал банкнот.
      * @param number количество банкнот.
      */
-    private ATMHeap(Currency banknoteDenomination, int number){
+    public ATMHeap(Currency banknoteDenomination, int number){
         this.banknoteDenomination = banknoteDenomination;
         this.number = number;
     }
@@ -93,7 +93,7 @@ public class ATMHeap implements HeapOfIdenticalBanknotes {
 
     /**
      * Геттер количества банкнот.
-     * @return
+     * @return количество банкнот
      */
     @Override
     public int getNumber() {
