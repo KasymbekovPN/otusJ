@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ATMHeapTest {
+class ATMHeapTest {
 
     private static Object[][] ctorData(){
         return new Object[][]{
