@@ -15,7 +15,7 @@ public class Main {
          */
         var heaps = BanknotesHeapsImpl.makeInstance(
                 100, 0, 0, 200,
-                0, 0, 0, 0, new ATMHeap(0)
+                0, 0, 0, 0, new ATMHeap(Currency.VALUE_10, 0)
         );
         ATM atm = new ATM(heaps);
         System.out.println("Fill ATM\n### ATM ###");

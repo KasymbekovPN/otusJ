@@ -35,13 +35,13 @@ public class ATMHeap implements HeapOfIdenticalBanknotes, Displayable {
      */
     private HeapOfIdenticalBanknotes newHeap;
 
-    /**
-     * Конструктор.
-     * @param number количество банкнот
-     */
-    public ATMHeap(int number){
-        this.number = number;
-    }
+//    /**
+//     * Конструктор.
+//     * @param number количество банкнот
+//     */
+//    public ATMHeap(int number){
+//        this.number = number;
+//    }
 
     /**
      * Конструктор
