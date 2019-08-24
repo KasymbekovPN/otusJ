@@ -20,16 +20,6 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
 
     /**
      * Конструктор
-     * @param number количество банкнот
-     */
-    //< need ?
-    public BanknotesHeap(int number){
-        this.number = number;
-        this.banknoteDenomination = Currency.VALUE_10;
-    }
-
-    /**
-     * Конструктор
      * @param banknoteDenomination номинал банкнот
      * @param number количество банкнот
      */
@@ -56,15 +46,6 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
     }
 
     /**
-     * Сеттер количество банкнот.
-     * @param number количество банкнот
-     */
-    @Override
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    /**
      * @return Возвращает останок денежных средств хипа.
      */
     @Override
@@ -81,16 +62,6 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
         return banknoteDenomination;
     }
 
-    //<
-//    /**
-//     * Сеттер номинала банкнот.
-//     * @param denomination номинал банкнот
-//     */
-//    @Override
-//    public void setDenomination(Currency denomination) {
-//        banknoteDenomination = denomination;
-//    }
-
     /**
      * Выводит в консоль информацию о хипе.
      */
@@ -99,16 +70,6 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
         System.out.println("Denomination : " + banknoteDenomination.getValue()
                 + ", number : " + number + ", sum : " + get());
     }
-
-    //<
-//    /**
-//     * Клонирует инстанс класса, реализующего интерфейс
-//     * @return Клон инстанса.
-//     */
-//    @Override
-//    public HeapOfIdenticalBanknotes clone() {
-//        return new BanknotesHeap(banknoteDenomination, number);
-//    }
 
     /**
      * Генерирует новый инстанс

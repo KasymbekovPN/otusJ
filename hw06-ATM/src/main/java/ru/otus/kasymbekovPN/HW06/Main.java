@@ -27,7 +27,7 @@ public class Main {
          */
         heaps = BanknotesHeapsImpl.makeInstance(
                 0, 0, 0, 250,
-                0, 20, 0, 0, new BanknotesHeap(0));
+                0, 20, 0, 0, new BanknotesHeap(Currency.VALUE_10, 0));
         System.out.println("### HUMAN ###");
         heaps.display();
         System.out.println("\n");
@@ -39,14 +39,14 @@ public class Main {
             Try take money from ATM (success)
          */
         System.out.println("Try take 100_100 from ATM");
-        res = atm.sub(100_100, new BanknotesHeap(0));
+        res = atm.sub(100_100, new BanknotesHeap(Currency.VALUE_10, 0));
         res.display();
 
         /*
             Try take money from ATM (failure)
          */
         System.out.println("Try take 200_000 from ATM");
-        res = atm.sub(200_000, new BanknotesHeap(0));
+        res = atm.sub(200_000, new BanknotesHeap(Currency.VALUE_10, 0));
         res.display();
 
         /*
@@ -54,7 +54,7 @@ public class Main {
          */
         heaps = BanknotesHeapsImpl.makeInstance(
                 10_000, 0, 0, 0,
-                0, 0, 0, 0, new BanknotesHeap(0));
+                0, 0, 0, 0, new BanknotesHeap(Currency.VALUE_10, 0));
         System.out.println("Try add heap of banknotes (10 * 10_000) into ATM");
         System.out.println("### HUMAN ###");
         heaps.display();
@@ -66,7 +66,7 @@ public class Main {
         /*
             Add all denominations of 1_000
          */
-        heaps = BanknotesHeapsImpl.makeInstance(1_000, new BanknotesHeap(0));
+        heaps = BanknotesHeapsImpl.makeInstance(1_000, new BanknotesHeap(Currency.VALUE_10, 0));
         System.out.println("Add all denominations of 1_000");
         System.out.println("### HUMAN ###");
         heaps.display();

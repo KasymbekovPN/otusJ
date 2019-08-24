@@ -36,13 +36,6 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
             } else {
                 heaps.put(currency, dummy.makeNewInstance(currency));
             }
-            //<
-//            if (!heaps.containsKey(currency)){
-//                dummy.setDenomination(currency);
-//                heaps.put(currency, dummy.clone());
-//            } else {
-//                heaps.get(currency).setDenomination(currency);
-//            }
         }
 
         return new BanknotesHeapsImpl(heaps);
@@ -86,12 +79,7 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
         for (int i = 0; i < allItems.length; i++){
             Currency currency = allItems[i];
             int number = NumberDiapason.putInRange(numberList.get(i));
-
             heaps.put(currency, dummy.makeNewInstance(currency, number));
-            //<
-//            dummy.setNumber(number);
-//            dummy.setDenomination(currency);
-//            heaps.put(currency, dummy.clone());
         }
 
         return new BanknotesHeapsImpl(heaps);
@@ -114,10 +102,6 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
         number = NumberDiapason.putInRange(number);
         for (Currency currency : allItems) {
             heaps.put(currency, dummy.makeNewInstance(currency, number));
-            //<
-//            dummy.setNumber(number);
-//            dummy.setDenomination(currency);
-//            heaps.put(currency, dummy.clone());
         }
 
         return new BanknotesHeapsImpl(heaps);
@@ -130,15 +114,6 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
     private BanknotesHeapsImpl(Map<Currency, HeapOfIdenticalBanknotes> heaps){
         this.heaps = heaps;
     }
-
-    //<
-//    /**
-//     * Геттер хипов банкнот.
-//     * @return Хипы банкнот.
-//     */
-//    public Map<Currency, HeapOfIdenticalBanknotes> getHeaps() {
-//        return heaps;
-//    }
 
     /**
      * Прокси-метод для переноса всех банкнот из внешних хипов (<code>heaps</code>)
@@ -161,17 +136,6 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
     public boolean sub(BanknotesHeaps heaps) {
         return action(heaps, false);
     }
-
-    //<
-//    /**
-//     * Возвращает хип банкнот, соответствующий номиналу
-//     * @param currency номинал банкнот
-//     * @return Хип банкнот
-//     */
-//    @Override
-//    public HeapOfIdenticalBanknotes getHeap(Currency currency) {
-//        return heaps.get(currency);
-//    }
 
     /**
      * Метод, реализующий взаимодействие между двумя
@@ -215,24 +179,8 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
         for (Currency currency : Currency.values()) {
             HeapOfIdenticalBanknotes thisHeap = this.heaps.get(currency);
             success &= heaps.innerAction(thisHeap, isAdd, currency);
-            //<
-//            HeapOfIdenticalBanknotes otherHeap = heaps.getHeap(currency);
-//            HeapOfIdenticalBanknotes thisHeap = this.heaps.get(currency);
-//
-//            success &= (isAdd ? thisHeap.add(otherHeap) : thisHeap.sub(otherHeap));
-//
             thisHeaps.add(thisHeap);
         }
-        //<
-//        for (Map.Entry<Currency, HeapOfIdenticalBanknotes> entry : heaps.getHeaps().entrySet()){
-//            Currency key = entry.getKey();
-//            HeapOfIdenticalBanknotes thisHeap = this.heaps.get(key);
-//            HeapOfIdenticalBanknotes otherHeap = entry.getValue();
-//
-//            success &= (isAdd ? thisHeap.add(otherHeap) : thisHeap.sub(otherHeap));
-//
-//            thisHeaps.add(thisHeap);
-//        }
 
         if (success){
             for (HeapOfIdenticalBanknotes thisHeap : thisHeaps) {

@@ -1,8 +1,5 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
-import javax.swing.plaf.ColorUIResource;
-import java.util.Map;
-
 /**
  * Интерфейс для класса, хранящего хипы банкнот разных номиналов.
  */
@@ -17,26 +14,11 @@ public interface BanknotesHeaps {
 
     /**
      * Метод для переноса всех банкнот из собственных хипов инстанса
-     * во внешние хипы (<code>heaps</code>)ю
+     * во внешние хипы (<code>heaps</code>)
      * @param heaps внешние хипы
      * @return Успешность операции
      */
     boolean sub(BanknotesHeaps heaps);
-
-    //<
-//    /**
-//     * Геттер хипов банкнот.
-//     * @return Хипы банкнот.
-//     */
-//    Map<Currency, HeapOfIdenticalBanknotes> getHeaps();
-
-    //<
-//    /**
-//     * Возвращает хип банкнот, соответствующий номиналу
-//     * @param currency номинал банкнот
-//     * @return Хип банкнот
-//     */
-//    HeapOfIdenticalBanknotes getHeap(Currency currency);
 
     /**
      * Внутреннее действие

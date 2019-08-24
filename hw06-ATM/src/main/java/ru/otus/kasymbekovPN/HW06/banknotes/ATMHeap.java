@@ -102,15 +102,6 @@ public class ATMHeap implements HeapOfIdenticalBanknotes, Displayable {
     }
 
     /**
-     * Сеттер количества банкнот.
-     * @param number количество банкнот
-     */
-    @Override
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    /**
      * @return Возвращает остаток денежных средств в хипе.
      */
     @Override
@@ -127,17 +118,6 @@ public class ATMHeap implements HeapOfIdenticalBanknotes, Displayable {
         return banknoteDenomination;
     }
 
-    //<
-//    /**
-//     * Сеттер номинала
-//     * @param denomination номинал банкнот
-//     */
-    //<
-//    @Override
-//    public void setDenomination(Currency denomination) {
-//        banknoteDenomination = denomination;
-//    }
-
     /**
      * Выводит в консоль информацию о хипе.
      */
@@ -146,16 +126,6 @@ public class ATMHeap implements HeapOfIdenticalBanknotes, Displayable {
         System.out.println("Denomination : " + banknoteDenomination.getValue()
                 + ", number : " + number + ", sum : " + get());
     }
-
-    //<
-//    /**
-//     * Клонирует инстанс класса, реализующего интерфейс
-//     * @return Клон инстанса.
-//     */
-//    @Override
-//    public HeapOfIdenticalBanknotes clone() {
-//        return new ATMHeap(banknoteDenomination, number);
-//    }
 
     /**
      * Генерирует новый инстанс

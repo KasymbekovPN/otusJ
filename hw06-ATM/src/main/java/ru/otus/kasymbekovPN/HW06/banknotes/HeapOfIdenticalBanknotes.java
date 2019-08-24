@@ -37,12 +37,6 @@ public interface HeapOfIdenticalBanknotes {
     int getNumber();
 
     /**
-     * Сеттер количества банкнот
-     * @param number количество банкнот
-     */
-    void setNumber(int number);
-
-    /**
      * @return Остаток денежных средст хипа
      */
     int get();
@@ -51,21 +45,6 @@ public interface HeapOfIdenticalBanknotes {
      * @return Номинал банкнот хипа.
      */
     Currency getDenomination();
-
-    //<
-//    /**
-//     * Сеттер номинала
-//     * @param denomination номинал банкнот
-//     */
-    //<
-//    void setDenomination(Currency denomination);
-
-    //<
-//    /**
-//     * Клонирует инстанс класса, реализующего интерфейс
-//     * @return Клон инстанса.
-//     */
-//    HeapOfIdenticalBanknotes clone();
 
     /**
      * Генерирует новый инстанс
