@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW06.atm;
 
 import ru.otus.kasymbekovPN.HW06.banknotes.BanknotesHeaps;
+import ru.otus.kasymbekovPN.HW06.utils.Displayable;
 
 /**
  * Класс, хранящий результат операции банкомата.
@@ -81,13 +82,13 @@ public class ATMActionResult {
         System.out.println("Result : " + (result ? "SUCCESS" : "FAILURE"));
 
         System.out.println("### ATM ###");
-        atmHeap.display();
+        ((Displayable)atmHeap).display();
 
         System.out.println("### HUMAN ###");
         if (humanMoney != HUMAN_MONEY_DEFAULT_VALUE){
             System.out.println("Human's money : " + humanMoney);
         } else {
-            newHeap.display();
+            ((Displayable)newHeap).display();
         }
 
         System.out.println("\n");

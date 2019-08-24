@@ -27,9 +27,4 @@ public interface BanknotesHeaps {
      * @return Хипы банкнот.
      */
     Map<Currency, HeapOfIdenticalBanknotes> getHeaps();
-
-    /**
-     * Метод, выводящий информацию о хипах в консом.
-     */
-    void display();
 }

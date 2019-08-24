@@ -1,5 +1,6 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
+import ru.otus.kasymbekovPN.HW06.utils.Displayable;
 import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
 
 import java.util.*;
@@ -7,7 +8,7 @@ import java.util.*;
 /**
  * Класс для хранения хипов банкнот разных номиналов.
  */
-public class BanknotesHeapsImpl implements BanknotesHeaps {
+public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
     /**
      * Хипы банкнот.
      */
@@ -186,9 +187,13 @@ public class BanknotesHeapsImpl implements BanknotesHeaps {
     public void display() {
         int sum = 0;
         for (Currency currency : Currency.values()) {
-            HeapOfIdenticalBanknotes heap = heaps.get(currency);
-            heap.display();
+            var heap = heaps.get(currency);
+            ((Displayable)heap).display();
             sum += heap.get();
+            //<
+//            HeapOfIdenticalBanknotes heap = heaps.get(currency);
+//            heap.display();
+//            sum += heap.get();
         }
         System.out.println("Total : " + sum);
     }

@@ -59,11 +59,6 @@ public interface HeapOfIdenticalBanknotes {
     void setDenomination(Currency denomination);
 
     /**
-     * Выводит в консоль информацию о хипе.
-     */
-    void display();
-
-    /**
      * Клонирует инстанс класса, реализующего интерфейс
      * @return Клон инстанса.
      */

@@ -2,6 +2,7 @@ package ru.otus.kasymbekovPN.HW06.atm;
 
 import ru.otus.kasymbekovPN.HW06.banknotes.*;
 import ru.otus.kasymbekovPN.HW06.banknotes.Currency;
+import ru.otus.kasymbekovPN.HW06.utils.Displayable;
 import ru.otus.kasymbekovPN.HW06.utils.SimplePair;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class ATM {
      * Выводит информацию о содержимом ячеек банкомата.
      */
     public void display(){
-        cells.display();
+        ((Displayable)cells).display();
     }
 
     /**

@@ -1,12 +1,13 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
+import ru.otus.kasymbekovPN.HW06.utils.Displayable;
 import ru.otus.kasymbekovPN.HW06.utils.NumberDiapason;
 
 /**
  * Класс, реализующий хип банкнот одного номинала,
  * внешний отностительно банкомата.
  */
-public class BanknotesHeap implements HeapOfIdenticalBanknotes {
+public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
     /**
      * Количество банкнот.
      */
