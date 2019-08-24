@@ -52,17 +52,41 @@ public interface HeapOfIdenticalBanknotes {
      */
     Currency getDenomination();
 
-    /**
-     * Сеттер номинала
-     * @param denomination номинал банкнот
-     */
-    void setDenomination(Currency denomination);
+    //<
+//    /**
+//     * Сеттер номинала
+//     * @param denomination номинал банкнот
+//     */
+    //<
+//    void setDenomination(Currency denomination);
+
+    //<
+//    /**
+//     * Клонирует инстанс класса, реализующего интерфейс
+//     * @return Клон инстанса.
+//     */
+//    HeapOfIdenticalBanknotes clone();
 
     /**
-     * Клонирует инстанс класса, реализующего интерфейс
-     * @return Клон инстанса.
+     * Генерирует новый инстанс
+     * @return новый инстанс
      */
-    HeapOfIdenticalBanknotes clone();
+    HeapOfIdenticalBanknotes makeNewInstance();
+
+    /**
+     * Генерирует новый инстанс
+     * @param currency номинал банкнот нового инстанса
+     * @return новый инстанс
+     */
+    HeapOfIdenticalBanknotes makeNewInstance(Currency currency);
+
+    /**
+     * Генерирует новый инстанс
+     * @param currency номинал банкнот
+     * @param number количетсво банкнот
+     * @return новый инстанс
+     */
+    HeapOfIdenticalBanknotes makeNewInstance(Currency currency, int number);
 }
 
 

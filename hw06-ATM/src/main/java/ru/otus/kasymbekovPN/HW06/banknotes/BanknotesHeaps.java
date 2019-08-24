@@ -1,5 +1,6 @@
 package ru.otus.kasymbekovPN.HW06.banknotes;
 
+import javax.swing.plaf.ColorUIResource;
 import java.util.Map;
 
 /**
@@ -22,9 +23,34 @@ public interface BanknotesHeaps {
      */
     boolean sub(BanknotesHeaps heaps);
 
+    //<
+//    /**
+//     * Геттер хипов банкнот.
+//     * @return Хипы банкнот.
+//     */
+//    Map<Currency, HeapOfIdenticalBanknotes> getHeaps();
+
+    //<
+//    /**
+//     * Возвращает хип банкнот, соответствующий номиналу
+//     * @param currency номинал банкнот
+//     * @return Хип банкнот
+//     */
+//    HeapOfIdenticalBanknotes getHeap(Currency currency);
+
     /**
-     * Геттер хипов банкнот.
-     * @return Хипы банкнот.
+     * Внутреннее действие
+     * @param heap внешний хип банкнот
+     * @param isAdd true - сложение, false - вычитание
+     * @param currency номинал банкнот
+     * @return Успешность операции
      */
-    Map<Currency, HeapOfIdenticalBanknotes> getHeaps();
+    boolean innerAction(HeapOfIdenticalBanknotes heap, boolean isAdd, Currency currency);
+
+    /**
+     * Возвращает количество банкнот одного номинала
+     * @param currency Номинал
+     * @return Количество банкнот.
+     */
+    int getNumberOfBanknotes(Currency currency);
 }

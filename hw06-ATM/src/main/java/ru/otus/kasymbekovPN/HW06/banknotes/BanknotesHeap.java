@@ -16,14 +16,16 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
     /**
      * Номинал банкнот.
      */
-    private Currency banknoteDenomination;
+    final private Currency banknoteDenomination;
 
     /**
      * Конструктор
      * @param number количество банкнот
      */
+    //< need ?
     public BanknotesHeap(int number){
         this.number = number;
+        this.banknoteDenomination = Currency.VALUE_10;
     }
 
     /**
@@ -79,14 +81,15 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
         return banknoteDenomination;
     }
 
-    /**
-     * Сеттер номинала банкнот.
-     * @param denomination номинал банкнот
-     */
-    @Override
-    public void setDenomination(Currency denomination) {
-        banknoteDenomination = denomination;
-    }
+    //<
+//    /**
+//     * Сеттер номинала банкнот.
+//     * @param denomination номинал банкнот
+//     */
+//    @Override
+//    public void setDenomination(Currency denomination) {
+//        banknoteDenomination = denomination;
+//    }
 
     /**
      * Выводит в консоль информацию о хипе.
@@ -97,12 +100,43 @@ public class BanknotesHeap implements HeapOfIdenticalBanknotes, Displayable {
                 + ", number : " + number + ", sum : " + get());
     }
 
+    //<
+//    /**
+//     * Клонирует инстанс класса, реализующего интерфейс
+//     * @return Клон инстанса.
+//     */
+//    @Override
+//    public HeapOfIdenticalBanknotes clone() {
+//        return new BanknotesHeap(banknoteDenomination, number);
+//    }
+
     /**
-     * Клонирует инстанс класса, реализующего интерфейс
-     * @return Клон инстанса.
+     * Генерирует новый инстанс
+     * @return новый инстанс
      */
     @Override
-    public HeapOfIdenticalBanknotes clone() {
-        return new BanknotesHeap(banknoteDenomination, number);
+    public HeapOfIdenticalBanknotes makeNewInstance() {
+        return new BanknotesHeap(this.banknoteDenomination, this.number);
+    }
+
+    /**
+     * Генерирует новый инстанс
+     * @param currency номинал банкнот нового инстанса
+     * @return новый инстанс
+     */
+    @Override
+    public HeapOfIdenticalBanknotes makeNewInstance(Currency currency) {
+        return new BanknotesHeap(currency, this.number);
+    }
+
+    /**
+     * Генерирует новый инстанс
+     * @param currency номинал банкнот
+     * @param number количетсво банкнот
+     * @return новый инстанс
+     */
+    @Override
+    public HeapOfIdenticalBanknotes makeNewInstance(Currency currency, int number) {
+        return new BanknotesHeap(currency, number);
     }
 }

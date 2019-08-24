@@ -127,14 +127,16 @@ public class ATMHeap implements HeapOfIdenticalBanknotes, Displayable {
         return banknoteDenomination;
     }
 
-    /**
-     * Сеттер номинала
-     * @param denomination номинал банкнот
-     */
-    @Override
-    public void setDenomination(Currency denomination) {
-        banknoteDenomination = denomination;
-    }
+    //<
+//    /**
+//     * Сеттер номинала
+//     * @param denomination номинал банкнот
+//     */
+    //<
+//    @Override
+//    public void setDenomination(Currency denomination) {
+//        banknoteDenomination = denomination;
+//    }
 
     /**
      * Выводит в консоль информацию о хипе.
@@ -145,12 +147,43 @@ public class ATMHeap implements HeapOfIdenticalBanknotes, Displayable {
                 + ", number : " + number + ", sum : " + get());
     }
 
+    //<
+//    /**
+//     * Клонирует инстанс класса, реализующего интерфейс
+//     * @return Клон инстанса.
+//     */
+//    @Override
+//    public HeapOfIdenticalBanknotes clone() {
+//        return new ATMHeap(banknoteDenomination, number);
+//    }
+
     /**
-     * Клонирует инстанс класса, реализующего интерфейс
-     * @return Клон инстанса.
+     * Генерирует новый инстанс
+     * @return новый инстанс
      */
     @Override
-    public HeapOfIdenticalBanknotes clone() {
-        return new ATMHeap(banknoteDenomination, number);
+    public HeapOfIdenticalBanknotes makeNewInstance() {
+        return new ATMHeap(this.banknoteDenomination, this.number);
+    }
+
+    /**
+     * Генерирует новый инстанс
+     * @param currency номинал банкнот нового инстанса
+     * @return новый инстанс
+     */
+    @Override
+    public HeapOfIdenticalBanknotes makeNewInstance(Currency currency) {
+        return new ATMHeap(currency, this.number);
+    }
+
+    /**
+     * Генерирует новый инстанс
+     * @param currency номинал банкнот
+     * @param number количетсво банкнот
+     * @return новый инстанс
+     */
+    @Override
+    public HeapOfIdenticalBanknotes makeNewInstance(Currency currency, int number) {
+        return new ATMHeap(currency, number);
     }
 }

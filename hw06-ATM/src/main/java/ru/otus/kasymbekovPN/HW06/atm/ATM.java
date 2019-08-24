@@ -76,18 +76,25 @@ public class ATM {
         if (money > 0){
             int modulo = money;
             for (Currency currency : currencies) {
-                HeapOfIdenticalBanknotes heap = cells.getHeaps().get(currency);
-                int value = heap.getDenomination().getValue();
-                int number = heap.getNumber();
+//                HeapOfIdenticalBanknotes heap = cells.getHeaps().get(currency);
+                //<
+//                HeapOfIdenticalBanknotes heap = cells.getHeap(currency);
+//                int value = heap.getDenomination().getValue();
+//                int number = heap.getNumber();
+                //<
+                int value = currency.getValue();
+                int number = cells.getNumberOfBanknotes(currency);
 
                 if (0 < number){
                     int perfectNumber = modulo / value;
                     if (0 < perfectNumber){
                         number = Math.min(number, perfectNumber);
-                        HeapOfIdenticalBanknotes clone = dummy.clone();
-                        clone.setNumber(number);
-                        clone.setDenomination(currency);
-                        heaps.put(currency, clone);
+                        heaps.put(currency, dummy.makeNewInstance(currency, number));
+                        //<
+//                        HeapOfIdenticalBanknotes clone = dummy.clone();
+//                        clone.setNumber(number);
+//                        clone.setDenomination(currency);
+//                        heaps.put(currency, clone);
 
                         sum += number * value;
                         modulo = modulo - (number * value);
@@ -98,7 +105,7 @@ public class ATM {
 
         return new SimplePair<>(
                 sum == money,
-                BanknotesHeapsImpl.makeInstance((sum == money ? heaps : new HashMap<>()), dummy.clone())
+                BanknotesHeapsImpl.makeInstance((sum == money ? heaps : new HashMap<>()), dummy.makeNewInstance())
         );
     }
 }

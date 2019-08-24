@@ -28,12 +28,21 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
                                                   HeapOfIdenticalBanknotes dummy){
 
         for (Currency currency : Currency.values()) {
-            if (!heaps.containsKey(currency)){
-                dummy.setDenomination(currency);
-                heaps.put(currency, dummy.clone());
+            if (heaps.containsKey(currency)) {
+                HeapOfIdenticalBanknotes currentHeap = heaps.get(currency);
+                if (!currentHeap.getDenomination().equals(currency)){
+                    heaps.put(currency, currentHeap.makeNewInstance(currency));
+                }
             } else {
-                heaps.get(currency).setDenomination(currency);
+                heaps.put(currency, dummy.makeNewInstance(currency));
             }
+            //<
+//            if (!heaps.containsKey(currency)){
+//                dummy.setDenomination(currency);
+//                heaps.put(currency, dummy.clone());
+//            } else {
+//                heaps.get(currency).setDenomination(currency);
+//            }
         }
 
         return new BanknotesHeapsImpl(heaps);
@@ -78,9 +87,11 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
             Currency currency = allItems[i];
             int number = NumberDiapason.putInRange(numberList.get(i));
 
-            dummy.setNumber(number);
-            dummy.setDenomination(currency);
-            heaps.put(currency, dummy.clone());
+            heaps.put(currency, dummy.makeNewInstance(currency, number));
+            //<
+//            dummy.setNumber(number);
+//            dummy.setDenomination(currency);
+//            heaps.put(currency, dummy.clone());
         }
 
         return new BanknotesHeapsImpl(heaps);
@@ -102,9 +113,11 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
 
         number = NumberDiapason.putInRange(number);
         for (Currency currency : allItems) {
-            dummy.setNumber(number);
-            dummy.setDenomination(currency);
-            heaps.put(currency, dummy.clone());
+            heaps.put(currency, dummy.makeNewInstance(currency, number));
+            //<
+//            dummy.setNumber(number);
+//            dummy.setDenomination(currency);
+//            heaps.put(currency, dummy.clone());
         }
 
         return new BanknotesHeapsImpl(heaps);
@@ -118,13 +131,14 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
         this.heaps = heaps;
     }
 
-    /**
-     * Геттер хипов банкнот.
-     * @return Хипы банкнот.
-     */
-    public Map<Currency, HeapOfIdenticalBanknotes> getHeaps() {
-        return heaps;
-    }
+    //<
+//    /**
+//     * Геттер хипов банкнот.
+//     * @return Хипы банкнот.
+//     */
+//    public Map<Currency, HeapOfIdenticalBanknotes> getHeaps() {
+//        return heaps;
+//    }
 
     /**
      * Прокси-метод для переноса всех банкнот из внешних хипов (<code>heaps</code>)
@@ -148,8 +162,45 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
         return action(heaps, false);
     }
 
+    //<
+//    /**
+//     * Возвращает хип банкнот, соответствующий номиналу
+//     * @param currency номинал банкнот
+//     * @return Хип банкнот
+//     */
+//    @Override
+//    public HeapOfIdenticalBanknotes getHeap(Currency currency) {
+//        return heaps.get(currency);
+//    }
+
     /**
-     * Метод, реализующий взаимодействие между хипоми банкнот:
+     * Метод, реализующий взаимодействие между двумя
+     * хипами банкнот одного номинала. В зависимости от флага-аргумента
+     * <code>isAdd</code> банкноты перекладываютя в одну или в другую сторону.
+     * @param heap внешний хип банкнот
+     * @param isAdd true - сложение, false - вычитание
+     * @param currency номинал банкнот
+     * @return Успешность операции
+     */
+    @Override
+    public boolean innerAction(HeapOfIdenticalBanknotes heap, boolean isAdd, Currency currency) {
+        return isAdd
+                ? heap.add(heaps.get(currency))
+                : heap.sub(heaps.get(currency));
+    }
+
+    /**
+     * Возвращает количество банкнот одного номинала
+     * @param currency Номинал
+     * @return Количество банкнот.
+     */
+    @Override
+    public int getNumberOfBanknotes(Currency currency) {
+        return heaps.get(currency).getNumber();
+    }
+
+    /**
+     * Метод, реализующий взаимодействие между хипами банкнот:
      * внешними хипами (<code>heaps</code>) и собственными хипами
      * инстанса. В зависимости от флага-аргумента <code>isAdd</code>
      * банкноты перекладываютя в одну или в другую сторону.
@@ -161,15 +212,27 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
         boolean success = true;
         Set<HeapOfIdenticalBanknotes> thisHeaps = new HashSet<>();
 
-        for (Map.Entry<Currency, HeapOfIdenticalBanknotes> entry : heaps.getHeaps().entrySet()){
-            Currency key = entry.getKey();
-            HeapOfIdenticalBanknotes thisHeap = this.heaps.get(key);
-            HeapOfIdenticalBanknotes otherHeap = entry.getValue();
-
-            success &= (isAdd ? thisHeap.add(otherHeap) : thisHeap.sub(otherHeap));
-
+        for (Currency currency : Currency.values()) {
+            HeapOfIdenticalBanknotes thisHeap = this.heaps.get(currency);
+            success &= heaps.innerAction(thisHeap, isAdd, currency);
+            //<
+//            HeapOfIdenticalBanknotes otherHeap = heaps.getHeap(currency);
+//            HeapOfIdenticalBanknotes thisHeap = this.heaps.get(currency);
+//
+//            success &= (isAdd ? thisHeap.add(otherHeap) : thisHeap.sub(otherHeap));
+//
             thisHeaps.add(thisHeap);
         }
+        //<
+//        for (Map.Entry<Currency, HeapOfIdenticalBanknotes> entry : heaps.getHeaps().entrySet()){
+//            Currency key = entry.getKey();
+//            HeapOfIdenticalBanknotes thisHeap = this.heaps.get(key);
+//            HeapOfIdenticalBanknotes otherHeap = entry.getValue();
+//
+//            success &= (isAdd ? thisHeap.add(otherHeap) : thisHeap.sub(otherHeap));
+//
+//            thisHeaps.add(thisHeap);
+//        }
 
         if (success){
             for (HeapOfIdenticalBanknotes thisHeap : thisHeaps) {
@@ -190,10 +253,6 @@ public class BanknotesHeapsImpl implements BanknotesHeaps, Displayable {
             var heap = heaps.get(currency);
             ((Displayable)heap).display();
             sum += heap.get();
-            //<
-//            HeapOfIdenticalBanknotes heap = heaps.get(currency);
-//            heap.display();
-//            sum += heap.get();
         }
         System.out.println("Total : " + sum);
     }
