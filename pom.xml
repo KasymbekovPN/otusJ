@@ -20,10 +20,12 @@
 
     <modules>
         <module>hw01-maven</module>
+        <module>hw03-annotation</module>
         <module>hw02-DIYArrayList</module>
         <module>hw03-annotation</module>
         <module>hw04-autoLog</module>
         <module>hw05-GC</module>
+        <module>hw06-ATM</module>
     </modules>
 
     <properties>

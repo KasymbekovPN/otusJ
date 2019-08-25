@@ -10,3 +10,4 @@ Pavel Kasymbekov (Павел Касымбеков)<br>
 * hw03-annotation : 3
 * hw04-autoLog : 4
 * hw05-GC : 5
+* hw06-ATM : 6
