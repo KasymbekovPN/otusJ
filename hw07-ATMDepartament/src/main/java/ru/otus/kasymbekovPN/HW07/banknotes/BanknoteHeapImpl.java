@@ -35,7 +35,7 @@ public class BanknoteHeapImpl implements BanknoteHeap, Displayable {
      * @param denomination номинал банкнот
      * @param number количество банкнот
      */
-    public BanknoteHeapImpl(Currency denomination, int number){
+    BanknoteHeapImpl(Currency denomination, int number){
         this.denomination = denomination;
         this.number = number;
     }
