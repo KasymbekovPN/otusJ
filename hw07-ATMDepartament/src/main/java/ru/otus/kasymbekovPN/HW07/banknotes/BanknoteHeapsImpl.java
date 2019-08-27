@@ -194,6 +194,20 @@ public class BanknoteHeapsImpl implements BanknoteHeaps, Displayable {
     }
 
     /**
+     * Возвращает баланс
+     * @return Баланс
+     */
+    @Override
+    public int getBalance() {
+        int balance = 0;
+        for (Map.Entry<Currency, BanknoteHeap> entry: heaps.entrySet()) {
+            balance += entry.getValue().getBalance();
+        }
+
+        return balance;
+    }
+
+    /**
     * Метод, выводящий информацию о хипах в консом.
     */
     @Override
@@ -202,7 +216,7 @@ public class BanknoteHeapsImpl implements BanknoteHeaps, Displayable {
         for (Currency currency : Currency.values()) {
             var heap = heaps.get(currency);
             ((Displayable)heap).display();
-            sum += heap.get();
+            sum += heap.getBalance();
         }
         System.out.println("Total : " + sum);
     }

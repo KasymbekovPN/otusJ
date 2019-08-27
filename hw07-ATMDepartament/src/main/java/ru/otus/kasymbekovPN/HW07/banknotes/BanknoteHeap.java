@@ -46,7 +46,7 @@ public interface BanknoteHeap {
     /**
      * @return Остаток денежных средст хипа
      */
-    int get();
+    int getBalance();
 
     /**
      * @return Номинал банкнот хипа.

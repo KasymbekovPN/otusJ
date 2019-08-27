@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW07.atm;
 
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
+import ru.otus.kasymbekovPN.HW07.banknotes.Currency;
 import ru.otus.kasymbekovPN.HW07.utils.Displayable;
 
 /**
@@ -54,7 +55,7 @@ public class AtmActionResult {
      * @param action действие
      * @param result результат действия
      */
-    AtmActionResult(BanknoteHeaps atmHeap, BanknoteHeaps newHeap, AtmAction action, boolean result){
+    public AtmActionResult(BanknoteHeaps atmHeap, BanknoteHeaps newHeap, AtmAction action, boolean result){
         this.result = result;
         this.atmHeap = atmHeap;
         this.newHeap = newHeap;
@@ -66,7 +67,7 @@ public class AtmActionResult {
      * @param atmHeap хип банкнот банкомата
      * @param humanMoney сумма денег, которую человек хосет снять.
      */
-    AtmActionResult(BanknoteHeaps atmHeap, int humanMoney){
+    public AtmActionResult(BanknoteHeaps atmHeap, int humanMoney){
         this.result = false;
         this.atmHeap = atmHeap;
         this.humanMoney = humanMoney;
@@ -92,6 +93,28 @@ public class AtmActionResult {
         }
 
         System.out.println("\n");
+    }
+
+    //< commnet
+    //< optomize
+    public boolean eq(AtmActionResult otherActionResult){
+        boolean res = result == otherActionResult.result;
+        res &= action.equals(otherActionResult.action);
+
+        for (Currency currency : Currency.values()) {
+            res &= atmHeap.getNumberOfBanknotes(currency) == otherActionResult.atmHeap.getNumberOfBanknotes(currency);
+        }
+
+        res &= humanMoney == otherActionResult.humanMoney;
+
+        if (humanMoney == HUMAN_MONEY_DEFAULT_VALUE)
+        {
+            for (Currency currency : Currency.values()) {
+                res &= newHeap.getNumberOfBanknotes(currency) == otherActionResult.newHeap.getNumberOfBanknotes(currency);
+            }
+        }
+
+        return res;
     }
 }
 

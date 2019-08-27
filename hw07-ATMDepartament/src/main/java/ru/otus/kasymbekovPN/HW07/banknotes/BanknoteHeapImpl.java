@@ -30,6 +30,8 @@ public class BanknoteHeapImpl implements BanknoteHeap, Displayable {
      */
     private BanknoteHeap outsideHeap;
 
+    //< add constructor without arguments Currency.VALUE_10, 0
+
     /**
      * Конструктор
      * @param denomination номинал банкнот
@@ -114,7 +116,7 @@ public class BanknoteHeapImpl implements BanknoteHeap, Displayable {
     * @return Возвращает остаток денежных средств в хипе.
     */
     @Override
-    public int get() {
+    public int getBalance() {
         return getDenomination().getValue() * getNumber();
     }
 
@@ -164,6 +166,6 @@ public class BanknoteHeapImpl implements BanknoteHeap, Displayable {
     //<<< ??? Правильный вывод в консоль.
     public void display() {
         System.out.println("Denomination : " + denomination.getValue()
-                + ", number : " + number + ", sum : " + get());
+                + ", number : " + number + ", sum : " + getBalance());
     }
 }

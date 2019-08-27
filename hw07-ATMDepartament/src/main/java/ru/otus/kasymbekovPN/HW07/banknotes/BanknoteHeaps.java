@@ -37,4 +37,10 @@ public interface BanknoteHeaps {
      * @return Количество банкнот.
      */
     int getNumberOfBanknotes(Currency currency);
+
+    /**
+     * Возвращает баланс
+     * @return Баланс
+     */
+    int getBalance();
 }

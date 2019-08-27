@@ -79,15 +79,30 @@ public class AtmImpl implements Atm, Displayable, Observer {
     }
 
     @Override
+    public void resetConnection() {
+        observable = null;
+    }
+
+    @Override
     public int getBalance() {
-        //< implement
-        return 0;
+        return cells.getBalance();
     }
 
     @Override
     public void reset() {
         //< implement
     }
+
+    //< ???
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        return super.equals(obj);
+//    }
 
     /**
      * Формирование хипов банкнот из запрошенной суммы.
