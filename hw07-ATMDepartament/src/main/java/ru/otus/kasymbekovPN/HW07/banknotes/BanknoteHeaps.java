@@ -43,4 +43,10 @@ public interface BanknoteHeaps {
      * @return Баланс
      */
     int getBalance();
+
+    /**
+     * Возвращает новый инстанс, идентичный старому.
+     * @return Новый инстанс.
+     */
+    BanknoteHeaps makeNewInstance();
 }

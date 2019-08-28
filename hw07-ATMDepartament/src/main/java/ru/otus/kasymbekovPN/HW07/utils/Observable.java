@@ -29,9 +29,9 @@ public interface Observable {
     /**
      * Запрашавает баланс у налюдателей, представленных
      * в списке.
-     * @param obs наблюдатели
+     * @param obs Идентификаторы наблюдателей
      */
-    void balanceRequest(Set<Observer> obs);
+    void balanceRequest(Set<Integer> obs);
 
     /**
      * Сбрасывает наблюдателей в исходное состоние.
@@ -41,7 +41,7 @@ public interface Observable {
     /**
      * Сбрасывает наблюдателей, представленных в списке,
      * в исходное состояние.
-     * @param obs наблюдатели
+     * @param obs Идентификаторы наблюдателей
      */
-    void resetObserverState(Set<Observer> obs);
+    void resetObserverState(Set<Integer> obs);
 }

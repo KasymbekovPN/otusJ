@@ -11,3 +11,4 @@ Pavel Kasymbekov (Павел Касымбеков)<br>
 * hw04-autoLog : 4
 * hw05-GC : 5
 * hw06-ATM : 6
+* hw07-ATMDepartment : 7

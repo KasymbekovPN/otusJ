@@ -2,16 +2,18 @@ package ru.otus.kasymbekovPN.HW07.utils;
 
 //< rename ??
 public interface Observer {
-    /**
-     * "Установка связи" с налюдаемым инстансом.
-     * @param o налюдаемый инсанс.
-     */
-    void setConnection(Observable o);
 
-    /**
-     * "Сброс соединения" с наблюдаемым инстансом.
-     */
-    void resetConnection();
+    //<
+//    /**
+//     * "Установка связи" с налюдаемым инстансом.
+//     * @param o налюдаемый инсанс.
+//     */
+//    void setConnection(Observable o);
+//
+//    /**
+//     * "Сброс соединения" с наблюдаемым инстансом.
+//     */
+//    void resetConnection();
 
     /**
      * Возврашает баланс
@@ -20,7 +22,20 @@ public interface Observer {
     int getBalance();
 
     /**
-     * Сброс в начальное состояние
+     * Сеттер состояния (через хранителя)
+     * @param memento хранитель
      */
-    void reset();
+    void setState(Memento memento);
+
+    /**
+     * Геттер состояния (через храниетля)
+     * @return Храниель
+     */
+    Memento getState();
+
+    /**
+     * Геттер идентификатора
+     * @return Идентификатор.
+     */
+    int getID();
 }

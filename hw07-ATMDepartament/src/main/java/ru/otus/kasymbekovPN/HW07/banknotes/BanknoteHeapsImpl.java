@@ -208,6 +208,21 @@ public class BanknoteHeapsImpl implements BanknoteHeaps, Displayable {
     }
 
     /**
+     * Возвращает новый инстанс, идентичный старому.
+     * @return Новый инстанс.
+     */
+    @Override
+    public BanknoteHeaps makeNewInstance() {
+        Map<Currency, BanknoteHeap> newHeaps = new HashMap<>();
+        for (Map.Entry<Currency, BanknoteHeap> entry: heaps.entrySet()) {
+            BanknoteHeap heap = entry.getValue();
+            newHeaps.put(entry.getKey(), entry.getValue().makeNewInstance());
+        }
+
+        return new BanknoteHeapsImpl(newHeaps);
+    }
+
+    /**
     * Метод, выводящий информацию о хипах в консом.
     */
     @Override

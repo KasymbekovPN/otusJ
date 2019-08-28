@@ -3,11 +3,10 @@ package ru.otus.kasymbekovPN.HW07.atm;
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeap;
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeapsImpl;
-import ru.otus.kasymbekovPN.HW07.utils.Displayable;
+import ru.otus.kasymbekovPN.HW07.utils.*;
+import ru.otus.kasymbekovPN.HW07.banknotes.Currency;
 import ru.otus.kasymbekovPN.HW07.utils.Observable;
 import ru.otus.kasymbekovPN.HW07.utils.Observer;
-import ru.otus.kasymbekovPN.HW07.utils.SimplePair;
-import ru.otus.kasymbekovPN.HW07.banknotes.Currency;
 
 import java.util.*;
 
@@ -17,7 +16,12 @@ import java.util.*;
 public class AtmImpl implements Atm, Displayable, Observer {
 
     /**
-     * Яейки банкомата.
+     * Счётчик инстансов
+     */
+    private static int instanceCounter;
+
+    /**
+     * Ячейки банкомата.
      */
     private BanknoteHeaps cells;
 
@@ -27,11 +31,17 @@ public class AtmImpl implements Atm, Displayable, Observer {
     private Observable observable;
 
     /**
+     * Идентификатор
+     */
+    private int ID;
+
+    /**
      * Конструктор.
      * @param cells Ячейки банкомата.
      */
     public AtmImpl(BanknoteHeaps cells){
         this.cells = cells;
+        this.ID = instanceCounter++;
     }
 
     /**
@@ -73,25 +83,61 @@ public class AtmImpl implements Atm, Displayable, Observer {
         ((Displayable)cells).display();
     }
 
-    @Override
-    public void setConnection(Observable o) {
-        observable = o;
-    }
+    //<
+//    @Override
+//    public void setConnection(Observable o) {
+//        observable = o;
+//    }
+//
+//    @Override
+//    public void resetConnection() {
+//        observable = null;
+//    }
 
-    @Override
-    public void resetConnection() {
-        observable = null;
-    }
-
+    /**
+     * Возврашает баланс
+     * @return баланс
+     */
     @Override
     public int getBalance() {
         return cells.getBalance();
     }
 
+    /**
+     * Сеттер состояния (через хранителя)
+     * @param memento хранитель
+     */
     @Override
-    public void reset() {
-        //< implement
+    public void setState(Memento memento) {
+        //<  Нужен ли новый инстанс ???
+        cells = memento.getState().makeNewInstance();
     }
+
+    /**
+     * Геттер состояния (через храниетля)
+     * @return Храниель
+     */
+    @Override
+    public Memento getState() {
+        Memento memento = new MementoImpl();
+        memento.setState(cells.makeNewInstance());
+
+        return memento;
+    }
+
+    /**
+     * Геттер идентификатора
+     * @return Идентификатор.
+     */
+    @Override
+    public int getID() {
+        return ID;
+    }
+
+    //    @Override
+//    public void reset() {
+//        //< implement
+//    }
 
     //< ???
 //    @Override
