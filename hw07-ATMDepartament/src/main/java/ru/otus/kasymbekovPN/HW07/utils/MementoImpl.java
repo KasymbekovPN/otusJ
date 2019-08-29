@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW07.atm;
+package ru.otus.kasymbekovPN.HW07.utils;
 
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
 import ru.otus.kasymbekovPN.HW07.utils.Memento;

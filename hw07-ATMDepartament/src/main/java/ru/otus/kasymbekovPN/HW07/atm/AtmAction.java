@@ -12,10 +12,18 @@ public enum AtmAction {
      */
     private String name;
 
+    /**
+     * Геттер названия действия
+     * @return название действия
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Конструктор
+     * @param name Название действия
+     */
     AtmAction(String name){
         this.name = name;
     }
