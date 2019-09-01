@@ -1,7 +1,6 @@
 package ru.otus.kasymbekovPN.HW07.utils;
 
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
-import ru.otus.kasymbekovPN.HW07.utils.Memento;
 
 /**
  * Класс-хранитель состояния банкомата

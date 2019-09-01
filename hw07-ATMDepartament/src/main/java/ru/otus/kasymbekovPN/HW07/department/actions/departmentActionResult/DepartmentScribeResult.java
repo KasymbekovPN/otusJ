@@ -1,42 +1,61 @@
 package ru.otus.kasymbekovPN.HW07.department.actions.departmentActionResult;
 
-import ru.otus.kasymbekovPN.HW07.department.Department;
 import ru.otus.kasymbekovPN.HW07.department.actions.DepartmentAction;
-import ru.otus.kasymbekovPN.HW07.utils.Observer;
+import ru.otus.kasymbekovPN.HW07.utils.DepartmentObserver;
 
 /**
- * Класс, хранящий результат действий департеманта:
- *  - подписка
- *  - отписка
+ * Класс, хранящий результат действий SUBSCRIBE, UNSUBSCRIBE
  */
 public class DepartmentScribeResult implements DepartmentActionResult {
 
     /**
-     * Действие
+     * Инстанс, содержащий действие
      */
-    private DepartmentAction action;
+    private DepartmentActionResult initActRes;
 
     /**
      * Наблюдатель
      */
-    private Observer observer;
+    private DepartmentObserver departmentObserver;
+
+    /**
+     * Успешность действия
+     */
+    private boolean success;
 
     /**
      * Конструктор
-     * @param isSubscribe является ли действие подпиской
-     * @param observer наблюдатель
+     * @param initActRes Инстанс, содкржащий действие
+     * @param departmentObserver Наблюдатель
      */
-    public DepartmentScribeResult(boolean isSubscribe, Observer observer){
-        this.action = isSubscribe ? DepartmentAction.SUBSCRIBE : DepartmentAction.UNSUBSCRIBE;
-        this.observer = observer;
+    public DepartmentScribeResult(DepartmentActionResult initActRes, DepartmentObserver departmentObserver,
+                                  boolean success){
+        this.initActRes = initActRes;
+        this.departmentObserver = departmentObserver;
+        this.success = success;
     }
 
     /**
-     * Выводит результат действия в консоль.
+     * Печать результата действия в консоль
      */
     @Override
     public void display() {
-        System.out.println("Action : " + action.getName());
-        System.out.println("Observer ID : " + observer.getID());
+        StringBuilder sb = new StringBuilder("ACTION : ")
+                .append(getAction().getName())
+                .append("; OBSERVER ID : ")
+                .append(departmentObserver.getID())
+                .append("; SUCCESS : ")
+                .append(success);
+
+        System.out.println(sb);
+    }
+
+    /**
+     * Геттер действия
+     * @return Действие
+     */
+    @Override
+    public DepartmentAction getAction() {
+        return initActRes.getAction();
     }
 }

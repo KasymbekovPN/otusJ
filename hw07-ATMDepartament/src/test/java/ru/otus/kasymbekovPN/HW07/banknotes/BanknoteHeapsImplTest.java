@@ -39,8 +39,8 @@ class BanknoteHeapsImplTest {
     @ParameterizedTest
     @MethodSource("getAddData")
     void test1(int n1, int n2, boolean result){
-        var heaps1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl(Currency.VALUE_10, 0));
-        var heaps2 = BanknoteHeapsImpl.makeInstance(n2, new BanknoteHeapImpl(Currency.VALUE_10, 0));
+        var heaps1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl());
+        var heaps2 = BanknoteHeapsImpl.makeInstance(n2, new BanknoteHeapImpl());
         assertEquals(result, heaps1.add(heaps2));
     }
 
@@ -48,8 +48,8 @@ class BanknoteHeapsImplTest {
     @ParameterizedTest
     @MethodSource("getSubData")
     void test2(int n1, int n2, boolean result){
-        var heaps1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl(Currency.VALUE_10, 0));
-        var heaps2 = BanknoteHeapsImpl.makeInstance(n2, new BanknoteHeapImpl(Currency.VALUE_10, 0));
+        var heaps1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl());
+        var heaps2 = BanknoteHeapsImpl.makeInstance(n2, new BanknoteHeapImpl());
         assertEquals(result, heaps1.sub(heaps2));
     }
 }

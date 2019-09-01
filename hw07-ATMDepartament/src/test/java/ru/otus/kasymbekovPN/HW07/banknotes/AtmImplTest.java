@@ -57,10 +57,10 @@ class AtmImplTest {
     @ParameterizedTest
     @MethodSource("getAddData")
     void test1(int n1, int n2, int n3, int n4, AtmAction act, boolean r){
-        var heaps1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl(Currency.VALUE_10, 0));
-        var heaps2 = BanknoteHeapsImpl.makeInstance(n2, new BanknoteHeapImpl(Currency.VALUE_10, 0));
-        var heaps3 = BanknoteHeapsImpl.makeInstance(n3, new BanknoteHeapImpl(Currency.VALUE_10, 0));
-        var heaps4 = BanknoteHeapsImpl.makeInstance(n4, new BanknoteHeapImpl(Currency.VALUE_10, 0));
+        var heaps1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl());
+        var heaps2 = BanknoteHeapsImpl.makeInstance(n2, new BanknoteHeapImpl());
+        var heaps3 = BanknoteHeapsImpl.makeInstance(n3, new BanknoteHeapImpl());
+        var heaps4 = BanknoteHeapsImpl.makeInstance(n4, new BanknoteHeapImpl());
 
         var atm = new AtmImpl(heaps1);
         var res1 = atm.add(heaps2);
@@ -77,14 +77,14 @@ class AtmImplTest {
                int n2_500, int n2_1000, int n2_2000, int n2_5000, int n3_10, int n3_50,
                int n3_100, int n3_200, int n3_500, int n3_1000, int n3_2000, int n3_5000,
                boolean r, AtmAction act){
-        var heap1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl(Currency.VALUE_10, 0));
+        var heap1 = BanknoteHeapsImpl.makeInstance(n1, new BanknoteHeapImpl());
         var heap2 = BanknoteHeapsImpl.makeInstance(n2_10, n2_50, n2_100, n2_200, n2_500, n2_1000, n2_2000, n2_5000,
-                new BanknoteHeapImpl(Currency.VALUE_10, 0));
+                new BanknoteHeapImpl());
         var heap3 = BanknoteHeapsImpl.makeInstance(n3_10, n3_50, n3_100, n3_200, n3_500, n3_1000, n3_2000, n3_5000,
-                new BanknoteHeapImpl(Currency.VALUE_10, 0));
+                new BanknoteHeapImpl());
 
         var atm = new AtmImpl(heap1);
-        var res1 = atm.sub(money, new BanknoteHeapImpl(Currency.VALUE_10, 0));
+        var res1 = atm.sub(money, new BanknoteHeapImpl());
 
         if (r){
             var res2 = new AtmActionResult(heap2, heap3, act, r);

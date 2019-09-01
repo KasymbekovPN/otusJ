@@ -1,19 +1,16 @@
 package ru.otus.kasymbekovPN.HW07.atm;
 
-import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeap;
-import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
-import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeapsImpl;
-import ru.otus.kasymbekovPN.HW07.utils.*;
+import ru.otus.kasymbekovPN.HW07.banknotes.*;
 import ru.otus.kasymbekovPN.HW07.banknotes.Currency;
-import ru.otus.kasymbekovPN.HW07.utils.Observable;
-import ru.otus.kasymbekovPN.HW07.utils.Observer;
+import ru.otus.kasymbekovPN.HW07.utils.*;
+import ru.otus.kasymbekovPN.HW07.utils.DepartmentObserver;
 
 import java.util.*;
 
 /**
  * Класс, реализующий банктомат.
  */
-public class AtmImpl implements Atm, Displayable, Observer {
+public class AtmImpl implements Atm, Displayable, DepartmentObserver {
 
     /**
      * Счётчик инстансов
@@ -26,14 +23,22 @@ public class AtmImpl implements Atm, Displayable, Observer {
     private BanknoteHeaps cells;
 
     /**
-     * Наблюдаемый объект
-     */
-    private Observable observable;
-
-    /**
      * Идентификатор
      */
     private int ID;
+
+    /**
+     * Статический, фабричный метод, создающий инстанс с одинаковым количеством
+     * банкнот всех номиналов.
+     * @param number количество банкнот каждого номинала
+     * @param dummy болванка
+     * @return Инстанс
+     */
+    public static AtmImpl makeInstance(int number, BanknoteHeap dummy){
+        return new AtmImpl(
+                BanknoteHeapsImpl.makeInstance(number, dummy)
+        );
+    }
 
     /**
      * Конструктор.
@@ -83,17 +88,6 @@ public class AtmImpl implements Atm, Displayable, Observer {
         ((Displayable)cells).display();
     }
 
-    //<
-//    @Override
-//    public void setConnection(Observable o) {
-//        observable = o;
-//    }
-//
-//    @Override
-//    public void resetConnection() {
-//        observable = null;
-//    }
-
     /**
      * Возврашает баланс
      * @return баланс
@@ -109,7 +103,6 @@ public class AtmImpl implements Atm, Displayable, Observer {
      */
     @Override
     public void setState(Memento memento) {
-        //<  Нужен ли новый инстанс ???
         cells = memento.getState().makeNewInstance();
     }
 
@@ -133,22 +126,6 @@ public class AtmImpl implements Atm, Displayable, Observer {
     public int getID() {
         return ID;
     }
-
-    //    @Override
-//    public void reset() {
-//        //< implement
-//    }
-
-    //< ???
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//    }
-//
-//    @Override
-//    public boolean equals(Object obj) {
-//        return super.equals(obj);
-//    }
 
     /**
      * Формирование хипов банкнот из запрошенной суммы.

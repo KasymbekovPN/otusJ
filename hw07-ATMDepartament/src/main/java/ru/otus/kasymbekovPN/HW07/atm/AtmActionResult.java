@@ -95,8 +95,6 @@ public class AtmActionResult {
         System.out.println("\n");
     }
 
-    //< commnet
-    //< optomize
     public boolean eq(AtmActionResult otherActionResult){
         boolean res = result == otherActionResult.result;
         res &= action.equals(otherActionResult.action);

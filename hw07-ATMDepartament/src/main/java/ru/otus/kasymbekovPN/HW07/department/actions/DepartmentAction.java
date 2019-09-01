@@ -6,10 +6,10 @@ package ru.otus.kasymbekovPN.HW07.department.actions;
 public enum DepartmentAction {
     SUBSCRIBE("subscribe observer"),
     UNSUBSCRIBE("unsubscribe observer"),
-    COMMON_REQ_BALANCE("request common balance"),
-    CUSTOM_REQ_BALANCE("custom request balance"),
-    COMMON_RESET_STATE("common reset state"),
-    CUSTOM_RESET_STATE("custom reset state");
+    TOTAL_REQ_BALANCE("request common balance"),
+    SELECTIVE_REQ_BALANCE("selective request balance"),
+    TOTAL_RESET_STATE("common reset state"),
+    SELECTIVE_RESET_STATE("selective reset state");
 
     /**
      * Название действия

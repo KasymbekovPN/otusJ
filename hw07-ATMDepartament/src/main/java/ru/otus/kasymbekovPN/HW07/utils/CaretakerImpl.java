@@ -1,8 +1,5 @@
 package ru.otus.kasymbekovPN.HW07.utils;
 
-import ru.otus.kasymbekovPN.HW07.utils.Caretaker;
-import ru.otus.kasymbekovPN.HW07.utils.Memento;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,16 +11,12 @@ public class CaretakerImpl implements Caretaker {
     /**
      * Хранители
      */
-//    private Memento memento;
-    //<
     private Map<Integer, Memento> mementos;
 
     /**
      * Конструктор
      */
     public CaretakerImpl(){
-//        this.memento = memento;
-        //<
         mementos = new HashMap<>();
     }
 
@@ -44,10 +37,7 @@ public class CaretakerImpl implements Caretaker {
      */
     @Override
     public Memento getMemento(int ID) {
-//        return memento;
-        //<
-        //< !!!! Проверка на существование
-        return mementos.get(ID);
+        return mementos.getOrDefault(ID, null);
     }
 
     /**
@@ -56,7 +46,6 @@ public class CaretakerImpl implements Caretaker {
      */
     @Override
     public void remove(int ID) {
-        //< ??? Нужна ли проверка на наличие
         mementos.remove(ID);
     }
 }
