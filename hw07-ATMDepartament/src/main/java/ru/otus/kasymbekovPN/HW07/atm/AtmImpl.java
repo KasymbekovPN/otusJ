@@ -1,16 +1,19 @@
 package ru.otus.kasymbekovPN.HW07.atm;
 
+import ru.otus.kasymbekovPN.HW07.atm.visitor.VisitedElement;
+import ru.otus.kasymbekovPN.HW07.atm.visitor.Visitor;
 import ru.otus.kasymbekovPN.HW07.banknotes.*;
 import ru.otus.kasymbekovPN.HW07.banknotes.Currency;
 import ru.otus.kasymbekovPN.HW07.utils.*;
-import ru.otus.kasymbekovPN.HW07.utils.DepartmentObserver;
 
 import java.util.*;
 
 /**
  * Класс, реализующий банктомат.
  */
-public class AtmImpl implements Atm, Displayable, DepartmentObserver {
+//public class AtmImpl implements Atm, Displayable, DepartmentObserver {
+//<
+public class AtmImpl implements Atm, Displayable, VisitedElement {
 
     /**
      * Счётчик инстансов
@@ -89,43 +92,56 @@ public class AtmImpl implements Atm, Displayable, DepartmentObserver {
     }
 
     /**
+     * Метод, принимающий визитор
+     * @param visitor визитор
+     */
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
+
+    //<
+    /**
      * Возврашает баланс
      * @return баланс
      */
-    @Override
+//    @Override
     public int getBalance() {
         return cells.getBalance();
     }
 
-    /**
-     * Сеттер состояния (через хранителя)
-     * @param memento хранитель
-     */
-    @Override
-    public void setState(Memento memento) {
-        cells = memento.getState().makeNewInstance();
-    }
+    //<
+//    /**
+//     * Сеттер состояния (через хранителя)
+//     * @param memento хранитель
+//     */
+//    @Override
+//    public void setState(Memento memento) {
+//        cells = memento.getState().makeNewInstance();
+//    }
 
-    /**
-     * Геттер состояния (через храниетля)
-     * @return Храниель
-     */
-    @Override
-    public Memento getState() {
-        Memento memento = new MementoImpl();
-        memento.setState(cells.makeNewInstance());
+    //<
+//    /**
+//     * Геттер состояния (через храниетля)
+//     * @return Храниель
+//     */
+//    @Override
+//    public Memento getState() {
+//        Memento memento = new MementoImpl();
+//        memento.setState(cells.makeNewInstance());
+//
+//        return memento;
+//    }
 
-        return memento;
-    }
-
-    /**
-     * Геттер идентификатора
-     * @return Идентификатор.
-     */
-    @Override
-    public int getID() {
-        return ID;
-    }
+    //<
+//    /**
+//     * Геттер идентификатора
+//     * @return Идентификатор.
+//     */
+//    @Override
+//    public int getID() {
+//        return ID;
+//    }
 
     /**
      * Формирование хипов банкнот из запрошенной суммы.
