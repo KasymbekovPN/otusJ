@@ -5,23 +5,31 @@ package ru.otus.kasymbekovPN.HW07.utils;
  */
 public interface Caretaker {
 
-    /**
-     * Сеттер храниетля
-     * @param ID идентификатор хранителя
-     * @param memento храниель
-     */
-    void setMemento(int ID, Memento memento);
+    //< ???
 
-    /**
-     * Геттер хранителя
-     * @param ID индентификатор
-     * @return Хранитель
-     */
-    Memento getMemento(int ID);
+    void setMemento(Memento memento);
 
-    /**
-     * Удалить инстанс храниетеля по идентификатору
-     * @param ID индентификатор
-     */
-    void remove(int ID);
+    Memento getMemento();
+
+    //<
+//    /**
+//     * Сеттер храниетля
+//     * @param ID идентификатор хранителя
+//     * @param memento храниель
+//     */
+//    void setMemento(int ID, Memento memento);
+//
+//    /**
+//     * Геттер хранителя
+//     * @param ID индентификатор
+//     * @return Хранитель
+//     */
+//    Memento getMemento(int ID);
+
+    //<
+//    /**
+//     * Удалить инстанс храниетеля по идентификатору
+//     * @param ID индентификатор
+//     */
+//    void remove(int ID);
 }

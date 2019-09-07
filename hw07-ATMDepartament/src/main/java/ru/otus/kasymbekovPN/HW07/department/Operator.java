@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW07.department;
 
-import ru.otus.kasymbekovPN.HW07.department.command.Cmd;
+import ru.otus.kasymbekovPN.HW07.department.command.BaseCmd;
+import ru.otus.kasymbekovPN.HW07.department.command.OperatorCommand;
 import ru.otus.kasymbekovPN.HW07.department.command.Command;
 import ru.otus.kasymbekovPN.HW07.department.command.CommandExtracting;
 import ru.otus.kasymbekovPN.HW07.department.command.results.BaseCR;
@@ -14,7 +15,7 @@ public class Operator {
     //< replace with map with key - enum !!!
 //    private Command totalBalanceRequest;
     //<
-    private Map<Cmd, Command> commands;
+    private Map<OperatorCommand, Command> commands;
 
     public Operator(){
         this.commands = new HashMap<>();
@@ -25,18 +26,23 @@ public class Operator {
 //    }
 
     public Operator setCommand(Command command){
-        CommandExtracting ce = (CommandExtracting) command;
-        commands.put(ce.getCmd(), command);
+        var bc = (BaseCmd) command;
+        commands.put(bc.getOperatorCommand(), command);
         return this;
+        //<
+//        CommandExtracting ce = (CommandExtracting) command;
+//        commands.put(ce.getOperatorCommand(), command);
+//        return this;
     }
 
-    public CommandResult execute(Cmd cmd){
-        if (commands.containsKey(cmd)){
-            Command command = commands.get(cmd);
+    public CommandResult execute(OperatorCommand operatorCommand){
+        if (commands.containsKey(operatorCommand)){
+            Command command = commands.get(operatorCommand);
             command.execute();
-            return ((CommandExtracting)command).getResult();
+            return ((BaseCmd)command).getResult();
         }
-        return new BaseCR(Cmd.NONE);
+
+        return new BaseCR(OperatorCommand.NONE);
     }
     //<
 //    public void totalBalanceRequestEx() {

@@ -13,7 +13,7 @@ import java.util.*;
  */
 //public class AtmImpl implements Atm, Displayable, DepartmentObserver {
 //<
-public class AtmImpl implements Atm, Displayable, VisitedElement {
+public class AtmImpl implements Atm, Displayable, VisitedElement, Originator {
 
     /**
      * Счётчик инстансов
@@ -83,6 +83,11 @@ public class AtmImpl implements Atm, Displayable, VisitedElement {
         }
     }
 
+    @Override
+    public int getID() {
+        return ID;
+    }
+
     /**
      * Выводит информацию о содержимом ячеек банкомата.
      */
@@ -105,9 +110,23 @@ public class AtmImpl implements Atm, Displayable, VisitedElement {
      * Возврашает баланс
      * @return баланс
      */
+    //< interface ???
 //    @Override
     public int getBalance() {
         return cells.getBalance();
+    }
+
+    @Override
+    public Memento createMemento() {
+        Memento memento = new MementoImpl();
+        memento.setState(cells.makeNewInstance());
+
+        return memento;
+    }
+
+    @Override
+    public void setMemento(Memento memento) {
+        cells = memento.getState().makeNewInstance();
     }
 
     //<

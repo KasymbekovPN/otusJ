@@ -20,4 +20,7 @@ public interface Atm {
      * @return Результат действия.
      */
     AtmActionResult sub(int money, BanknoteHeap dummy);
+
+    //< ???
+    int getID();
 }

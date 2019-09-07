@@ -1,23 +1,23 @@
 package ru.otus.kasymbekovPN.HW07.department.command.results;
 
-import ru.otus.kasymbekovPN.HW07.department.command.Cmd;
+import ru.otus.kasymbekovPN.HW07.department.command.OperatorCommand;
 
 //< !!!
 public class BaseCR implements CommandResult {
 
-    private Cmd cmd;
+    private OperatorCommand operatorCommand;
 
-    public BaseCR(Cmd cmd) {
-        this.cmd = cmd;
+    public BaseCR(OperatorCommand operatorCommand) {
+        this.operatorCommand = operatorCommand;
     }
 
     @Override
     public void display() {
-        System.out.println("COMMAND NAME : " + cmd.getName());
+        System.out.println("\nCOMMAND NAME : " + operatorCommand.getName());
     }
 
     @Override
-    public Cmd getCmd() {
-        return cmd;
+    public OperatorCommand getOperatorCommand() {
+        return operatorCommand;
     }
 }

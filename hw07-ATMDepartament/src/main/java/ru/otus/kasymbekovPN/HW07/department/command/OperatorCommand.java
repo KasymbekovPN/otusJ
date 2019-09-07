@@ -1,10 +1,11 @@
 package ru.otus.kasymbekovPN.HW07.department.command;
 
 //< comment
-public enum Cmd {
+public enum OperatorCommand {
     NONE("None"),
     TOTAL_BALANCE_REQUEST("Total Balance Request"),
-    SELECTIVE_BALANCE_REQUEST("Selective Balance Request");
+    SELECTIVE_BALANCE_REQUEST("Selective Balance Request"),
+    TOTAL_RESET_STATE_REQUEST("Total Reset ATM state Request");
 
     private String name;
 
@@ -12,7 +13,7 @@ public enum Cmd {
         return name;
     }
 
-    Cmd(String name){
+    OperatorCommand(String name){
         this.name = name;
     }
 }

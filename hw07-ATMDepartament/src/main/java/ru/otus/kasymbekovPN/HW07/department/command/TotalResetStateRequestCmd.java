@@ -4,15 +4,15 @@ import ru.otus.kasymbekovPN.HW07.department.Department;
 import ru.otus.kasymbekovPN.HW07.department.command.results.BaseCR;
 import ru.otus.kasymbekovPN.HW07.department.command.results.CommandResult;
 
-//< !!! comment
+//< ????
 
-public class TotalBalanceRequestCmd extends BaseCmd implements Command {
+public class TotalResetStateRequestCmd extends BaseCmd implements Command  {
 
     private Department department;
 
-    public TotalBalanceRequestCmd(Department department) {
+    public TotalResetStateRequestCmd(Department department) {
         super(
-                OperatorCommand.TOTAL_BALANCE_REQUEST,
+                OperatorCommand.TOTAL_RESET_STATE_REQUEST,
                 new BaseCR(OperatorCommand.NONE)
         );
         this.department = department;
@@ -20,34 +20,36 @@ public class TotalBalanceRequestCmd extends BaseCmd implements Command {
 
     @Override
     public void execute() {
-        commandResult = department.getBalance();
+        commandResult = department.resetState();
     }
 }
 
 //<
-//public class TotalBalanceRequestCmd implements Command, CommandExtracting {
+//public class TotalResetStateRequestCmd implements Command, CommandExtracting {
 //
-//    final private OperatorCommand operatorCommand = OperatorCommand.TOTAL_BALANCE_REQUEST;
+//    final private OperatorCommand operatorCommand = OperatorCommand.TOTAL_RESET_STATE_REQUEST;
 //
 //    private Department department;
 //
 //    private CommandResult commandResult;
 //
-//    public TotalBalanceRequestCmd(Department department) {
+//    public TotalResetStateRequestCmd(Department department) {
 //        this.department = department;
 //        this.commandResult = new BaseCR(OperatorCommand.NONE);
 //    }
 //
 //    @Override
 //    public void execute() {
-//        commandResult = department.getBalance();
+//        commandResult = department.resetState();
 //    }
 //
+//    //< in base class
 //    @Override
 //    public OperatorCommand getOperatorCommand() {
 //        return operatorCommand;
 //    }
 //
+//    //< in base class
 //    @Override
 //    public CommandResult getResult() {
 //        return commandResult;

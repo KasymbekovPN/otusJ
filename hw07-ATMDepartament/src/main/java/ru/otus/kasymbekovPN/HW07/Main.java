@@ -1,14 +1,19 @@
 package ru.otus.kasymbekovPN.HW07;
 
+import ru.otus.kasymbekovPN.HW07.atm.Atm;
 import ru.otus.kasymbekovPN.HW07.atm.AtmImpl;
 import ru.otus.kasymbekovPN.HW07.atm.visitor.VisitedElement;
 import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeapImpl;
 import ru.otus.kasymbekovPN.HW07.department.*;
-import ru.otus.kasymbekovPN.HW07.department.command.Cmd;
+import ru.otus.kasymbekovPN.HW07.department.command.OperatorCommand;
+import ru.otus.kasymbekovPN.HW07.department.command.SelectiveBalanceRequestCmd;
 import ru.otus.kasymbekovPN.HW07.department.command.TotalBalanceRequestCmd;
+import ru.otus.kasymbekovPN.HW07.department.command.TotalResetStateRequestCmd;
 import ru.otus.kasymbekovPN.HW07.department.command.results.CommandResult;
+import ru.otus.kasymbekovPN.HW07.utils.CaretakerImpl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /*
@@ -30,17 +35,45 @@ public class Main {
 
         Department department = new DepartmentImpl();
         for (VisitedElement visitedElement : atmList) {
-            department.addVisitedElement(visitedElement);
+            department.addVisitedElement(visitedElement, new CaretakerImpl());
         }
 
         var totalBalanceRequestCmd = new TotalBalanceRequestCmd(department);
+        var selectiveBalanceRequestCmd = new SelectiveBalanceRequestCmd(department,
+                new HashSet<Integer>() {{
+                    add(1);
+                    add(2);
+                    add(10);
+                }});
+        var totalResetStateRequestCmd = new TotalResetStateRequestCmd(department);
 
         var operator = new Operator()
-                .setCommand(totalBalanceRequestCmd);
+                .setCommand(totalBalanceRequestCmd)
+                .setCommand(selectiveBalanceRequestCmd)
+                .setCommand(totalResetStateRequestCmd);
 
-        CommandResult execute = operator.execute(Cmd.TOTAL_BALANCE_REQUEST);
+//        CommandResult execute = operator.execute(Cmd.TOTAL_BALANCE_REQUEST);
+//        execute.display();
+//
+//        execute = operator.execute(Cmd.SELECTIVE_BALANCE_REQUEST);
+//        execute.display();
+
+        department.getBalance().display();
+
+        for (VisitedElement visitedElement : atmList) {
+            Atm atm = (Atm) visitedElement;
+            atm.sub(1_000_000, new BanknoteHeapImpl());
+        }
+
+        department.getBalance().display();
+
+        CommandResult execute = operator.execute(OperatorCommand.TOTAL_RESET_STATE_REQUEST);
         execute.display();
 
+        department.getBalance().display();
+
+
+        //<
 //        Operator operator = new Operator(totalBalanceRequestCmd);
 //        operator.totalBalanceRequestEx();
 

@@ -4,43 +4,52 @@ import ru.otus.kasymbekovPN.HW07.department.Department;
 import ru.otus.kasymbekovPN.HW07.department.command.results.BaseCR;
 import ru.otus.kasymbekovPN.HW07.department.command.results.CommandResult;
 
-//< !!! comment
+import java.util.Set;
 
-public class TotalBalanceRequestCmd extends BaseCmd implements Command {
+//< !!!
+//< CommandExtracting - rename ???
+
+public class SelectiveBalanceRequestCmd extends BaseCmd implements Command {
 
     private Department department;
 
-    public TotalBalanceRequestCmd(Department department) {
+    private Set<Integer> atmIDs;
+
+    public SelectiveBalanceRequestCmd(Department department, Set<Integer> atmIDs) {
         super(
-                OperatorCommand.TOTAL_BALANCE_REQUEST,
+                OperatorCommand.SELECTIVE_BALANCE_REQUEST,
                 new BaseCR(OperatorCommand.NONE)
         );
         this.department = department;
+        this.atmIDs = atmIDs;
     }
 
     @Override
     public void execute() {
-        commandResult = department.getBalance();
+        commandResult = department.getBalance(atmIDs);
     }
 }
 
 //<
-//public class TotalBalanceRequestCmd implements Command, CommandExtracting {
+//public class SelectiveBalanceRequestCmd implements Command, CommandExtracting {
 //
-//    final private OperatorCommand operatorCommand = OperatorCommand.TOTAL_BALANCE_REQUEST;
+//    final private OperatorCommand operatorCommand = OperatorCommand.SELECTIVE_BALANCE_REQUEST;
 //
 //    private Department department;
 //
 //    private CommandResult commandResult;
 //
-//    public TotalBalanceRequestCmd(Department department) {
+//    private Set<Integer> atmIDs;
+//
+//    public SelectiveBalanceRequestCmd(Department department, Set<Integer> atmIDs) {
 //        this.department = department;
+//        this.atmIDs = atmIDs;
 //        this.commandResult = new BaseCR(OperatorCommand.NONE);
 //    }
 //
 //    @Override
 //    public void execute() {
-//        commandResult = department.getBalance();
+//        commandResult = department.getBalance(atmIDs);
 //    }
 //
 //    @Override

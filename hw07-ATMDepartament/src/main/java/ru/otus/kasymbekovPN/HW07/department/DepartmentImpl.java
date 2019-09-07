@@ -1,12 +1,15 @@
 package ru.otus.kasymbekovPN.HW07.department;
 
+import ru.otus.kasymbekovPN.HW07.atm.Atm;
+import ru.otus.kasymbekovPN.HW07.atm.visitor.SelectiveBalanceVisitor;
 import ru.otus.kasymbekovPN.HW07.atm.visitor.TotalBalanceVisitor;
+import ru.otus.kasymbekovPN.HW07.atm.visitor.TotalResetStateVisitor;
 import ru.otus.kasymbekovPN.HW07.atm.visitor.VisitedElement;
-import ru.otus.kasymbekovPN.HW07.department.actions.DepartmentAction;
-import ru.otus.kasymbekovPN.HW07.department.actions.departmentActionResult.*;
+import ru.otus.kasymbekovPN.HW07.department.command.results.CommandResult;
 import ru.otus.kasymbekovPN.HW07.utils.Caretaker;
-import ru.otus.kasymbekovPN.HW07.utils.ObservableDepartment;
-import ru.otus.kasymbekovPN.HW07.utils.DepartmentObserver;
+import ru.otus.kasymbekovPN.HW07.utils.CaretakerImpl;
+import ru.otus.kasymbekovPN.HW07.utils.Memento;
+import ru.otus.kasymbekovPN.HW07.utils.Originator;
 
 import java.util.*;
 
@@ -26,15 +29,22 @@ public class DepartmentImpl implements Department{
 //    private Map<Integer, DepartmentObserver> observers;
 
     //< !!!
-    private Set<VisitedElement> visitedElements;
+//    private Set<VisitedElement> visitedElements;
+    //<
 
-    /**
-     * "Опекун", хранящий начальные состояния банкоматов.
-     */
-    private Caretaker caretaker;
+    //< replace to set
+    private Map<Integer, VisitedElement> visitedElements;
+
+    private Map<Integer, Caretaker> caretakers;
+    //<
+//    /**
+//     * "Опекун", хранящий начальные состояния банкоматов.
+//     */
+//    private Caretaker caretaker;
 
     public DepartmentImpl() {
-        this.visitedElements = new HashSet<>();
+        this.visitedElements = new HashMap<>();
+        this.caretakers = new HashMap<>();
     }
     //<
 //    /**
@@ -48,19 +58,55 @@ public class DepartmentImpl implements Department{
 
     //< !!! comment
     @Override
-    public int getTotalBalance() {
+    public CommandResult getBalance() {
         var totalBalanceVisitor = new TotalBalanceVisitor();
-        for (VisitedElement visitedElement : visitedElements) {
-            visitedElement.accept(totalBalanceVisitor);
+//        for (VisitedElement visitedElement : visitedElements) {
+//            visitedElement.accept(totalBalanceVisitor);
+//        }
+        //<
+        for (Map.Entry<Integer, VisitedElement> entry : visitedElements.entrySet()){
+            entry.getValue().accept(totalBalanceVisitor);
         }
 
-        return totalBalanceVisitor.getBalance();
+        return totalBalanceVisitor.getResult();
+        //<
+//        return totalBalanceVisitor.getBalance();
+    }
+
+    @Override
+    public CommandResult getBalance(Set<Integer> IDs) {
+        var selectiveBalanceVisitor = new SelectiveBalanceVisitor(IDs);
+        for (Map.Entry<Integer, VisitedElement> entry : visitedElements.entrySet()){
+            entry.getValue().accept(selectiveBalanceVisitor);
+        }
+
+        return selectiveBalanceVisitor.getResult();
+    }
+
+    @Override
+    public CommandResult resetState() {
+        var totalResetStateVisitor = new TotalResetStateVisitor(caretakers);
+        for (Map.Entry<Integer, VisitedElement> entry : visitedElements.entrySet()){
+            entry.getValue().accept(totalResetStateVisitor);
+        }
+        return totalResetStateVisitor.getResult();
     }
 
     //< !!!
     @Override
-    public void addVisitedElement(VisitedElement visitedElement) {
-        visitedElements.add(visitedElement);
+    public void addVisitedElement(VisitedElement visitedElement, Caretaker caretaker) {
+        var atm = (Atm) visitedElement;
+        var originator = (Originator) visitedElement;
+        int id = atm.getID();
+
+        if (!visitedElements.containsKey(id)){
+            visitedElements.put(id, visitedElement);
+
+            caretaker.setMemento(originator.createMemento());
+            caretakers.put(id, caretaker);
+        }
+        //<
+//        visitedElements.add(visitedElement);
     }
 
     //<

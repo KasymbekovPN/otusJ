@@ -4,6 +4,6 @@ import ru.otus.kasymbekovPN.HW07.department.command.results.CommandResult;
 
 //< !!!
 public interface CommandExtracting {
-    Cmd getCmd();
+    OperatorCommand getOperatorCommand();
     CommandResult getResult();
 }
