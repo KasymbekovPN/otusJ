@@ -1,7 +1,6 @@
 package ru.otus.kasymbekovPN.HW07.utils;
 
-import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
-import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeapsImpl;
+import ru.otus.kasymbekovPN.HW07.department.banknotes.BanknoteHeaps;
 
 /**
  * Класс-хранитель состояния банкомата
@@ -29,10 +28,5 @@ public class MementoImpl implements Memento {
     @Override
     public BanknoteHeaps getState() {
         return state;
-    }
-
-    //<
-    void d(){
-        ((BanknoteHeapsImpl)state).display();
     }
 }

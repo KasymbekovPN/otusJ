@@ -1,6 +1,6 @@
 package ru.otus.kasymbekovPN.HW07.utils;
 
-import ru.otus.kasymbekovPN.HW07.banknotes.BanknoteHeaps;
+import ru.otus.kasymbekovPN.HW07.department.banknotes.BanknoteHeaps;
 
 /**
  * Интерфейс для реализации хранителя
