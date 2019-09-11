@@ -1,8 +1,13 @@
 package ru.otus.kasymbekovPN.HW08.javaObjectWriter;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 public class PrimitiveVisitedElement implements VisitedElement {
+
+    static private Class clDummy;
+
+    private char dummy;
 
     private Field field;
     private Object instance;
@@ -17,30 +22,36 @@ public class PrimitiveVisitedElement implements VisitedElement {
         visitor.visit(this);
     }
 
-    public String getName(){
-        return field.getName();
+    public Optional<String> getLine(){
+        Optional<String> res = Optional.empty();
+        StringBuilder line = new StringBuilder(field.getName()).append(":");
+
+        fillClDummy();
+
+        try{
+            if (field.getType().equals(clDummy)){
+                int i = field.getChar(instance);
+                line.append(i);
+            } else {
+                Object o = field.get(instance);
+                line.append(o.toString());
+            }
+            res = Optional.of(line.toString());
+        } catch (IllegalAccessException ex){
+            ex.printStackTrace();
+        }
+
+        return res;
     }
 
-    public Class<?> getType(){
-        return field.getType();
-    }
-
-    public void test(){
-
-        //<
-        System.out.println("*-------");
-
-        try {
-            Object o = field.get(instance);
-            System.out.println(o);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+    //< ??????
+    private void fillClDummy(){
+        if (clDummy == null){
+            try {
+                clDummy = getClass().getDeclaredField("dummy").getType();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-    public Field get(){
-        return field;
-    }
-
-
 }

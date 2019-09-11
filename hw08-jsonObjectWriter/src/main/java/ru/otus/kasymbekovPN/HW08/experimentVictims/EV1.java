@@ -8,5 +8,5 @@ public class EV1 {
     private float f;
     private double d;
     private boolean bo;
-    private char c;
+    private char c = '1';
 }

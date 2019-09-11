@@ -2,6 +2,7 @@ package ru.otus.kasymbekovPN.HW08.javaObjectWriter;
 
 import ru.otus.kasymbekovPN.HW08.experimentVictims.EV1;
 
+import javax.print.DocFlavor;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
@@ -16,40 +17,15 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
      */
     private Object instance;
 
-    public JavaObjectWriterImpl(Object instance) {
+    public JavaObjectWriterImpl(Object instance, String offset) {
         this.instance = instance;
-        traverse();
-    }
 
-    private void traverse(){
+        VisitorImpl visitor = new VisitorImpl(offset);
+        var o = new ObjectVisitedElement(null, instance);
+        o.accept(visitor);
 
-        //< !!! Call visitedElement for object, arg is instance
-
-        VisitorImpl visitor = new VisitorImpl();
-
-        Field[] fields = instance.getClass().getDeclaredFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-
-            //< ??? check static
-
-            Class<?> fieldType = field.getType();
-            if (fieldType.isPrimitive()){
-                new PrimitiveVisitedElement(field, instance).accept(visitor);
-            }
-            //< ? object
-            //< ? array
-            //< ? collections
-        }
-
-//        //<
-//        System.out.println(this.instance.getClass().getName());
-//
-////        EV1 ev1 = (EV1) this.instance;
-//
-//        for (Field declaredField : this.instance.getClass().getDeclaredFields()) {
-//            System.out.println(declaredField);
-//        }
+        //<
+        System.out.println(visitor.getJsonString());
     }
 
     /**

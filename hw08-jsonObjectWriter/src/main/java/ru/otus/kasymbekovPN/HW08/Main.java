@@ -5,13 +5,15 @@ import ru.otus.kasymbekovPN.HW08.experimentVictims.EV1;
 import ru.otus.kasymbekovPN.HW08.javaObjectWriter.JavaObjectWriterImpl;
 
 public class Main {
+
+    //< строки как перечисления !!!!!
+
+    static private String OFFSET = "  ";
+
     public static void main(String[] args){
 
         //<
-        System.out.println("Hello111");
-
-        //<
-        new JavaObjectWriterImpl(new EV1());
+        new JavaObjectWriterImpl(new EV1(), OFFSET);
 
 //        Gson gson = new Gson();
 //        final A a = new A(10, 100);
