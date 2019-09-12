@@ -1,6 +1,5 @@
 package ru.otus.kasymbekovPN.HW08.javaObjectWriter;
 
-import java.lang.reflect.Field;
 import java.util.Optional;
 
 public class VisitorImpl implements Visitor, JsonFormat {
@@ -22,31 +21,35 @@ public class VisitorImpl implements Visitor, JsonFormat {
     }
 
     @Override
-    public void visit(ObjectVisitedElement objectVisitedElement) {
+    public void visit(ObjectVisitedElement objectVisitedElement) throws IllegalAccessException {
 
-        //< !!! name : {}
+        var fieldName = objectVisitedElement.getFieldName();
 
-        openBrace();
+        if (objectVisitedElement.instanceNotNull()){
+            fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
 
-        objectVisitedElement.traverse(this);
-
-        closeBrace();
+            jsonString.append(Txt.OPEN_BRACE.get());
+            objectVisitedElement.traverse(this);
+            jsonString.append(Txt.CLOSE_BRACE.get());
+        } else {
+            fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
+        }
     }
 
     public void addDelimiter(){
-        jsonString.append(",");
+        jsonString.append(Txt.COMMA.get());
     }
 
     //< interface ???
     @Override
     public void openBrace() {
-        jsonString.append("{");
+        jsonString.append(Txt.OPEN_BRACE.get());
     }
 
     //< interface ???
     @Override
     public void closeBrace() {
-        jsonString.append("}");
+        jsonString.append(Txt.CLOSE_BRACE.get());
     }
 
     //< interface

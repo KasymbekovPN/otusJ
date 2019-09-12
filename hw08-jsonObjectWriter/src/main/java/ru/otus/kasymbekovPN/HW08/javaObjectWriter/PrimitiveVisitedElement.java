@@ -24,7 +24,7 @@ public class PrimitiveVisitedElement implements VisitedElement {
 
     public Optional<String> getLine(){
         Optional<String> res = Optional.empty();
-        StringBuilder line = new StringBuilder(field.getName()).append(":");
+        StringBuilder line = new StringBuilder(field.getName()).append(Txt.COLON.get());
 
         fillClDummy();
 

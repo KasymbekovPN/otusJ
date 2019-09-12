@@ -9,4 +9,9 @@ public class EV1 {
     private double d;
     private boolean bo;
     private char c = '1';
+
+    private EV2 ev2 = new EV2();
+    private EV2 nEv2;
+
+    private int[] arrI = new int[]{0, 1, 2};
 }

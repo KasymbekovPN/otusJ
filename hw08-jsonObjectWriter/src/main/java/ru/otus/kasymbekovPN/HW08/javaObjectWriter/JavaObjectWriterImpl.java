@@ -17,7 +17,7 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
      */
     private Object instance;
 
-    public JavaObjectWriterImpl(Object instance, String offset) {
+    public JavaObjectWriterImpl(Object instance, String offset) throws IllegalAccessException {
         this.instance = instance;
 
         VisitorImpl visitor = new VisitorImpl(offset);

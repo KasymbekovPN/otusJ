@@ -10,7 +10,7 @@ public class Main {
 
     static private String OFFSET = "  ";
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IllegalAccessException {
 
         //<
         new JavaObjectWriterImpl(new EV1(), OFFSET);
