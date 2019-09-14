@@ -20,6 +20,7 @@ public class VisitorImpl implements Visitor, JsonFormat {
         line.ifPresent(s -> jsonString.append(s));
     }
 
+    //< обобщить с ArrayVisitedElement
     @Override
     public void visit(ObjectVisitedElement objectVisitedElement) throws IllegalAccessException {
 
@@ -31,6 +32,41 @@ public class VisitorImpl implements Visitor, JsonFormat {
             jsonString.append(Txt.OPEN_BRACE.get());
             objectVisitedElement.traverse(this);
             jsonString.append(Txt.CLOSE_BRACE.get());
+        } else {
+            fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
+        }
+    }
+
+    //< обобщить с ObjectVisitedElement
+    @Override
+    public void visit(ArrayVisitedElement arrayVisitedElement) throws IllegalAccessException {
+        var fieldName = arrayVisitedElement.getFieldName();
+        if (arrayVisitedElement.instanceNotNull()){
+            fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
+
+            jsonString.append(Txt.OPEN_SQ_BRACKET.get());
+            arrayVisitedElement.traverse(this);
+            jsonString.append(Txt.CLOSE_SQ_BRACKET.get());
+        } else {
+            fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
+        }
+    }
+
+    @Override
+    public void visit(ArPrimitiveVisitedElement arPrimitiveVisitedElement) {
+        final Optional<String> line = arPrimitiveVisitedElement.getLine();
+        line.ifPresent(s -> jsonString.append(s));
+    }
+
+    @Override
+    public void visit(CollectionVisitedElement collectionVisitedElement) throws IllegalAccessException {
+        var fieldName = collectionVisitedElement.getFieldName();
+        if (collectionVisitedElement.instanceNotNull()){
+            fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
+
+            jsonString.append(Txt.OPEN_SQ_BRACKET.get());
+            collectionVisitedElement.traverse(this);
+            jsonString.append(Txt.CLOSE_SQ_BRACKET.get());
         } else {
             fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
         }

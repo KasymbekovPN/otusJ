@@ -6,7 +6,9 @@ public enum Txt {
     COMMA(","),
     NULL("null"),
     OPEN_BRACE("{"),
-    CLOSE_BRACE("}");
+    CLOSE_BRACE("}"),
+    OPEN_SQ_BRACKET("["),
+    CLOSE_SQ_BRACKET("]");
 
     private String value;
 

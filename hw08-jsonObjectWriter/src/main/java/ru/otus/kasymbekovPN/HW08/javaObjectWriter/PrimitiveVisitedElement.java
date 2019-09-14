@@ -12,7 +12,7 @@ public class PrimitiveVisitedElement implements VisitedElement {
     private Field field;
     private Object instance;
 
-    public PrimitiveVisitedElement(Field field, Object instance) {
+    PrimitiveVisitedElement(Field field, Object instance) {
         this.field = field;
         this.instance = instance;
     }
@@ -22,9 +22,13 @@ public class PrimitiveVisitedElement implements VisitedElement {
         visitor.visit(this);
     }
 
-    public Optional<String> getLine(){
+    Optional<String> getLine(){
         Optional<String> res = Optional.empty();
-        StringBuilder line = new StringBuilder(field.getName()).append(Txt.COLON.get());
+
+        StringBuilder line = new StringBuilder();
+        if (field != null){
+            line.append(field.getName()).append(Txt.COLON.get());
+        }
 
         fillClDummy();
 
