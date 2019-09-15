@@ -17,15 +17,19 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
      */
     private Object instance;
 
-    public JavaObjectWriterImpl(Object instance, String offset) throws IllegalAccessException {
+    private String jsonString;
+
+    public JavaObjectWriterImpl(Object instance, String offset) throws IllegalAccessException, NoSuchFieldException {
         this.instance = instance;
 
         VisitorImpl visitor = new VisitorImpl(offset);
         var o = new ObjectVisitedElement(null, instance);
         o.accept(visitor);
 
+        this.jsonString = visitor.getJsonString().toString();
+
         //<
-        System.out.println(visitor.getJsonString());
+//        System.out.println(visitor.getJsonString());
     }
 
     /**
@@ -35,5 +39,9 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
     @Override
     public String getObjectAsJsonStr() {
         return null;
+    }
+
+    public String getJsonString() {
+        return jsonString;
     }
 }

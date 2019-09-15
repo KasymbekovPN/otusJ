@@ -4,16 +4,32 @@ import com.google.gson.Gson;
 import ru.otus.kasymbekovPN.HW08.experimentVictims.EV1;
 import ru.otus.kasymbekovPN.HW08.javaObjectWriter.JavaObjectWriterImpl;
 
+
 public class Main {
 
     //< строки как перечисления !!!!!
 
     static private String OFFSET = "  ";
 
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, NoSuchFieldException {
 
-        //<
-        new JavaObjectWriterImpl(new EV1(), OFFSET);
+        final EV1 original = new EV1();
+        var jsonString = new JavaObjectWriterImpl(original, OFFSET).getJsonString();
+
+        System.out.println(original);
+
+        EV1 restored = new Gson().fromJson(jsonString, EV1.class);
+
+        System.out.println(restored);
+
+        System.out.println(original.equals(restored));
+
+//        final Gson gson = new Gson();
+//        final EV1 ev1 = new EV1();
+//        final String s = gson.toJson(ev1);
+//        System.out.println(s);
+
+
 
 //        Gson gson = new Gson();
 //        final A a = new A(10, 100);

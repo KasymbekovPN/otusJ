@@ -8,47 +8,41 @@ public class VisitorImpl implements Visitor, JsonFormat {
     private String offset;
     private int offsetCounter;
 
-    public VisitorImpl(String offset) {
+    VisitorImpl(String offset) {
         this.offset = offset;
         this.offsetCounter = 0;
         this.jsonString = new StringBuilder();
     }
 
     @Override
-    public void visit(PrimitiveVisitedElement primitiveVisitedElement){
+    public void visit(PrimitiveVisitedElement primitiveVisitedElement) throws NoSuchFieldException, IllegalAccessException {
         final Optional<String> line = primitiveVisitedElement.getLine();
         line.ifPresent(s -> jsonString.append(s));
     }
 
     //< обобщить с ArrayVisitedElement
     @Override
-    public void visit(ObjectVisitedElement objectVisitedElement) throws IllegalAccessException {
-
-        var fieldName = objectVisitedElement.getFieldName();
-
+    public void visit(ObjectVisitedElement objectVisitedElement) throws IllegalAccessException, NoSuchFieldException {
         if (objectVisitedElement.instanceNotNull()){
+            var fieldName = objectVisitedElement.getFieldName();
             fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
 
             jsonString.append(Txt.OPEN_BRACE.get());
             objectVisitedElement.traverse(this);
             jsonString.append(Txt.CLOSE_BRACE.get());
-        } else {
-            fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
         }
     }
 
     //< обобщить с ObjectVisitedElement
     @Override
-    public void visit(ArrayVisitedElement arrayVisitedElement) throws IllegalAccessException {
-        var fieldName = arrayVisitedElement.getFieldName();
+    public void visit(ArrayVisitedElement arrayVisitedElement) throws IllegalAccessException, NoSuchFieldException {
         if (arrayVisitedElement.instanceNotNull()){
+            var fieldName = arrayVisitedElement.getFieldName();
             fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
 
             jsonString.append(Txt.OPEN_SQ_BRACKET.get());
             arrayVisitedElement.traverse(this);
             jsonString.append(Txt.CLOSE_SQ_BRACKET.get());
-        } else {
-            fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
         }
     }
 
@@ -59,20 +53,29 @@ public class VisitorImpl implements Visitor, JsonFormat {
     }
 
     @Override
-    public void visit(CollectionVisitedElement collectionVisitedElement) throws IllegalAccessException {
-        var fieldName = collectionVisitedElement.getFieldName();
+    public void visit(CollectionVisitedElement collectionVisitedElement) throws IllegalAccessException, NoSuchFieldException {
         if (collectionVisitedElement.instanceNotNull()){
+            var fieldName = collectionVisitedElement.getFieldName();
             fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
 
             jsonString.append(Txt.OPEN_SQ_BRACKET.get());
             collectionVisitedElement.traverse(this);
             jsonString.append(Txt.CLOSE_SQ_BRACKET.get());
-        } else {
-            fieldName.ifPresent(s->jsonString.append(s).append(Txt.COLON.get()).append(Txt.NULL.get()));
         }
     }
 
-    public void addDelimiter(){
+    @Override
+    public void visit(CharSequenceVE charSequenceVE) {
+        Optional<String> line = charSequenceVE.getLine();
+        line.ifPresent(s->jsonString.append(s));
+    }
+
+    @Override
+    public void visit(NullVE nullVE) {
+        jsonString.append(Txt.NULL.get());
+    }
+
+    void addDelimiter(){
         jsonString.append(Txt.COMMA.get());
     }
 
@@ -89,7 +92,7 @@ public class VisitorImpl implements Visitor, JsonFormat {
     }
 
     //< interface
-    public StringBuilder getJsonString(){
+    StringBuilder getJsonString(){
         return jsonString;
     }
 }

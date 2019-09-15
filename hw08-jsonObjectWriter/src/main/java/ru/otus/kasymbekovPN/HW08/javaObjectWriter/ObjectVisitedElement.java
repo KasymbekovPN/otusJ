@@ -11,11 +11,11 @@ public class ObjectVisitedElement extends ComplexDataVisitedElement implements V
     }
 
     @Override
-    public void accept(Visitor visitor) throws IllegalAccessException {
+    public void accept(Visitor visitor) throws IllegalAccessException, NoSuchFieldException {
         visitor.visit(this);
     }
 
-    void traverse(Visitor visitor) throws IllegalAccessException {
+    void traverse(Visitor visitor) throws IllegalAccessException, NoSuchFieldException {
         if (instance != null){
             Field[] fields = instance.getClass().getDeclaredFields();
 
@@ -26,7 +26,9 @@ public class ObjectVisitedElement extends ComplexDataVisitedElement implements V
                 if (Modifier.isStatic(f.getModifiers()))
                     continue;
 
-                first = addDelimiter(first, visitor);
+                Object instanceForVE = f.get(instance);
+
+                first = addDelimiter(first, visitor, instanceForVE == null);
 
                 Class<?> type = f.getType();
                 Set<Class> interfaces = new HashSet<>(Arrays.asList(type.getInterfaces()));
@@ -34,11 +36,13 @@ public class ObjectVisitedElement extends ComplexDataVisitedElement implements V
                 if (type.isPrimitive()) {
                     new PrimitiveVisitedElement(f, instance).accept(visitor);
                 } else if (type.isArray()) {
-                    new ArrayVisitedElement(f, f.get(instance)).accept(visitor);
+                    new ArrayVisitedElement(f, instanceForVE).accept(visitor);
                 } else if (interfaces.contains(Collection.class)) {
-                    new CollectionVisitedElement(f, (Collection) f.get(instance)).accept(visitor);
+                    new CollectionVisitedElement(f, (Collection) instanceForVE).accept(visitor);
+                } else if (interfaces.contains(CharSequence.class)) {
+                    new CharSequenceVE(f, instanceForVE).accept(visitor);
                 } else {
-                    new ObjectVisitedElement(f, f.get(instance)).accept(visitor);
+                    new ObjectVisitedElement(f, instanceForVE).accept(visitor);
                 }
             }
         }

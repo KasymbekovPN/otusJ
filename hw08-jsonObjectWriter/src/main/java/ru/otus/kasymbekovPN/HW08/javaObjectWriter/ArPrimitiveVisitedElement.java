@@ -19,8 +19,9 @@ public class ArPrimitiveVisitedElement implements VisitedElement {
         Optional<String> res = Optional.empty();
 
         if (instance.getClass().equals(Character.class)){
-            char ch = (Character) instance;
-            res = Optional.of(String.valueOf((int)ch));
+//            char ch = (Character) instance;
+//            res = Optional.of(String.valueOf((int)ch));
+            res = Optional.of(String.valueOf(Txt.DOUBLE_QUOTE.get() + (Character)instance) + Txt.DOUBLE_QUOTE.get());
         } else {
             res = Optional.of(instance.toString());
         }

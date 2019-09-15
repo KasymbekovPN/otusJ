@@ -8,7 +8,8 @@ public enum Txt {
     OPEN_BRACE("{"),
     CLOSE_BRACE("}"),
     OPEN_SQ_BRACKET("["),
-    CLOSE_SQ_BRACKET("]");
+    CLOSE_SQ_BRACKET("]"),
+    DOUBLE_QUOTE("\"");
 
     private String value;
 
