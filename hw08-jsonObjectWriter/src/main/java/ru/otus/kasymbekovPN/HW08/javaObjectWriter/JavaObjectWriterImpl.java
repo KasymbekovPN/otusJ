@@ -1,35 +1,29 @@
 package ru.otus.kasymbekovPN.HW08.javaObjectWriter;
 
-import ru.otus.kasymbekovPN.HW08.experimentVictims.EV1;
-
-import javax.print.DocFlavor;
-import java.lang.reflect.Field;
-import java.util.Arrays;
+import ru.otus.kasymbekovPN.HW08.visitedElement.ObjectVE;
+import ru.otus.kasymbekovPN.HW08.visitor.VisitorImpl;
 
 /**
  * Класс, реализующий функционал сериализации инстанса
- * объекта в json-формат
+ * объекта в json-строку
  */
 public class JavaObjectWriterImpl implements JavaObjectWriter {
 
     /**
-     * Сериализуемый объект
+     * Json-строка - результат сериализации.
      */
-    private Object instance;
-
     private String jsonString;
 
-    public JavaObjectWriterImpl(Object instance, String offset) throws IllegalAccessException, NoSuchFieldException {
-        this.instance = instance;
-
-        VisitorImpl visitor = new VisitorImpl(offset);
-        var o = new ObjectVisitedElement(null, instance);
+    /**
+     * Конструктор
+     * @param instance инстанс, сериализуемого объекта
+     */
+    public JavaObjectWriterImpl(Object instance) throws IllegalAccessException, NoSuchFieldException {
+        VisitorImpl visitor = new VisitorImpl();
+        var o = new ObjectVE(null, instance);
         o.accept(visitor);
 
         this.jsonString = visitor.getJsonString().toString();
-
-        //<
-//        System.out.println(visitor.getJsonString());
     }
 
     /**
@@ -38,10 +32,6 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
      */
     @Override
     public String getObjectAsJsonStr() {
-        return null;
-    }
-
-    public String getJsonString() {
         return jsonString;
     }
 }

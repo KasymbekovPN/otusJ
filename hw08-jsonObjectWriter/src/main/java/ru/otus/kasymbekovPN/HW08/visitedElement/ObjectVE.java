@@ -1,21 +1,42 @@
-package ru.otus.kasymbekovPN.HW08.javaObjectWriter;
+package ru.otus.kasymbekovPN.HW08.visitedElement;
+
+import ru.otus.kasymbekovPN.HW08.visitor.Visitor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
-public class ObjectVisitedElement extends ComplexDataVisitedElement implements VisitedElement {
+/**
+ * Класс, реализующий функционал "объект как посещаемый
+ * элемента"
+ *
+ * VE - visited element
+ */
+public class ObjectVE extends ComplexDataVE implements VisitedElement {
 
-    ObjectVisitedElement(Field field, Object instance) {
+    /**
+     * Конструктор
+     * @param field поле, посещаемого объекта
+     * @param instance инстанс, посещаемого объекта
+     */
+    public ObjectVE(Field field, Object instance) {
         super(field, instance);
     }
 
+    /**
+     * Метод, принимающий визитор
+     * @param visitor визитор
+     */
     @Override
     public void accept(Visitor visitor) throws IllegalAccessException, NoSuchFieldException {
         visitor.visit(this);
     }
 
-    void traverse(Visitor visitor) throws IllegalAccessException, NoSuchFieldException {
+    /**
+     * Обход объекта
+     * @param visitor визитор
+     */
+    public void traverse(Visitor visitor) throws IllegalAccessException, NoSuchFieldException {
         if (instance != null){
             Field[] fields = instance.getClass().getDeclaredFields();
 
@@ -34,15 +55,15 @@ public class ObjectVisitedElement extends ComplexDataVisitedElement implements V
                 Set<Class> interfaces = new HashSet<>(Arrays.asList(type.getInterfaces()));
 
                 if (type.isPrimitive()) {
-                    new PrimitiveVisitedElement(f, instance).accept(visitor);
+                    new PrimitiveVE(f, instanceForVE).accept(visitor);
                 } else if (type.isArray()) {
-                    new ArrayVisitedElement(f, instanceForVE).accept(visitor);
+                    new ArrayVE(f, instanceForVE).accept(visitor);
                 } else if (interfaces.contains(Collection.class)) {
-                    new CollectionVisitedElement(f, (Collection) instanceForVE).accept(visitor);
+                    new CollectionVE(f, (Collection) instanceForVE).accept(visitor);
                 } else if (interfaces.contains(CharSequence.class)) {
                     new CharSequenceVE(f, instanceForVE).accept(visitor);
                 } else {
-                    new ObjectVisitedElement(f, instanceForVE).accept(visitor);
+                    new ObjectVE(f, instanceForVE).accept(visitor);
                 }
             }
         }

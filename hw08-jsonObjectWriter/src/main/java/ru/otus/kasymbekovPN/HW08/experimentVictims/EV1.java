@@ -1,6 +1,6 @@
 package ru.otus.kasymbekovPN.HW08.experimentVictims;
 
-import ru.otus.kasymbekovPN.HW08.javaObjectWriter.Txt;
+import ru.otus.kasymbekovPN.HW08.utils.Txt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
