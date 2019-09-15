@@ -1,7 +1,12 @@
 package ru.otus.kasymbekovPN.HW08.javaObjectWriter;
 
-import ru.otus.kasymbekovPN.HW08.visitedElement.ObjectVE;
+import ru.otus.kasymbekovPN.HW08.visitedElement.*;
 import ru.otus.kasymbekovPN.HW08.visitor.VisitorImpl;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Класс, реализующий функционал сериализации инстанса
@@ -19,11 +24,20 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
      * @param instance инстанс, сериализуемого объекта
      */
     public JavaObjectWriterImpl(Object instance) throws IllegalAccessException, NoSuchFieldException {
-        VisitorImpl visitor = new VisitorImpl();
-        var o = new ObjectVE(null, instance);
-        o.accept(visitor);
+        Class<?> type = instance.getClass();
+        Set<Class> interfaces = new HashSet<>(Arrays.asList(type.getInterfaces()));
 
-        this.jsonString = visitor.getJsonString().toString();
+        if (!type.isPrimitive() &&
+            !type.isArray() &&
+            !interfaces.contains(Collection.class) &&
+            !interfaces.contains(CharSequence.class)){
+
+            VisitorImpl visitor = new VisitorImpl();
+            var o = new ObjectVE(null, instance);
+            o.accept(visitor);
+
+            this.jsonString = visitor.getJsonString().toString();
+        }
     }
 
     /**
