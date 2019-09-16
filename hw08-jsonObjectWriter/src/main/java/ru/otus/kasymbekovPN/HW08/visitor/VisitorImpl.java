@@ -29,12 +29,25 @@ public class VisitorImpl implements Visitor {
     @Override
     public void visit(ObjectVE objectVisitedElement) throws IllegalAccessException, NoSuchFieldException {
         if (objectVisitedElement.instanceNotNull()){
+
             var fieldName = objectVisitedElement.getFieldName();
             fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
 
-            jsonString.append(Txt.OPEN_BRACE.get());
-            objectVisitedElement.traverse(this);
-            jsonString.append(Txt.CLOSE_BRACE.get());
+            if (objectVisitedElement.needTraverse()){
+                jsonString.append(Txt.OPEN_BRACE.get());
+                objectVisitedElement.traverse(this);
+                jsonString.append(Txt.CLOSE_BRACE.get());
+            } else {
+                jsonString.append(objectVisitedElement.getLine());
+            }
+
+            //<
+//            var fieldName = objectVisitedElement.getFieldName();
+//            fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
+//
+//            jsonString.append(Txt.OPEN_BRACE.get());
+//            objectVisitedElement.traverse(this);
+//            jsonString.append(Txt.CLOSE_BRACE.get());
         }
     }
 

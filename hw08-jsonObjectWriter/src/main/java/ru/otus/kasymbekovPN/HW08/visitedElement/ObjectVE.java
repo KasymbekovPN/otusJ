@@ -15,12 +15,28 @@ import java.util.*;
 public class ObjectVE extends ComplexDataVE implements VisitedElement {
 
     /**
+     * Интерфейсы сериализуемого истанса
+     */
+    private Set<Class> instanceInterfaces;
+
+    /**
      * Конструктор
      * @param field поле, посещаемого объекта
      * @param instance инстанс, посещаемого объекта
      */
     public ObjectVE(Field field, Object instance) {
         super(field, instance);
+
+        //<
+//        System.out.println(instance.getClass());
+//        final Class<?>[] interfaces = instance.getClass().getInterfaces();
+//        for (Class<?> anInterface : interfaces) {
+//            System.out.println(anInterface);
+//        }
+//
+//        System.out.println(instance instanceof Number);
+
+        instanceInterfaces = new HashSet<>(Arrays.asList(instance.getClass().getInterfaces()));
     }
 
     /**
@@ -67,5 +83,22 @@ public class ObjectVE extends ComplexDataVE implements VisitedElement {
                 }
             }
         }
+    }
+
+    public String getLine(){
+        return String.valueOf(instance);
+    }
+
+    public boolean needTraverse(){
+
+        if (instance instanceof Number)
+            return false;
+
+        return true;
+
+        //<
+//        System.out.println(instanceInterfaces);
+
+//        return !instanceInterfaces.contains(Number.class);
     }
 }

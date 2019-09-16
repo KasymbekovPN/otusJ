@@ -24,20 +24,39 @@ public class JavaObjectWriterImpl implements JavaObjectWriter {
      * @param instance инстанс, сериализуемого объекта
      */
     public JavaObjectWriterImpl(Object instance) throws IllegalAccessException, NoSuchFieldException {
-        Class<?> type = instance.getClass();
-        Set<Class> interfaces = new HashSet<>(Arrays.asList(type.getInterfaces()));
+        if (null == instance)
+            jsonString = "null";
+        else
+            fillJsonStr(instance);
 
-        if (!type.isPrimitive() &&
-            !type.isArray() &&
-            !interfaces.contains(Collection.class) &&
-            !interfaces.contains(CharSequence.class)){
 
-            VisitorImpl visitor = new VisitorImpl();
-            var o = new ObjectVE(null, instance);
-            o.accept(visitor);
+//<
+//        Class<?> type = instance.getClass();
+//        Set<Class> interfaces = new HashSet<>(Arrays.asList(type.getInterfaces()));
+//
+//        if (!type.isPrimitive() &&
+//            !type.isArray() &&
+//            !interfaces.contains(Collection.class) &&
+//            !interfaces.contains(CharSequence.class)){
+//
+//            VisitorImpl visitor = new VisitorImpl();
+//            var o = new ObjectVE(null, instance);
+//            o.accept(visitor);
+//
+//            this.jsonString = visitor.getJsonString().toString();
+//        }
+    }
 
-            this.jsonString = visitor.getJsonString().toString();
-        }
+    /**
+     * Сериализация объекта не равного null в json
+     * @param instance инстанс объекта
+     */
+    private void fillJsonStr(Object instance) throws NoSuchFieldException, IllegalAccessException {
+        VisitorImpl visitor = new VisitorImpl();
+        var o = new ObjectVE(null, instance);
+        o.accept(visitor);
+
+        this.jsonString = visitor.getJsonString().toString();
     }
 
     /**

@@ -18,4 +18,22 @@ class JavaObjectWriterImplTest {
         assertEquals(original, restored);
     }
 
+//    @Test
+//    void customTest() throws NoSuchFieldException, IllegalAccessException {
+//        Gson gson = new GsonBuilder().serializeNulls().create();
+//        assertEquals(gson.toJson(null), new JavaObjectWriterImpl(null).getObjectAsJsonStr());
+//        assertEquals(gson.toJson((byte)1), new JavaObjectWriterImpl((byte)1).getObjectAsJsonStr());
+//        assertEquals(gson.toJson((short)1f), new JavaObjectWriterImpl((short)1f).getObjectAsJsonStr());
+//        assertEquals(gson.toJson(1), new JavaObjectWriterImpl(1).getObjectAsJsonStr());
+//        assertEquals(gson.toJson(1L), new JavaObjectWriterImpl(1L).getObjectAsJsonStr());
+//        assertEquals(gson.toJson(1f), new JavaObjectWriterImpl(1f).getObjectAsJsonStr());
+//        assertEquals(gson.toJson(1d), new JavaObjectWriterImpl(1d).getObjectAsJsonStr());
+//        assertEquals(gson.toJson("aaa"), new JavaObjectWriterImpl("aaa").getObjectAsJsonStr());
+//        assertEquals(gson.toJson('a'), new JavaObjectWriterImpl('a').getObjectAsJsonStr());
+//        assertEquals(gson.toJson(new int[] {1, 2, 3}), new JavaObjectWriterImpl(new int[] {1, 2, 3}).getObjectAsJsonStr());
+//        assertEquals(gson.toJson(List.of(1, 2 ,3)), new JavaObjectWriterImpl(List.of(1, 2 ,3)).getObjectAsJsonStr());
+//        assertEquals(gson.toJson(Collections.singletonList(1)), new JavaObjectWriterImpl(Collections.singletonList(1)).getObjectAsJsonStr());
+//
+//    }
+
 }
