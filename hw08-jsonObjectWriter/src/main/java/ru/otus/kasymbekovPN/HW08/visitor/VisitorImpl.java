@@ -33,21 +33,14 @@ public class VisitorImpl implements Visitor {
             var fieldName = objectVisitedElement.getFieldName();
             fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
 
-            if (objectVisitedElement.needTraverse()){
+            Optional<String> simpleLine = objectVisitedElement.getSimpleLine();
+            if (simpleLine.isPresent()){
+                jsonString.append(simpleLine.get());
+            } else {
                 jsonString.append(Txt.OPEN_BRACE.get());
                 objectVisitedElement.traverse(this);
                 jsonString.append(Txt.CLOSE_BRACE.get());
-            } else {
-                jsonString.append(objectVisitedElement.getLine());
             }
-
-            //<
-//            var fieldName = objectVisitedElement.getFieldName();
-//            fieldName.ifPresent(s -> jsonString.append(s).append(Txt.COLON.get()));
-//
-//            jsonString.append(Txt.OPEN_BRACE.get());
-//            objectVisitedElement.traverse(this);
-//            jsonString.append(Txt.CLOSE_BRACE.get());
         }
     }
 

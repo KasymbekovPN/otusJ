@@ -1,10 +1,12 @@
 package ru.otus.kasymbekovPN.HW08.visitedElement;
 
+import ru.otus.kasymbekovPN.HW08.utils.Txt;
 import ru.otus.kasymbekovPN.HW08.visitor.Visitor;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Класс, реализующий функционал "объект как посещаемый
@@ -13,6 +15,9 @@ import java.util.*;
  * VE - visited element
  */
 public class ObjectVE extends ComplexDataVE implements VisitedElement {
+
+    private static Class listNClass;
+    private static Class singletonListClass;
 
     /**
      * Интерфейсы сериализуемого истанса
@@ -27,16 +32,8 @@ public class ObjectVE extends ComplexDataVE implements VisitedElement {
     public ObjectVE(Field field, Object instance) {
         super(field, instance);
 
-        //<
-//        System.out.println(instance.getClass());
-//        final Class<?>[] interfaces = instance.getClass().getInterfaces();
-//        for (Class<?> anInterface : interfaces) {
-//            System.out.println(anInterface);
-//        }
-//
-//        System.out.println(instance instanceof Number);
-
-        instanceInterfaces = new HashSet<>(Arrays.asList(instance.getClass().getInterfaces()));
+        if (instance != null)
+            instanceInterfaces = new HashSet<>(Arrays.asList(instance.getClass().getInterfaces()));
     }
 
     /**
@@ -85,20 +82,24 @@ public class ObjectVE extends ComplexDataVE implements VisitedElement {
         }
     }
 
-    public String getLine(){
-        return String.valueOf(instance);
-    }
+    public Optional<String> getSimpleLine(){
 
-    public boolean needTraverse(){
+        if (listNClass == null)
+            listNClass = List.of(1,2,3).getClass();
+        if (singletonListClass == null)
+            singletonListClass = Collections.singletonList(1).getClass();
 
         if (instance instanceof Number)
-            return false;
-
-        return true;
-
-        //<
-//        System.out.println(instanceInterfaces);
-
-//        return !instanceInterfaces.contains(Number.class);
+            return Optional.of(instance.toString());
+        else if (instance instanceof Character || instanceInterfaces.contains(CharSequence.class))
+            return Optional.of(Txt.DOUBLE_QUOTE.get() + instance.toString() + Txt.DOUBLE_QUOTE.get());
+        else if (instance.getClass().equals(listNClass) || instance.getClass().equals(singletonListClass))
+            return Optional.of(instance.toString().replace(" ", ""));
+        else if (instance instanceof int[]){
+            return Optional.of(
+                    Arrays.stream((int[])instance).boxed().collect(Collectors.toList()).toString().replace(" ", "")
+            );
+        } else
+            return Optional.empty();
     }
 }
