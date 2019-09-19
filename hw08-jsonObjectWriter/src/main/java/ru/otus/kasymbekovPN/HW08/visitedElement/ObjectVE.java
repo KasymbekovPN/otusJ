@@ -16,9 +16,6 @@ import java.util.stream.Collectors;
  */
 public class ObjectVE extends ComplexDataVE implements VisitedElement {
 
-    private static Class listNClass;
-    private static Class singletonListClass;
-
     /**
      * Интерфейсы сериализуемого истанса
      */
@@ -83,23 +80,16 @@ public class ObjectVE extends ComplexDataVE implements VisitedElement {
     }
 
     public Optional<String> getSimpleLine(){
-
-        if (listNClass == null)
-            listNClass = List.of(1,2,3).getClass();
-        if (singletonListClass == null)
-            singletonListClass = Collections.singletonList(1).getClass();
-
-        if (instance instanceof Number)
+        if (Number.class.isAssignableFrom(instance.getClass()))
             return Optional.of(instance.toString());
-        else if (instance instanceof Character || instanceInterfaces.contains(CharSequence.class))
+        else if (Character.class.isAssignableFrom(instance.getClass()) || instanceInterfaces.contains(CharSequence.class))
             return Optional.of(Txt.DOUBLE_QUOTE.get() + instance.toString() + Txt.DOUBLE_QUOTE.get());
-        else if (instance.getClass().equals(listNClass) || instance.getClass().equals(singletonListClass))
+        else if (List.class.isAssignableFrom(instance.getClass()))
             return Optional.of(instance.toString().replace(" ", ""));
-        else if (instance instanceof int[]){
+        else if (int[].class.isAssignableFrom(instance.getClass()))
             return Optional.of(
                     Arrays.stream((int[])instance).boxed().collect(Collectors.toList()).toString().replace(" ", "")
             );
-        } else
-            return Optional.empty();
+        return Optional.empty();
     }
 }
