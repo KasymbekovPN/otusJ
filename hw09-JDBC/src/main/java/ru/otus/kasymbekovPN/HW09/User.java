@@ -2,7 +2,7 @@ package ru.otus.kasymbekovPN.HW09;
 
 public class User {
 
-    //< задавать через рефлексию
+    //< задавать через рефлексию ???
     @Id
     private long id = -1;
 

@@ -2,6 +2,8 @@ package ru.otus.kasymbekovPN.HW09.jdbc.executor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.kasymbekovPN.HW09.PreparedInstanceData;
+import ru.otus.kasymbekovPN.HW09.PreparedInstanceDataImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,15 +14,39 @@ public class DBExecutorImpl<T> implements DBExecutor<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(DBExecutorImpl.class);
 
-    static private Set<Class> tableExistingSet = new HashSet<>();
+    static private Map<Class, PreparedInstanceData> existingMap = new HashMap<>();
+    //<
+//    static private Set<Class> tableExistingSet = new HashSet<>();
+    static private Set<Class> notContainIdSet = new HashSet<>();
 
     @Override
-    public void createRecord(T instance, Connection connection) {
-        System.out.println("createRecord");
-        logger.info("{}", this.getClass());
-
+    public void createRecord(T instance, Connection connection) throws IllegalAccessException {
+//        System.out.println("createRecord");
+//        logger.info("{}", this.getClass());
+//        var type = instance.getClass();
+//        System.out.println(type);
+        //<
         var type = instance.getClass();
-        System.out.println(type);
+        if (!notContainIdSet.contains(type)){
+
+            if (!existingMap.containsKey(type)){
+                PreparedInstanceData preparedInstanceData = new PreparedInstanceDataImpl(instance);
+                if (preparedInstanceData.isValidType()){
+                    existingMap.put(type, preparedInstanceData);
+                } else {
+                    notContainIdSet.add(type);
+                }
+            }
+
+            if (existingMap.containsKey(type)){
+                //< !!! create record
+            } else {
+                //< ??? action ???
+            }
+
+        } else {
+            //< ??? action ???
+        }
     }
 
     @Override
@@ -51,6 +77,8 @@ public class DBExecutorImpl<T> implements DBExecutor<T> {
     private Optional<String> generateCreateTableUrl(T instance){
         return Optional.empty();
     }
+
+
 
 //    private void createTable(DataSource dataSource) throws SQLException {
 //        try(Connection connection = dataSource.getConnection();
