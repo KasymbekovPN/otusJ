@@ -3,15 +3,13 @@ package ru.otus.kasymbekovPN.HW09;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public class PrimitiveVE implements VisitedElement {
+public class PrimitiveVE implements VisitedElement, VisitedElementData {
+    private Field field;
     private String type;
-    private String name;
-    private Annotation[] annotations;
     private boolean badType;
 
     public PrimitiveVE(Field field, Object instance) {
-        this.name = field.getName();
-        this.annotations = field.getAnnotations();
+        this.field = field;
         this.badType = false;
         this.type = makeType(instance);
     }
@@ -20,9 +18,9 @@ public class PrimitiveVE implements VisitedElement {
         String res = "";
         var instanceType = instance.getClass();
         if (Integer.class.isAssignableFrom(instanceType)) {
-            res = "int";
+            res = "INT";
         } else if (Long.class.isAssignableFrom(instanceType)){
-            res = "long";
+            res = "LONG";
         } else {
             badType = true;
         }
@@ -35,16 +33,19 @@ public class PrimitiveVE implements VisitedElement {
         visitor.visit(this);
     }
 
+    @Override
     public String getName() {
-        return name;
+        return field.getName();
     }
 
-    public Annotation[] getAnnotations() {
-        return annotations;
-    }
-
+    @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public boolean isAnnotationPresent(Class annotation) {
+        return field.isAnnotationPresent(annotation);
     }
 
     public boolean isBadType() {

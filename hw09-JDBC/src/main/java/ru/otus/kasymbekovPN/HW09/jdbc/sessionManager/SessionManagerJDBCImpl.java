@@ -80,4 +80,5 @@ public class SessionManagerJDBCImpl implements SessionManager {
             throw new SessionManagerException(ex);
         }
     }
+
 }

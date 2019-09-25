@@ -3,16 +3,14 @@ package ru.otus.kasymbekovPN.HW09;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
-public class StringVE implements VisitedElement {
+public class StringVE implements VisitedElement, VisitedElementData {
 
-    static final private String type = "varchar(255)";
+    static final private String type = "VARCHAR(255)";
 
-    private String name;
-    private Annotation[] annotations;
+    private Field field;
 
     public StringVE(Field field, Object instance) {
-        this.name = field.getName();
-        this.annotations = field.getAnnotations();
+        this.field = field;
     }
 
     @Override
@@ -20,15 +18,18 @@ public class StringVE implements VisitedElement {
         visitor.visit(this);
     }
 
+    @Override
     public String getName() {
-        return name;
+        return field.getName();
     }
 
-    public Annotation[] getAnnotations() {
-        return annotations;
-    }
-
+    @Override
     public String getType() {
         return type;
+    }
+
+    @Override
+    public boolean isAnnotationPresent(Class annotation) {
+        return field.isAnnotationPresent(annotation);
     }
 }

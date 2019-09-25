@@ -1,42 +1,61 @@
 package ru.otus.kasymbekovPN.HW09;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-public class VisitorImpl implements Visitor {
+public class VisitorImpl implements Visitor, QueryChunkData {
 
-    //< должен возвращать QueryChunk - ключ
-    //< List<QueryChunk> - поля
+    private List<QueryChunk> keyField;
+    private List<QueryChunk> fields;
+    private boolean isValid;
 
     private Class annotationKey;
 
     public VisitorImpl(Class annotationKey) {
         this.annotationKey = annotationKey;
+        this.keyField = new ArrayList<>();
+        this.fields = new ArrayList<>();
+        this.isValid = true;
     }
 
     @Override
     public void visit(PrimitiveVE primitiveVE) {
-        //<
-        System.out.println("name : " + primitiveVE.getName());
-        System.out.println("type : " + primitiveVE.getType());
-        System.out.println("bad : " + primitiveVE.isBadType());
-        var annotations = primitiveVE.getAnnotations();
-        for (Annotation annotation : annotations) {
-            System.out.println("an : " + annotation);
+        if (!primitiveVE.isBadType()){
+            fill(primitiveVE);
         }
-        System.out.println("---------");
-        //<
     }
 
     @Override
     public void visit(StringVE stringVE) {
-        //<
-        System.out.println("name : " + stringVE.getName());
-        System.out.println("type : " + stringVE.getType());
-        var annotations = stringVE.getAnnotations();
-        for (Annotation annotation : annotations) {
-            System.out.println("an : " + annotation);
+        fill(stringVE);
+    }
+
+    private void fill(VisitedElementData veData){
+        if (veData.isAnnotationPresent(annotationKey)){
+            if (keyField.size() == 0){
+                keyField.add(new QueryChunkImpl(veData.getName(), veData.getType(), true));
+            } else {
+                isValid = false;
+            }
+        } else {
+            fields.add(new QueryChunkImpl(veData.getName(), veData.getType(), false));
         }
-        System.out.println(" ");
-        //<
+    }
+
+    @Override
+    public QueryChunk getKeyField() {
+        return isValid ? keyField.get(0) : null;
+    }
+
+    @Override
+    public List<QueryChunk> getFields() {
+        return isValid ? fields : null;
+    }
+
+    @Override
+    public boolean isValid() {
+        return isValid;
     }
 }
