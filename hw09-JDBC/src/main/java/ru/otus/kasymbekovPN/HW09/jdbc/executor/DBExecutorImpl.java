@@ -5,10 +5,9 @@ import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW09.Pair;
 import ru.otus.kasymbekovPN.HW09.PreparedInstanceData;
 import ru.otus.kasymbekovPN.HW09.PreparedInstanceDataImpl;
+import ru.otus.kasymbekovPN.HW09.Trio;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 public class DBExecutorImpl<T> implements DBExecutor<T> {
@@ -20,13 +19,25 @@ public class DBExecutorImpl<T> implements DBExecutor<T> {
 
     @Override
     public void createRecord(T instance, Connection connection) throws IllegalAccessException, SQLException, NoSuchFieldException {
-        boolean created = checkTableExisting(instance, connection, true);
-        if (created){
+//        boolean created = checkTableExisting(instance, connection, true);
+        if (checkTableExisting(instance, connection, true)){
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
 
-            Pair<String, List<Object>> pair = preparedInstanceData.getInsertUrl(instance);
-            System.out.println(pair.getFirst());
-            System.out.println(pair.getSecond());
+            preparedInstanceData.setInstance(instance);
+            final Trio<String, List<Object>, List<String>> trio = preparedInstanceData.getInsertUrl();
+
+            String sql = trio.getFirst();
+            List<Object> values = trio.getSecond();
+            List<String> names = trio.getThird();
+
+            try(PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+                preparedInstanceData.fillPst(pst, values, names);
+                pst.executeUpdate();
+
+                try(ResultSet rs = pst.getGeneratedKeys()){
+                    preparedInstanceData.setKeyField(rs);
+                }
+            }
         }
     }
 
@@ -36,8 +47,27 @@ public class DBExecutorImpl<T> implements DBExecutor<T> {
     }
 
     @Override
-    public T loadRecord(long id, Class clazz, Connection connection) {
-        return null;
+    public Optional<T> loadRecord(long id, T dummy, Connection connection) throws SQLException, IllegalAccessException, NoSuchFieldException {
+
+        if (checkTableExisting(dummy, connection, false)){
+
+            PreparedInstanceData preparedInstanceData = existingMap.get(dummy.getClass());
+            preparedInstanceData.setInstance(dummy);
+            Pair<String, List<String>> selectSql = preparedInstanceData.getSelectSql();
+
+            String sql = selectSql.getFirst();
+            List<String> names = selectSql.getSecond();
+
+            try(PreparedStatement pst = connection.prepareStatement(sql)){
+                preparedInstanceData.fillPst(pst, List.of((Object)id), List.of("id"));
+                try(ResultSet rs = pst.executeQuery()){
+
+                    return (Optional<T>) Optional.of(preparedInstanceData.fillInstance(rs, names));
+                }
+            }
+        } else {
+            return Optional.empty();
+        }
     }
 
     private boolean checkTableExisting(Object instance, Connection connection, boolean create) throws IllegalAccessException, SQLException {
@@ -74,35 +104,4 @@ public class DBExecutorImpl<T> implements DBExecutor<T> {
             return false;
         }
     }
-
-    //<
-//    private void createTable(T instance, Connection connection){
-//        Optional<String> optUrl = generateCreateTableUrl(instance);
-//        optUrl.ifPresentOrElse((url) -> {
-//            try(connection;
-//                PreparedStatement pst = connection.prepareStatement(url)){
-//
-//                pst.executeUpdate();
-//            } catch (SQLException ex) {
-//                logger.error(ex.getMessage());
-//            }
-//            logger.info("table created");;
-//        },
-//        ()->{logger.error("table wasn't create");});
-//    }
-
-    //<
-//    private Optional<String> generateCreateTableUrl(T instance){
-//        return Optional.empty();
-//    }
-
-
-
-//    private void createTable(DataSource dataSource) throws SQLException {
-//        try(Connection connection = dataSource.getConnection();
-//            PreparedStatement pst = connection.prepareStatement("create table user(id long auto_increment, name varchar(50))")){
-//            pst.executeUpdate();
-//        }
-//        logger.info("table created");
-//    }
 }

@@ -7,6 +7,7 @@ public class QueryChunkImpl implements QueryChunk {
     //<
     private String queryChunk;
     private String name;
+    private String type;
 
     public QueryChunkImpl(String name, String type, boolean isKey) {
 //        this.name = name;
@@ -23,6 +24,7 @@ public class QueryChunkImpl implements QueryChunk {
 
         this.queryChunk = String.valueOf(sb);
         this.name = name;
+        this.type = type;
     }
 
     //<
@@ -49,5 +51,10 @@ public class QueryChunkImpl implements QueryChunk {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 }

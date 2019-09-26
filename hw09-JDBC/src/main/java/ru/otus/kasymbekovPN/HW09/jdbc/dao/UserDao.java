@@ -12,20 +12,28 @@ import ru.otus.kasymbekovPN.HW09.jdbc.sessionManager.SessionManagerJDBCImpl;
 import java.sql.Connection;
 import java.util.Optional;
 
-public class UserDao implements InstanceDao<User> {
+//< rename
+public class UserDao<T> implements InstanceDao<T> {
 
     private static Logger logger = LoggerFactory.getLogger(UserDao.class);
 
     private final SessionManager sessionManager;
-    private final DBExecutorImpl<User> dbExecutor;
+    private final DBExecutorImpl<T> dbExecutor;
 
-    public UserDao(SessionManager sessionManager, DBExecutorImpl<User> dbExecutor) {
+    public UserDao(SessionManager sessionManager, DBExecutorImpl<T> dbExecutor) {
         this.sessionManager = sessionManager;
         this.dbExecutor = dbExecutor;
     }
 
     @Override
-    public Optional<User> loadRecord(long id) {
+    public Optional<T> loadRecord(long id, T dummy) {
+
+        try{
+            return dbExecutor.loadRecord(1, dummy, sessionManager.getCurrentSession().getConnection());
+        } catch (Exception ex){
+            logger.error(ex.getMessage(), ex);
+            throw new UserDaoException(ex);
+        }
 
 //            try{
 //                return dbExecutor.selectRecord(getConnection(), "SELECT id, name from user WHERE id = ?",id, rs ->{
@@ -43,19 +51,17 @@ public class UserDao implements InstanceDao<User> {
 //            }
 //
 //            return Optional.empty();
-
-        return Optional.empty();
     }
 
     @Override
-    public void createRecord(User user) {
+    public void createRecord(T instance) {
 
         //<
         logger.info("UserDao createRecord");
         //<
 
         try{
-            dbExecutor.createRecord(user, sessionManager.getCurrentSession().getConnection());
+            dbExecutor.createRecord(instance, sessionManager.getCurrentSession().getConnection());
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new UserDaoException(ex);
@@ -63,7 +69,7 @@ public class UserDao implements InstanceDao<User> {
     }
 
     @Override
-    public void updateRecord(User user) {
+    public void updateRecord(T instance) {
         //< ???????
     }
 

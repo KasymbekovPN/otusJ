@@ -5,7 +5,7 @@ import ru.otus.kasymbekovPN.HW09.api.sessionManager.SessionManager;
 import java.util.Optional;
 
 public interface InstanceDao<T> {
-    Optional<T> loadRecord(long id);
+    Optional<T> loadRecord(long id, T dummy);
     void createRecord(T t);
     void updateRecord(T t);
     SessionManager getSessionManager();

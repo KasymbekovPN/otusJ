@@ -52,11 +52,11 @@ public class DBServiceImpl<T> implements DBService<T> {
     }
 
     @Override
-    public Optional<T> loadRecord(long id) {
+    public Optional<T> loadRecord(long id, T dummy) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<T> opt = dao.loadRecord(id);
+                Optional<T> opt = dao.loadRecord(id, dummy);
 
                 logger.info("record : {}", opt.orElse(null));
                 return opt;

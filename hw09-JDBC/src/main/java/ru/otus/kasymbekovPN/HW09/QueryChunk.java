@@ -7,4 +7,5 @@ public interface QueryChunk {
     //<
     public String getQueryChunk();
     public String getName();
+    public String getType();
 }
