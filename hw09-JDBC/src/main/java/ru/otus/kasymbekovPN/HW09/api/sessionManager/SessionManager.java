@@ -5,5 +5,5 @@ public interface SessionManager extends AutoCloseable{
     void commitSession();
     void rollbackSession();
     void close();
-    DataBaseSession getCurrentSession();
+    DBSession getCurrentSession();
 }
