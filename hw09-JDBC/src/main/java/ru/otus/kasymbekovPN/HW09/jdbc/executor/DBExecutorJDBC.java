@@ -23,7 +23,7 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
 
             preparedInstanceData.setInstance(instance);
-            Trio<String, List<Object>, List<String>> trio = preparedInstanceData.getInsertUrl();
+            Trio<String, List<Object>, List<String>> trio = preparedInstanceData.getInsertQuery();
 
             String sql = trio.getFirst();
             List<Object> values = trio.getSecond();
@@ -99,7 +99,7 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
                 if (preparedInstanceData.isValid()){
                     if (create) {
                         existingMap.put(type, preparedInstanceData);
-                        String sql = preparedInstanceData.getCreateTableUrl();
+                        String sql = preparedInstanceData.getCreateTableQuery();
                         try (PreparedStatement pst = connection.prepareStatement(sql)) {
                             pst.executeUpdate();
                             logger.info("table created : {}", sql);

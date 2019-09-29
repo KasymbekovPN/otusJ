@@ -1,7 +1,6 @@
 package ru.otus.kasymbekovPN.HW09.visitor;
 
 import ru.otus.kasymbekovPN.HW09.query.QueryChunk;
-import ru.otus.kasymbekovPN.HW09.query.QueryChunkData;
 import ru.otus.kasymbekovPN.HW09.query.QueryChunkImpl;
 
 import java.util.ArrayList;
@@ -24,9 +23,11 @@ public class VisitorImpl implements Visitor, QueryChunkData {
 
     @Override
     public void visit(PrimitiveVE primitiveVE) {
-        if (!primitiveVE.isBadType()){
-            fill(primitiveVE);
-        }
+//        if (!primitiveVE.isBadType()){
+//            fill(primitiveVE);
+//        }
+        //<
+        fill(primitiveVE);
     }
 
     @Override
@@ -37,12 +38,12 @@ public class VisitorImpl implements Visitor, QueryChunkData {
     private void fill(VisitedElementData veData){
         if (veData.isAnnotationPresent(annotationKey)){
             if (keyField.size() == 0){
-                keyField.add(new QueryChunkImpl(veData.getName(), veData.getType(), true));
+                keyField.add(new QueryChunkImpl(veData.getName(), veData.getInstance(), true));
             } else {
                 isValid = false;
             }
         } else {
-            fields.add(new QueryChunkImpl(veData.getName(), veData.getType(), false));
+            fields.add(new QueryChunkImpl(veData.getName(), veData.getInstance(), false));
         }
 
         isValid = keyField.size() == 1;

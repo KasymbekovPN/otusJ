@@ -8,12 +8,14 @@ import java.lang.reflect.Field;
 
 public class StringVE implements VisitedElement, VisitedElementData {
 
-    static final private String type = "VARCHAR(255)";
+//    static final private String type = "VARCHAR(255)";
 
     private Field field;
+    private Object instance;
 
     public StringVE(Field field, Object instance) {
         this.field = field;
+        this.instance = instance;
     }
 
     @Override
@@ -27,9 +29,14 @@ public class StringVE implements VisitedElement, VisitedElementData {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public Object getInstance() {
+        return instance;
     }
+
+    //    @Override
+//    public String getType() {
+//        return type;
+//    }
 
     @Override
     public boolean isAnnotationPresent(Class annotation) {

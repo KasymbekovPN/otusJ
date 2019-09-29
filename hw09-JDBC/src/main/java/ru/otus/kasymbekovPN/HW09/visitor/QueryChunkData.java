@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW09.query;
+package ru.otus.kasymbekovPN.HW09.visitor;
 
 import ru.otus.kasymbekovPN.HW09.query.QueryChunk;
 

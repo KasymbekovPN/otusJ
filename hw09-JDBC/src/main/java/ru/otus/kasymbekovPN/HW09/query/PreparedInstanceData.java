@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PreparedInstanceData {
     boolean isValid();
-    String getCreateTableUrl();
+    String getCreateTableQuery();
 //    Pair<String, List<Object>> getInsertUrl(Object instance) throws NoSuchFieldException, IllegalAccessException;
     //<
 
@@ -17,7 +17,7 @@ public interface PreparedInstanceData {
     void setInstance(Object instance);
     //<
 
-    Trio<String, List<Object>, List<String>> getInsertUrl() throws NoSuchFieldException, IllegalAccessException;
+    Trio<String, List<Object>, List<String>> getInsertQuery() throws NoSuchFieldException, IllegalAccessException;
     void fillPst(PreparedStatement pst, List<Object> values, List<String> names) throws SQLException;
     void setKeyField(ResultSet rs) throws NoSuchFieldException, SQLException, IllegalAccessException;
     Trio<String, String, List<String>> getSelectSql();

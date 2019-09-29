@@ -8,30 +8,36 @@ import java.lang.reflect.Field;
 
 public class PrimitiveVE implements VisitedElement, VisitedElementData {
     private Field field;
-    private String type;
-    private boolean badType;
+
+//    private String type;
+
+    private Object instance;
+
+//    private boolean badType;
 
     public PrimitiveVE(Field field, Object instance) {
         this.field = field;
-        this.badType = false;
-        this.type = makeType(instance);
+        this.instance = instance;
+//        this.badType = false;
+//        this.type = makeType(instance);
     }
 
-    private String makeType(Object instance) {
-        String res = "";
-        var instanceType = instance.getClass();
-        if (Integer.class.isAssignableFrom(instanceType)) {
-            res = "INT";
-        } else if (Long.class.isAssignableFrom(instanceType)){
-            res = "LONG";
-        } else if (Double.class.isAssignableFrom(instanceType)){
-            res = "DOUBLE";
-        } else {
-            badType = true;
-        }
-
-        return res;
-    }
+    //<
+//    private String makeType(Object instance) {
+//        String res = "";
+//        var instanceType = instance.getClass();
+//        if (Integer.class.isAssignableFrom(instanceType)) {
+//            res = "INT";
+//        } else if (Long.class.isAssignableFrom(instanceType)){
+//            res = "LONG";
+//        } else if (Double.class.isAssignableFrom(instanceType)){
+//            res = "DOUBLE";
+//        } else {
+//            badType = true;
+//        }
+//
+//        return res;
+//    }
 
     @Override
     public void accept(Visitor visitor) {
@@ -44,16 +50,22 @@ public class PrimitiveVE implements VisitedElement, VisitedElementData {
     }
 
     @Override
-    public String getType() {
-        return type;
+    public Object getInstance() {
+        return instance;
     }
+
+    //    @Override
+//    public String getType() {
+//        return type;
+//    }
 
     @Override
     public boolean isAnnotationPresent(Class annotation) {
         return field.isAnnotationPresent(annotation);
     }
 
-    public boolean isBadType() {
-        return badType;
-    }
+    //<
+//    public boolean isBadType() {
+//        return badType;
+//    }
 }

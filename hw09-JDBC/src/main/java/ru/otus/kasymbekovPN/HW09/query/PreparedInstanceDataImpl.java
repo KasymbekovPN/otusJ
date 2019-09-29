@@ -22,8 +22,10 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
 
     private Object instance;
     private boolean isValid;
+
     private QueryChunk keyField;
     private List<QueryChunk> queryFields;
+
     private String tableName;
 
     //< хэш мапы запросов select, update
@@ -67,18 +69,8 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
     }
 
     @Override
-    public String getCreateTableUrl() {
-        StringBuilder sb = new StringBuilder("CREATE TABLE ")
-                .append(tableName)
-                .append("(")
-                .append(keyField.getQueryChunk());
-        for (QueryChunk queryField : queryFields) {
-            sb.append(", ")
-                    .append(queryField.getQueryChunk());
-        }
-        sb.append(")");
-
-        return sb.toString();
+    public String getCreateTableQuery() {
+        return QueryChunkImpl.makeCreateQuery(tableName, keyField, queryFields);
     }
 
     @Override
@@ -92,44 +84,67 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
     }
 
     @Override
-    public Trio<String, List<Object>, List<String>> getInsertUrl() throws NoSuchFieldException, IllegalAccessException {
+    public Trio<String, List<Object>, List<String>> getInsertQuery() throws NoSuchFieldException, IllegalAccessException {
 
-        StringBuilder fieldNames = new StringBuilder("(");
-        StringBuilder questionMarks = new StringBuilder("(");
+//        StringBuilder fieldNames = new StringBuilder("(");
+//        StringBuilder questionMarks = new StringBuilder("(");
         List<Object> values = new ArrayList<>();
         List<String> names = new ArrayList<>();
 
-        //< change with delimiter
-        boolean first = true;
+//        StringBuilder fieldNames_ = new StringBuilder("(");
+//        StringBuilder questionMarks_ = new StringBuilder("(");
 
+        //< change with delimiter
+//        boolean first = true;
+        //<
+//        String delimiter= "";
         for (QueryChunk queryField : queryFields) {
             String name = queryField.getName();
 
-            if (first){
-                first = false;
-            } else {
-                fieldNames.append(",");
-                questionMarks.append(",");
-            }
+            //<
+//            if (first){
+//                first = false;
+//            } else {
+//                fieldNames.append(",");
+//                questionMarks.append(",");
+//            }
+//
+//            queryField.extractName(fieldNames, delimiter);
+//            queryField.extractQuestionMark(questionMarks, delimiter);
 
-            fieldNames.append(name);
-            questionMarks.append("?");
+//            fieldNames.append(name);
+//            questionMarks.append("?");
 
             Field declaredField = instance.getClass().getDeclaredField(name);
             declaredField.setAccessible(true);
             values.add(declaredField.get(instance));
             names.add(name);
+
+//            delimiter = ",";
         }
-        fieldNames.append(")");
-        questionMarks.append(")");
+//        fieldNames.append(")");
+//        questionMarks.append(")");
+//        fieldNames_.append(")");
+//        questionMarks_.append(")");
 
-        StringBuilder sql = new StringBuilder("INSERT INTO ")
-                .append(tableName)
-                .append(fieldNames)
-                .append(" VALUES ")
-                .append(questionMarks);
+        //<
+//        System.out.println(fieldNames);
+//        System.out.println(fieldNames_);
+//        System.out.println(questionMarks);
+//        System.out.println(questionMarks_);
+        //<
 
-        return new Trio<>(String.valueOf(sql), values, names);
+//        System.out.println(QueryChunkImpl.makeInsertQuery(tableName, names));
+//        StringBuilder sql = new StringBuilder("INSERT INTO ")
+//                .append(tableName)
+//                .append(fieldNames)
+//                .append(" VALUES ")
+//                .append(questionMarks);
+        //<
+//        System.out.println(sql);
+        //<
+
+        return new Trio<>(QueryChunkImpl.makeInsertQuery(tableName, names), values, names);
     }
 
     @Override
@@ -139,74 +154,94 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
             String name = names.get(i);
             Object value = values.get(i);
 
-            String type = "";
-
             if (keyField.getName().equals(name)){
-                type = keyField.getType();
+                keyField.fillPst(pst, value, i + 1);
             } else {
                 for (QueryChunk queryField : queryFields) {
-                    if (queryField.getName().equals(name)) {
-                        type = queryField.getType();
+                    if (queryField.getName().equals(name)){
+                        queryField.fillPst(pst, value, i + 1);
                         break;
                     }
                 }
             }
 
-            if (!type.equals("")){
-                if (isVARCHAR(type)){
-                    pst.setString(i+1, String.valueOf(value));
-                } else if (type.equals("INT")){
-                    pst.setInt(i+1, (Integer)value);
-                } else if (type.equals("LONG")){
-                    pst.setLong(i+1, (Long)value);
-                } else if (type.equals("DOUBLE")){
-                    pst.setDouble(i+1, (Double)value);
-                }
-            } else {
-                //<
-                logger.error("empty type");
-            }
+            //<
+//            String type = "";
+//
+//            if (keyField.getName().equals(name)){
+//                type = keyField.getType();
+//            } else {
+//                for (QueryChunk queryField : queryFields) {
+//                    if (queryField.getName().equals(name)) {
+//                        type = queryField.getType();
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            if (!type.equals("")){
+//                if (isVARCHAR(type)){
+//                    pst.setString(i+1, String.valueOf(value));
+//                } else if (type.equals("INT")){
+//                    pst.setInt(i+1, (Integer)value);
+//                } else if (type.equals("LONG")){
+//                    pst.setLong(i+1, (Long)value);
+//                } else if (type.equals("DOUBLE")){
+//                    pst.setDouble(i+1, (Double)value);
+//                }
+//            } else {
+//                //<
+//                logger.error("empty type");
+//            }
         }
     }
 
     @Override
     public void setKeyField(ResultSet rs) throws NoSuchFieldException, SQLException, IllegalAccessException {
-        String name = keyField.getName();
-        String type = keyField.getType();
-        Field field = instance.getClass().getDeclaredField(name);
-        field.setAccessible(true);
-
+//        String name = keyField.getName();
+//        String type = keyField.getType();
+//        Field field = instance.getClass().getDeclaredField(name);
+//        field.setAccessible(true);
+//
+//        rs.next();
+//        if (type.equals("INT")){
+//            field.setInt(instance, rs.getInt(1));
+//        } else if(type.equals("LONG")){
+//            field.setLong(instance, rs.getLong(1));
+//        }
+        //<
         rs.next();
-        if (type.equals("INT")){
-            field.setInt(instance, rs.getInt(1));
-        } else if(type.equals("LONG")){
-            field.setLong(instance, rs.getLong(1));
-        }
+        keyField.setField(rs, instance.getClass().getDeclaredField(keyField.getName()), instance);
     }
 
     @Override
     public Trio<String, String, List<String>> getSelectSql() {
 
-        StringBuilder sql = new StringBuilder("SELECT ");
+//        StringBuilder sql = new StringBuilder("SELECT ");
         List<String> names = new ArrayList<>();
 
         String keyFieldName = keyField.getName();
-        sql.append(keyFieldName);
+//        sql.append(keyFieldName);
         names.add(keyFieldName);
 
         for (QueryChunk queryField : queryFields) {
-            String name = queryField.getName();
-            sql.append(", ").append(name);
-            names.add(name);
+//            String name = queryField.getName();
+//            sql.append(", ").append(name);
+            names.add(queryField.getName());
         }
 
-        sql.append(" FROM ")
-                .append(tableName)
-                .append(" WHERE ")
-                .append(keyFieldName)
-                .append(" = ?");
+//        sql.append(" FROM ")
+//                .append(tableName)
+//                .append(" WHERE ")
+//                .append(keyFieldName)
+//                .append(" = ?");
 
-        return new Trio<>(String.valueOf(sql), keyFieldName, names);
+//        System.out.println(QueryChunkImpl.makeSelectQuery(tableName, keyFieldName, names));
+        //<
+//        System.out.println(sql);
+        //<
+
+        return new Trio<>(QueryChunkImpl.makeSelectQuery(tableName, keyFieldName, names), keyFieldName, names);
     }
 
     @Override
@@ -214,32 +249,38 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
         rs.next();
 
         for (String name : names) {
-            Field field = instance.getClass().getDeclaredField(name);
-            field.setAccessible(true);
+//            Field field = instance.getClass().getDeclaredField(name);
+//            field.setAccessible(true);
+            //<
 
             String type = "";
             if (keyField.getName().equals(name)){
-                type = keyField.getType();
+//                type = keyField.getType();
+                //<
+                keyField.setField(rs, instance.getClass().getDeclaredField(name), instance);
             } else {
-                for (QueryChunk queryField : queryFields) {
+                for (ru.otus.kasymbekovPN.HW09.query.QueryChunk queryField : queryFields) {
                     if (queryField.getName().equals(name)){
-                        type = queryField.getType();
+//                        type = queryField.getType();
+                        //<
+                        queryField.setField(rs, instance.getClass().getDeclaredField(name), instance);
                         break;
                     }
                 }
             }
 
-            if (isVARCHAR(type)){
-                field.set(instance, rs.getString(name));
-            } else if (type.equals("INT")){
-                field.setInt(instance, rs.getInt(name));
-            } else if (type.equals("LONG")){
-                field.setLong(instance, rs.getLong(name));
-            } else if (type.equals("DOUBLE")){
-                field.setDouble(instance, rs.getDouble(name));
-            } else {
-                logger.error("fillInstance : wrong type");
-            }
+            //<
+//            if (isVARCHAR(type)){
+//                field.set(instance, rs.getString(name));
+//            } else if (type.equals("INT")){
+//                field.setInt(instance, rs.getInt(name));
+//            } else if (type.equals("LONG")){
+//                field.setLong(instance, rs.getLong(name));
+//            } else if (type.equals("DOUBLE")){
+//                field.setDouble(instance, rs.getDouble(name));
+//            } else {
+//                logger.error("fillInstance : wrong type");
+//            }
         }
 
         return instance;
@@ -248,34 +289,43 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
 
     @Override
     public Trio<String, List<Object>, List<String>> getUpdateSql() throws NoSuchFieldException, IllegalAccessException {
-        StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET");
+//        StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET");
         List<String> names = new ArrayList<>();
         List<Object> values = new ArrayList<>();
 
-        String delimiter = "";
+//        String delimiter = "";
         for (QueryChunk queryField : queryFields) {
             String name = queryField.getName();
-            sql.append(delimiter).append(" ").append(name).append("=?");
-            delimiter = ",";
-            names.add(name);
+//            sql.append(delimiter).append(" ").append(name).append("=?");
+//            delimiter = ",";
+            names.add(queryField.getName());
         }
-        sql.append(" WHERE ").append(keyField.getName()).append("=?");
-        names.add(keyField.getName());
+        String keyFieldName = keyField.getName();
+//        sql.append(" WHERE ").append(keyFieldName).append("=?");
+
+        //<
+        String query = QueryChunkImpl.makeUpdateQuery(tableName, keyFieldName, names);
+//        System.out.println(query);
+        //<
+
+        names.add(keyFieldName);
 
         for (String name : names) {
             Field field = instance.getClass().getDeclaredField(name);
             field.setAccessible(true);
-
             values.add(field.get(instance));
         }
 
+//        System.out.println(sql);
+
 //        return new Pair<>(String.valueOf(sql), values);
         //<
-        return new Trio<>(String.valueOf(sql), values, names);
+        return new Trio<>(query, values, names);
     }
 
 
-    private boolean isVARCHAR(String line){
-        return line.split("\\(")[0].equals("VARCHAR");
-    }
+    //<
+//    private boolean isVARCHAR(String line){
+//        return line.split("\\(")[0].equals("VARCHAR");
+//    }
 }

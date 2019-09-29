@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 
 public interface VisitedElementData {
     String getName();
-    String getType();
+//    String getType();
+    Object getInstance();
     boolean isAnnotationPresent(Class annotation);
 }
