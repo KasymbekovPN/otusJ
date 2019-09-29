@@ -8,10 +8,17 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
+/**
+ * Реализация источника данных для H2
+ */
 public class DataSourceH2 implements DataSource {
 
     private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 
+    /**
+     * Геттер соединения
+     * @return соединение
+     */
     @Override
     public Connection getConnection() throws SQLException {
         Connection conn = DriverManager.getConnection(URL);

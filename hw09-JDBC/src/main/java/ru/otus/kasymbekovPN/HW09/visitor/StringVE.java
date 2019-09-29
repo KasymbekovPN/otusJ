@@ -1,14 +1,11 @@
 package ru.otus.kasymbekovPN.HW09.visitor;
 
-import ru.otus.kasymbekovPN.HW09.visitor.VisitedElement;
-import ru.otus.kasymbekovPN.HW09.visitor.VisitedElementData;
-import ru.otus.kasymbekovPN.HW09.visitor.Visitor;
-
 import java.lang.reflect.Field;
 
+/**
+ * Класс, позволяющий посетить строку
+ */
 public class StringVE implements VisitedElement, VisitedElementData {
-
-//    static final private String type = "VARCHAR(255)";
 
     private Field field;
     private Object instance;
@@ -18,26 +15,38 @@ public class StringVE implements VisitedElement, VisitedElementData {
         this.instance = instance;
     }
 
+    /**
+     * Функция, принимающая визитор
+     * @param visitor визитор
+     */
     @Override
     public void accept(Visitor visitor) {
         visitor.visit(this);
     }
 
+    /**
+     * Геттер имени
+     * @return имя
+     */
     @Override
     public String getName() {
         return field.getName();
     }
 
+    /**
+     * Геттер инстанса
+     * @return инстанса
+     */
     @Override
     public Object getInstance() {
         return instance;
     }
 
-    //    @Override
-//    public String getType() {
-//        return type;
-//    }
-
+    /**
+     * Проверяет есть ли у посещаемого элемента требуемая аннотация
+     * @param annotation аннотация
+     * @return результат проверки
+     */
     @Override
     public boolean isAnnotationPresent(Class annotation) {
         return field.isAnnotationPresent(annotation);

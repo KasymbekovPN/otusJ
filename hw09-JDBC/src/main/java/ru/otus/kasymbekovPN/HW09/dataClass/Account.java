@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class Account {
 
-    //< задавать значение через рефлексию
     @Id
     private long no = -1;
 
@@ -14,16 +13,8 @@ public class Account {
 
     private double rest;
 
-    public String getType() {
-        return type;
-    }
-
     public void setType(String type) {
         this.type = type;
-    }
-
-    public double getRest() {
-        return rest;
     }
 
     public void setRest(double rest) {

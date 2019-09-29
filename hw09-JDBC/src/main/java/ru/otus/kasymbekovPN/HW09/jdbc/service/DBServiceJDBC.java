@@ -9,16 +9,32 @@ import ru.otus.kasymbekovPN.HW09.api.sessionManager.SessionManager;
 
 import java.util.Optional;
 
+/**
+ * Реализация сервиса для работы с БД
+ * @param <T> класс. с которым работает сервис
+ */
 public class DBServiceJDBC<T> implements DBService<T> {
 
     private static Logger logger = LoggerFactory.getLogger(DBServiceJDBC.class);
 
+    /**
+     * DAO
+     */
     private final Dao<T> dao;
 
+    /**
+     * Конструктор
+     * @param dao DAO
+     */
     public DBServiceJDBC(Dao<T> dao) {
         this.dao = dao;
     }
 
+    /**
+     * Создание записи в БД
+     * @param instance Записываемый инстанс
+     * @return Записанный инстанс
+     */
     @Override
     public Optional<T> createRecord(T instance) {
         try(SessionManager sessionManager = dao.getSessionManager()){
@@ -40,6 +56,11 @@ public class DBServiceJDBC<T> implements DBService<T> {
         }
     }
 
+    /**
+     * Обновление записи в БД
+     * @param instance Инстанс, запись которого должна быль обновленв
+     * @return Инстанс
+     */
     @Override
     public Optional<T> updateRecord(T instance) {
         try(SessionManager sessionManager = dao.getSessionManager()){
@@ -61,6 +82,12 @@ public class DBServiceJDBC<T> implements DBService<T> {
         }
     }
 
+    /**
+     * Выгрузка данных по ключу
+     * @param id значение ключа
+     * @param dummy цель для выгрузки
+     * @return Инстанс, с выгруженными данными.
+     */
     @Override
     public Optional<T> loadRecord(long id, T dummy) {
         try(SessionManager sessionManager = dao.getSessionManager()){

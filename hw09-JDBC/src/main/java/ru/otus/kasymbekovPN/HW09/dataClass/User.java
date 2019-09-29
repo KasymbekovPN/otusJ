@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class User {
 
-    //< задавать через рефлексию ???
     @Id
     private long id = -1;
 
@@ -14,16 +13,8 @@ public class User {
 
     private int age;
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getAge() {
-        return age;
     }
 
     public void setAge(int age) {

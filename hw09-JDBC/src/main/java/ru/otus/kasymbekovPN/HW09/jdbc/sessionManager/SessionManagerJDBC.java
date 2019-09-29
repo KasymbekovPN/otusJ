@@ -8,11 +8,25 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * РеализациЯ менеджера сессии
+ */
 public class SessionManagerJDBC implements SessionManager {
     private static final int TIMEOUT_IN_SECONDS = 5;
 
+    /**
+     * Источник данных
+     */
     private final DataSource dataSource;
+
+    /**
+     * Соединение
+     */
     private Connection connection;
+
+    /**
+     * Сессия
+     */
     private DBSession dbSession;
 
     public SessionManagerJDBC(DataSource dataSource){
@@ -21,20 +35,22 @@ public class SessionManagerJDBC implements SessionManager {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Начать сессию
+     */
     @Override
     public void beginSession() {
         try{
-            this.connection = dataSource.getConnection();
-
-            //< здесь не должны знать о DataBaseSessionJDBCImpl
+            connection = dataSource.getConnection();
             dbSession = new DBSessionJDBC(connection);
-            //<
-//            this.dbSession = dbSession;
         } catch (SQLException ex){
             throw new SessionManagerException(ex);
         }
     }
 
+    /**
+     * Фиксировать изменения
+     */
     @Override
     public void commitSession() {
         checkConnection();
@@ -45,6 +61,9 @@ public class SessionManagerJDBC implements SessionManager {
         }
     }
 
+    /**
+     * Откатить изменения
+     */
     @Override
     public void rollbackSession() {
         checkConnection();
@@ -55,6 +74,9 @@ public class SessionManagerJDBC implements SessionManager {
         }
     }
 
+    /**
+     * Закруть сессию
+     */
     @Override
     public void close() {
         checkConnection();
@@ -65,12 +87,19 @@ public class SessionManagerJDBC implements SessionManager {
         }
     }
 
+    /**
+     * Геттер текущий сесси
+     * @return Текущая сессия
+     */
     @Override
     public DBSession getCurrentSession() {
         checkConnection();
         return dbSession;
     }
 
+    /**
+     * Проверка соединения
+     */
     private void checkConnection(){
         try{
             if (null == connection || !connection.isValid(TIMEOUT_IN_SECONDS))
