@@ -39,18 +39,16 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
         if (checkTableExisting(instance, connection, true)){
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
 
-            preparedInstanceData.setInstance(instance);
-            Trio<String, List<Object>, List<String>> trio = preparedInstanceData.getInsertQuery();
-
-            String sql = trio.getFirst();
-            List<Object> values = trio.getSecond();
-            List<String> names = trio.getThird();
-
-            try(PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-                preparedInstanceData.fillPst(pst, values, names);
+            String query = preparedInstanceData.getInsertQuery_();
+            try(PreparedStatement pst = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
+                List<Object> values = preparedInstanceData.extractValues(instance);
+                for(int i = 0; i < values.size(); i++){
+                    pst.setObject(i+1, values.get(i));
+                }
                 pst.executeUpdate();
 
                 try(ResultSet rs = pst.getGeneratedKeys()){
+                    //<
                     preparedInstanceData.setKeyField(rs);
                 }
             }
@@ -71,15 +69,15 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
     public Optional<T> updateRecord(T instance, Connection connection) throws SQLException, IllegalAccessException, NoSuchFieldException {
         if (checkTableExisting(instance, connection, false)){
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
-            preparedInstanceData.setInstance(instance);
 
-            Trio<String, List<Object>, List<String>> trio = preparedInstanceData.getUpdateQuery();
-            String sql = trio.getFirst();
-            List<Object> values = trio.getSecond();
-            List<String> names = trio.getThird();
+            String query = preparedInstanceData.getUpdateQuery_();
+            List<Object> values = preparedInstanceData.extractValues(instance);
+            values.add(preparedInstanceData.extractKey(instance));
 
-            try(PreparedStatement pst = connection.prepareStatement(sql)){
-                preparedInstanceData.fillPst(pst, values, names);
+            try(PreparedStatement pst = connection.prepareStatement(query)){
+                for(int i = 0; i < values.size(); i++){
+                    pst.setObject(i+1, values.get(i));
+                }
                 pst.executeUpdate();
             }
 
@@ -113,6 +111,7 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
                 preparedInstanceData.fillPst(pst, List.of((Object)id), List.of(idName));
                 try(ResultSet rs = pst.executeQuery()){
 
+                    //<
                     return (Optional<T>) Optional.of(preparedInstanceData.fillInstance(rs, names));
                 }
             }
@@ -133,13 +132,13 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
         if (!notContainIdSet.contains(type)) {
             if (!existingMap.containsKey(type)){
                 PreparedInstanceData preparedInstanceData = new PreparedInstanceDataImpl(instance);
-                if (preparedInstanceData.isValid()){
+                if (preparedInstanceData.isValid_()){
                     if (create) {
                         existingMap.put(type, preparedInstanceData);
-                        String sql = preparedInstanceData.getCreateTableQuery();
-                        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+                        String query = preparedInstanceData.getCreateTableQuery_();
+                        try (PreparedStatement pst = connection.prepareStatement(query)) {
                             pst.executeUpdate();
-                            logger.info("table created : {}", sql);
+                            logger.info("table created : {}", query);
                             return true;
                         }
                     } else {

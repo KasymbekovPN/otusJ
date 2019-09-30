@@ -16,6 +16,8 @@ public interface QueryChunk {
      */
     String getName();
 
+    String getType();
+
     /**
      * Геттер строки, соответствующей имени, для состовления запроса для для
      * создания таблицы

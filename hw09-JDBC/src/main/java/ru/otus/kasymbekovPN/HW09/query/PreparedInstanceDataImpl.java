@@ -8,6 +8,7 @@ import ru.otus.kasymbekovPN.HW09.visitor.PrimitiveVE;
 import ru.otus.kasymbekovPN.HW09.visitor.StringVE;
 import ru.otus.kasymbekovPN.HW09.visitor.VisitorImpl;
 
+import javax.print.DocFlavor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.sql.PreparedStatement;
@@ -28,10 +29,14 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
      */
     private Object instance;
 
+    private Class clazz;
+
     /**
      * Флаг валидности
      */
     private boolean isValid;
+
+    private boolean isValid_;
 
     /**
      * Данные о поле-ключе класса объекта instance.
@@ -48,14 +53,25 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
      */
     private String tableName;
 
+    private String createTableQuery;
+    private String insertQuery;
+    private String updateQuery;
+    private String selectQuery;
+
     /**
      * Контструктор
      * @param instance инстанс, препарируемого класса.
      */
     public PreparedInstanceDataImpl(Object instance) throws IllegalAccessException {
+
+        this.clazz = instance.getClass();
+
+        this.tableName = makeTableName(instance);
+        traverse_(instance);
+
         VisitorImpl visitor = traverse(instance);
         this.instance = instance;
-        this.tableName = makeTableName(instance);
+
         this.isValid = visitor.isValid();
         if (this.isValid){
             this.keyField = visitor.getKeyField();
@@ -97,6 +113,80 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
         return visitor;
     }
 
+    private void traverse_(Object instance) throws IllegalAccessException {
+        List<QueryChunk> keys = new ArrayList<>();
+        List<QueryChunk> others = new ArrayList<>();
+
+        Field[] fields = instance.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            if (Modifier.isStatic(field.getModifiers()))
+                continue;
+
+            if (field.isAnnotationPresent(Id.class)){
+                keys.add(new QueryChunkImpl(field.getName(), field.get(instance), true));
+            } else {
+                others.add(new QueryChunkImpl(field.getName(), field.get(instance), false));
+            }
+        }
+
+        isValid_ = 1 == keys.size();
+        if (isValid_){
+            QueryChunk key = keys.get(0);
+
+            StringBuilder createSb = new StringBuilder("CREATE TABLE ")
+                    .append(tableName)
+                    .append("(")
+                    .append(key.getName())
+                    .append(" ")
+                    .append(key.getType())
+                    .append(" NOT NULL AUTO_INCREMENT");
+
+            StringBuilder insertFirstSb = new StringBuilder("INSERT INTO ").append(tableName).append("(");
+            StringBuilder insertSecondSb = new StringBuilder(" VALUES ").append("(");
+
+            StringBuilder selectSb = new StringBuilder("SELECT ").append(key.getName());
+
+            StringBuilder updateSb = new StringBuilder("UPDATE ")
+                    .append(tableName)
+                    .append(" SET ");
+
+            String delimiter = "";
+            for (QueryChunk other : others) {
+                createSb.append(", ")
+                        .append(other.getName())
+                        .append(" ")
+                        .append(other.getType());
+
+                insertFirstSb.append(delimiter).append(other.getName());
+                insertSecondSb.append(delimiter).append("?");
+
+                selectSb.append(", ").append(other.getName());
+
+                updateSb.append(delimiter).append(other.getName()).append("=?");
+
+                delimiter = ", ";
+            }
+
+            createSb.append(")");
+
+            insertFirstSb.append(")").append(insertSecondSb).append(")");
+
+            selectSb.append(" FROM ")
+                    .append(tableName)
+                    .append(" WHERE ")
+                    .append(key.getName())
+                    .append("=?");
+
+            updateSb.append(" WHERE ").append(key.getName()).append("=?");
+
+            createTableQuery = String.valueOf(createSb);
+            insertQuery = String.valueOf(insertFirstSb);
+            selectQuery = String.valueOf(selectSb);
+            updateQuery = String.valueOf(updateSb);
+        }
+    }
+
     /**
      * Геттер запроса для создания таблицы
      * @return Запрос
@@ -123,6 +213,10 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
             names.add(name);
         }
 
+        //<
+        System.out.println(makeInsertQuery(names));
+        //<
+
         return new Trio<>(makeInsertQuery(names), values, names);
     }
 
@@ -135,7 +229,6 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
         List<String> names = new ArrayList<>();
         List<Object> values = new ArrayList<>();
         for (QueryChunk queryField : queryFields) {
-            String name = queryField.getName();
             names.add(queryField.getName());
         }
 
@@ -148,6 +241,10 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
             field.setAccessible(true);
             values.add(field.get(instance));
         }
+
+        //<
+        System.out.println(query);
+        //<
 
         return new Trio<>(query, values, names);
     }
@@ -164,6 +261,10 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
         names.add(keyFieldName);
         for (QueryChunk queryField : queryFields)
             names.add(queryField.getName());
+
+        //<
+        System.out.println(makeSelectQuery(keyFieldName, names));
+        //<
 
         return new Trio<>(makeSelectQuery(keyFieldName, names), keyFieldName, names);
     }
@@ -251,6 +352,68 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
         return isValid;
     }
 
+    @Override
+    public boolean isValid_() {
+        return isValid_;
+    }
+
+    @Override
+    public String getCreateTableQuery_() {
+        return createTableQuery;
+    }
+
+    @Override
+    public String getInsertQuery_() {
+        return insertQuery;
+    }
+
+    @Override
+    public String getUpdateQuery_() {
+        return updateQuery;
+    }
+
+    @Override
+    public String getSelectQuery_() {
+        return selectQuery;
+    }
+
+    @Override
+    public List<Object> extractValues(Object instance) throws IllegalAccessException {
+        List<Object> values = new ArrayList<>();
+        if (clazz.equals(instance.getClass())){
+            Field[] fields = instance.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                if (Modifier.isStatic(field.getModifiers()))
+                    continue;
+
+                if (!field.isAnnotationPresent(Id.class)){
+                    values.add(field.get(instance));
+                }
+            }
+        }
+
+        return values;
+    }
+
+    @Override
+    public Object extractKey(Object instance) throws IllegalAccessException {
+        if (clazz.equals(instance.getClass()))
+        {
+            Field[] fields = instance.getClass().getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                if (Modifier.isStatic(field.getModifiers()))
+                    continue;
+
+                if (field.isAnnotationPresent(Id.class)){
+                    return field.get(instance);
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * генерация запроса для создания таблицы
      * @return Запрос
@@ -264,6 +427,10 @@ public class PreparedInstanceDataImpl implements PreparedInstanceData {
             sb.append(", ").append(queryField.getCreateChunk());
         }
         sb.append(")");
+
+        //<
+        System.out.println(sb);
+        //<
 
         return String.valueOf(sb);
     }

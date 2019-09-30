@@ -82,6 +82,11 @@ public class QueryChunkImpl implements QueryChunk {
         return name;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
+
     /**
      * Геттер строки, соответствующей имени, для состовления запроса для для
      * создания таблицы

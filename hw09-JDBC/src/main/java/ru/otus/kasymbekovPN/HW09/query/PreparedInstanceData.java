@@ -70,4 +70,14 @@ public interface PreparedInstanceData {
      * @return Результат проверки
      */
     boolean isValid();
+
+    boolean isValid_();
+
+    String getCreateTableQuery_();
+    String getInsertQuery_();
+    String getUpdateQuery_();
+    String getSelectQuery_();
+
+    List<Object> extractValues(Object instance) throws IllegalAccessException;
+    Object extractKey(Object instance) throws IllegalAccessException;
 }
