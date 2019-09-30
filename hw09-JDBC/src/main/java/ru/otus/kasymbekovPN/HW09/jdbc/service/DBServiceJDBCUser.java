@@ -2,45 +2,45 @@ package ru.otus.kasymbekovPN.HW09.jdbc.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW09.api.dao.Dao;
-import ru.otus.kasymbekovPN.HW09.api.service.DBService;
+import ru.otus.kasymbekovPN.HW09.api.dao.DaoUser;
+import ru.otus.kasymbekovPN.HW09.api.service.DBServiceUser;
 import ru.otus.kasymbekovPN.HW09.api.service.DbServiceException;
 import ru.otus.kasymbekovPN.HW09.api.sessionManager.SessionManager;
+import ru.otus.kasymbekovPN.HW09.dataClass.User;
 
 import java.util.Optional;
 
 /**
- * Реализация сервиса для работы с БД
- * @param <T> класс. с которым работает сервис
+ * Реализация сервиса для работы класса User с БД
  */
-public class DBServiceJDBC<T> implements DBService<T> {
+public class DBServiceJDBCUser implements DBServiceUser {
 
-    private static Logger logger = LoggerFactory.getLogger(DBServiceJDBC.class);
+    private static Logger logger = LoggerFactory.getLogger(DBServiceJDBCUser.class);
 
     /**
      * DAO
      */
-    private final Dao<T> dao;
+    private final DaoUser dao;
 
     /**
      * Конструктор
      * @param dao DAO
      */
-    public DBServiceJDBC(Dao<T> dao) {
+    public DBServiceJDBCUser(DaoUser dao) {
         this.dao = dao;
     }
 
     /**
      * Создание записи в БД
-     * @param instance Записываемый инстанс
+     * @param user Записываемый инстанс
      * @return Записанный инстанс
      */
     @Override
-    public Optional<T> createRecord(T instance) {
+    public Optional<User> createRecord(User user) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<T> record = dao.createRecord(instance);
+                Optional<User> record = dao.createRecord(user);
                 if (record.isPresent()){
                     sessionManager.commitSession();
                     logger.info("record was create");
@@ -58,15 +58,15 @@ public class DBServiceJDBC<T> implements DBService<T> {
 
     /**
      * Обновление записи в БД
-     * @param instance Инстанс, запись которого должна быль обновленв
+     * @param user Инстанс, запись которого должна быль обновленв
      * @return Инстанс
      */
     @Override
-    public Optional<T> updateRecord(T instance) {
+    public Optional<User> updateRecord(User user) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<T> record = dao.updateRecord(instance);
+                Optional<User> record = dao.updateRecord(user);
                 if (record.isPresent()){
                     sessionManager.commitSession();
                     logger.info("record was update");
@@ -85,15 +85,14 @@ public class DBServiceJDBC<T> implements DBService<T> {
     /**
      * Выгрузка данных по ключу
      * @param id значение ключа
-     * @param dummy цель для выгрузки
      * @return Инстанс, с выгруженными данными.
      */
     @Override
-    public Optional<T> loadRecord(long id, T dummy) {
+    public Optional<User> loadRecord(long id) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<T> record = dao.loadRecord(id, dummy);
+                Optional<User> record = dao.loadRecord(id);
                 logger.info("loaded record : {}", record.orElse(null));
                 return record;
             } catch (Exception ex){

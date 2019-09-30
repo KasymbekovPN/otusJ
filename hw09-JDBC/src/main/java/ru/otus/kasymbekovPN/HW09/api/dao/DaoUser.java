@@ -1,36 +1,34 @@
 package ru.otus.kasymbekovPN.HW09.api.dao;
 
 import ru.otus.kasymbekovPN.HW09.api.sessionManager.SessionManager;
+import ru.otus.kasymbekovPN.HW09.dataClass.User;
 
 import java.util.Optional;
 
 /**
- * Интерфейс для реализации DAO
- * @param <T> тип класса, с которым работает DAO
+ * Интерфейс для реализации DAO для User
  */
-public interface Dao<T> {
-
+public interface DaoUser {
     /**
      * Выгрузка записи по ключю
      * @param id ключ
-     * @param dummy болванка для формирования объекта с полученными данными
      * @return полученный объект
      */
-    Optional<T> loadRecord(long id, T dummy);
+    Optional<User> loadRecord(long id);
 
     /**
      * Сохранение объекта
-     * @param instance объект
+     * @param user объект
      * @return Сохраненный объект
      */
-    Optional<T> createRecord(T instance);
+    Optional<User> createRecord(User user);
 
     /**
      * Обновление объекта
-     * @param instance объект
+     * @param user объект
      * @return обновленный объект
      */
-    Optional<T> updateRecord(T instance);
+    Optional<User> updateRecord(User user);
 
     /**
      * @return Текущий менеджер сессий

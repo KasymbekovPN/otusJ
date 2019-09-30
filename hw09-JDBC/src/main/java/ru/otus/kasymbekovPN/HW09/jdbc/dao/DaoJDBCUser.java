@@ -2,20 +2,20 @@ package ru.otus.kasymbekovPN.HW09.jdbc.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW09.api.dao.Dao;
 import ru.otus.kasymbekovPN.HW09.api.dao.DaoException;
+import ru.otus.kasymbekovPN.HW09.api.dao.DaoUser;
 import ru.otus.kasymbekovPN.HW09.api.sessionManager.SessionManager;
+import ru.otus.kasymbekovPN.HW09.dataClass.User;
 import ru.otus.kasymbekovPN.HW09.jdbc.executor.DBExecutorJDBC;
 
 import java.util.Optional;
 
 /**
- * Реализация DOA для работы с JDBC
- * @param <T> тип класса, с которым работает DAO
+ * Реализация DOA для класса User работы с JDBC
  */
-public class DaoJDBC<T> implements Dao<T> {
+public class DaoJDBCUser implements DaoUser {
 
-    private static Logger logger = LoggerFactory.getLogger(DaoJDBC.class);
+    private static Logger logger = LoggerFactory.getLogger(DaoJDBCUser.class);
 
     /**
      * Менеджер сессий
@@ -25,14 +25,14 @@ public class DaoJDBC<T> implements Dao<T> {
     /**
      * Экзекутор БД
      */
-    private final DBExecutorJDBC<T> dbExecutor;
+    private final DBExecutorJDBC<User> dbExecutor;
 
     /**
      * Контсруктор
      * @param sessionManager менеджер сессий
      * @param dbExecutor экзекутор БД
      */
-    public DaoJDBC(SessionManager sessionManager, DBExecutorJDBC<T> dbExecutor) {
+    public DaoJDBCUser(SessionManager sessionManager, DBExecutorJDBC<User> dbExecutor) {
         this.sessionManager = sessionManager;
         this.dbExecutor = dbExecutor;
     }
@@ -40,13 +40,12 @@ public class DaoJDBC<T> implements Dao<T> {
     /**
      * Выгрузка записи по ключю
      * @param id ключ
-     * @param dummy болванка для формирования объекта с полученными данными
      * @return полученный объект
      */
     @Override
-    public Optional<T> loadRecord(long id, T dummy) {
+    public Optional<User> loadRecord(long id) {
         try{
-            return dbExecutor.loadRecord(1, dummy, sessionManager.getCurrentSession().getConnection());
+            return dbExecutor.loadRecord(1, new User(), sessionManager.getCurrentSession().getConnection());
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);
@@ -55,13 +54,13 @@ public class DaoJDBC<T> implements Dao<T> {
 
     /**
      * Сохранение объекта
-     * @param instance объект
+     * @param user объект
      * @return Сохраненный объект
      */
     @Override
-    public Optional<T> createRecord(T instance) {
+    public Optional<User> createRecord(User user) {
         try{
-            return dbExecutor.createRecord(instance, sessionManager.getCurrentSession().getConnection());
+            return dbExecutor.createRecord(user, sessionManager.getCurrentSession().getConnection());
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);
@@ -70,13 +69,13 @@ public class DaoJDBC<T> implements Dao<T> {
 
     /**
      * Обновление объекта
-     * @param instance объект
+     * @param user объект
      * @return обновленный объект
      */
     @Override
-    public Optional<T> updateRecord(T instance) {
+    public Optional<User> updateRecord(User user) {
         try{
-            return dbExecutor.updateRecord(instance, sessionManager.getCurrentSession().getConnection());
+            return dbExecutor.updateRecord(user, sessionManager.getCurrentSession().getConnection());
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);
