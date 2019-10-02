@@ -45,7 +45,7 @@ public class DaoJDBCUser implements DaoUser {
     @Override
     public Optional<User> loadRecord(long id) {
         try{
-            return dbExecutor.loadRecord(1, new User(), sessionManager.getCurrentSession().getConnection());
+            return dbExecutor.loadRecord(1, User.class, sessionManager.getCurrentSession().getConnection());
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);

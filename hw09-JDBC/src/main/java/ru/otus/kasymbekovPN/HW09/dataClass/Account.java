@@ -22,6 +22,7 @@ public class Account {
     }
 
     public Account() {
+        type = "";
     }
 
     public Account(String type, double rest) {

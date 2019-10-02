@@ -45,7 +45,7 @@ public class DaoJDBCAccount implements DaoAccount {
     @Override
     public Optional<Account> loadRecord(long id) {
         try{
-            return dbExecutor.loadRecord(1, new Account(), sessionManager.getCurrentSession().getConnection());
+            return dbExecutor.loadRecord(1, Account.class, sessionManager.getCurrentSession().getConnection());
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DaoException(ex);

@@ -22,6 +22,7 @@ public class User {
     }
 
     public User() {
+        name = "";
     }
 
     public User(String name, int age) {

@@ -136,7 +136,10 @@ public class QueryChunkImpl implements QueryChunk {
         } else if (type.equals("INT")){
             field.setInt(instance, rs.getInt(name));
         } else if (type.equals("LONG")){
-            field.setLong(instance, rs.getLong(name));
+//            field.setLong(instance, rs.getLong(name));
+            //<
+            System.out.println("++++++++++++++++++++++++++++++++");
+            field.set(instance, rs.getObject(name));
         } else if (type.equals("DOUBLE")){
             field.setDouble(instance, rs.getDouble(name));
         } else {
