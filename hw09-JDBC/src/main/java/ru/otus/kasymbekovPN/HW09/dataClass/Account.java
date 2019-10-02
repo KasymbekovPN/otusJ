@@ -9,7 +9,7 @@ public class Account {
     @Id
     private long no = -1;
 
-    private String type;
+    private String type = "";
 
     private double rest;
 
@@ -22,7 +22,6 @@ public class Account {
     }
 
     public Account() {
-        type = "";
     }
 
     public Account(String type, double rest) {

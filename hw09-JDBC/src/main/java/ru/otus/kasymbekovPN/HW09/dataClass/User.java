@@ -9,7 +9,7 @@ public class User {
     @Id
     private long id = -1;
 
-    private String name;
+    private String name = "";
 
     private int age;
 
@@ -22,7 +22,6 @@ public class User {
     }
 
     public User() {
-        name = "";
     }
 
     public User(String name, int age) {

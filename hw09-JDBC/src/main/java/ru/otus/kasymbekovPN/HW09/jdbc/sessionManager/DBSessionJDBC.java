@@ -18,7 +18,7 @@ public class DBSessionJDBC implements DBSession {
      * Конструктор
      * @param conn соедение
      */
-    public DBSessionJDBC(Connection conn) {
+    DBSessionJDBC(Connection conn) {
         this.conn = conn;
     }
 

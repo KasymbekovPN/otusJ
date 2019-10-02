@@ -4,10 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW09.query.PreparedInstanceData;
 import ru.otus.kasymbekovPN.HW09.query.PreparedInstanceDataImpl;
-import ru.otus.kasymbekovPN.HW09.utils.Trio;
 import ru.otus.kasymbekovPN.HW09.api.executor.DBExecutor;
 
-import javax.print.DocFlavor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.*;
@@ -41,7 +39,7 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
         if (checkTableExisting(instance.getClass(), connection, true)){
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
 
-            String query = preparedInstanceData.getInsertQuery_();
+            String query = preparedInstanceData.getInsertQuery();
             try(PreparedStatement pst = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
                 List<Object> values = preparedInstanceData.extractValues(instance);
                 for(int i = 0; i < values.size(); i++){
@@ -67,11 +65,11 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
      * @return Объект
      */
     @Override
-    public Optional<T> updateRecord(T instance, Connection connection) throws SQLException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException, InstantiationException, InvocationTargetException {
+    public Optional<T> updateRecord(T instance, Connection connection) throws SQLException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
         if (checkTableExisting(instance.getClass(), connection, false)){
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
 
-            String query = preparedInstanceData.getUpdateQuery_();
+            String query = preparedInstanceData.getUpdateQuery();
             List<Object> values = preparedInstanceData.extractValues(instance);
             values.add(preparedInstanceData.extractKey(instance));
 
@@ -97,12 +95,12 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
      * @return объект с выгруженными данными
      */
     @Override
-    public Optional<T> loadRecord(long id, Class clazz, Connection connection) throws SQLException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException, InstantiationException, InvocationTargetException {
+    public Optional<T> loadRecord(long id, Class clazz, Connection connection) throws SQLException, IllegalAccessException, NoSuchMethodException, InstantiationException, InvocationTargetException {
 
         if (checkTableExisting(clazz, connection, false)){
             PreparedInstanceData preparedInstanceData = existingMap.get(clazz);
 
-            String query = preparedInstanceData.getSelectQuery_();
+            String query = preparedInstanceData.getSelectQuery();
 
             try(PreparedStatement pst = connection.prepareStatement(query)){
                 pst.setObject(1, id);
@@ -110,23 +108,6 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
                     return (Optional<T>) Optional.of(preparedInstanceData.fillInstance(rs, clazz));
                 }
             }
-
-            //<
-//            preparedInstanceData.setInstance(dummy);
-//            Trio<String, String, List<String>> trio = preparedInstanceData.getSelectQuery();
-//
-//            String sql = trio.getFirst();
-//            String idName = trio.getSecond();
-//            List<String> names = trio.getThird();
-//
-//            try(PreparedStatement pst = connection.prepareStatement(sql)){
-//                preparedInstanceData.fillPst(pst, List.of((Object)id), List.of(idName));
-//                try(ResultSet rs = pst.executeQuery()){
-//
-//                    //<
-//                    return (Optional<T>) Optional.of(preparedInstanceData.fillInstance(rs, names));
-//                }
-//            }
         } else {
             return Optional.empty();
         }
@@ -139,20 +120,14 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
      * @param create true - (если таблица несуществет, то её нужно создать), false- (создавать не нужно)
      * @return успешность проверки
      */
-//    private boolean checkTableExisting(Object instance, Connection connection, boolean create) throws IllegalAccessException, SQLException {
-    //<
     private boolean checkTableExisting(Class clazz, Connection connection, boolean create) throws IllegalAccessException, SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException {
-
-//        Class<?> type = instance.getClass();
-        //<
-
         if (!notContainIdSet.contains(clazz)) {
             if (!existingMap.containsKey(clazz)){
                 PreparedInstanceData preparedInstanceData = new PreparedInstanceDataImpl(clazz);
-                if (preparedInstanceData.isValid_()){
+                if (preparedInstanceData.isValid()){
                     if (create) {
                         existingMap.put(clazz, preparedInstanceData);
-                        String query = preparedInstanceData.getCreateTableQuery_();
+                        String query = preparedInstanceData.getCreateTableQuery();
                         try (PreparedStatement pst = connection.prepareStatement(query)) {
                             pst.executeUpdate();
                             logger.info("table created : {}", query);
