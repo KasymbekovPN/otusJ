@@ -28,6 +28,7 @@
         <module>hw06-ATM</module>
         <module>hw07-ATMDepartament</module>
         <module>hw08-jsonObjectWriter</module>
+        <module>hw09-JDBC</module>
         <module>hw10-hibernate</module>
     </modules>
 
