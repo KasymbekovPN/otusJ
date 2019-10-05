@@ -2,9 +2,11 @@ package ru.otus.kasymbekovPN.HW09.jdbc.executor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.kasymbekovPN.HW09.query.ExtractValuesHelperImpl;
 import ru.otus.kasymbekovPN.HW09.query.PreparedInstanceData;
 import ru.otus.kasymbekovPN.HW09.query.PreparedInstanceDataImpl;
 import ru.otus.kasymbekovPN.HW09.api.executor.DBExecutor;
+import ru.otus.kasymbekovPN.HW09.query.ResultSetHelperImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
@@ -41,14 +43,22 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
 
             String query = preparedInstanceData.getInsertQuery();
             try(PreparedStatement pst = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
-                List<Object> values = preparedInstanceData.extractValues(instance);
+                List<Object> values = new ExtractValuesHelperImpl().extractOtherValues(
+                        instance,
+                        preparedInstanceData.getOtherFields()
+                );
+
                 for(int i = 0; i < values.size(); i++){
                     pst.setObject(i+1, values.get(i));
                 }
                 pst.executeUpdate();
 
                 try(ResultSet rs = pst.getGeneratedKeys()){
-                    preparedInstanceData.setKeyField(rs, instance);
+                    new ResultSetHelperImpl().setKeyField(
+                            rs,
+                            instance,
+                            preparedInstanceData.getKeyField()
+                    );
                 }
             }
 
@@ -69,10 +79,11 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
         if (checkTableExisting(instance.getClass(), connection, false)){
             PreparedInstanceData preparedInstanceData = existingMap.get(instance.getClass());
 
-            String query = preparedInstanceData.getUpdateQuery();
-            List<Object> values = preparedInstanceData.extractValues(instance);
-            values.add(preparedInstanceData.extractKey(instance));
+            var helper = new ExtractValuesHelperImpl();
+            List<Object> values = helper.extractOtherValues(instance, preparedInstanceData.getOtherFields());
+            values.add(helper.extractKeyValue(instance, preparedInstanceData.getKeyField()));
 
+            String query = preparedInstanceData.getUpdateQuery();
             try(PreparedStatement pst = connection.prepareStatement(query)){
                 for(int i = 0; i < values.size(); i++){
                     pst.setObject(i+1, values.get(i));
@@ -105,7 +116,14 @@ public class DBExecutorJDBC<T> implements DBExecutor<T> {
             try(PreparedStatement pst = connection.prepareStatement(query)){
                 pst.setObject(1, id);
                 try(ResultSet rs = pst.executeQuery()){
-                    return (Optional<T>) Optional.of(preparedInstanceData.fillInstance(rs, clazz));
+                    return (Optional<T>)Optional.of(
+                            new ResultSetHelperImpl().makeInstance(
+                                    rs,
+                                    clazz,
+                                    preparedInstanceData.getKeyField(),
+                                    preparedInstanceData.getOtherFields()
+                            )
+                    );
                 }
             }
         } else {

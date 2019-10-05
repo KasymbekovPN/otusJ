@@ -1,5 +1,6 @@
 package ru.otus.kasymbekovPN.HW09.query;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,12 +11,6 @@ import java.util.List;
  * данных для запросов в БД
  */
 public interface PreparedInstanceData {
-    /**
-     * Задаём значение ключевого поля инстанса
-     * @param rs данные
-     */
-    void setKeyField(ResultSet rs, Object instance) throws NoSuchFieldException, SQLException, IllegalAccessException;
-
     /**
      * Проверяет является ли инстанс класса, реализубщего данный интерфейс, валидным
      * @return Результат проверки
@@ -47,24 +42,14 @@ public interface PreparedInstanceData {
     String getSelectQuery();
 
     /**
-     * Получаем значения неключевых полей инстанса
-     * @param instance инстанс
-     * @return Список значений
+     * Геттер ключевого поля
+     * @return Ключевое поле
      */
-    List<Object> extractValues(Object instance) throws IllegalAccessException;
+    Field getKeyField();
 
     /**
-     * Получаем значение ключевого поля инстанста
-     * @param instance инстанс
-     * @return Значение ключевого поля инстанса
+     * Геттер неключевых полей
+     * @return Неключевые поля
      */
-    Object extractKey(Object instance) throws IllegalAccessException;
-
-    /**
-     * Заполняет инстанс, полученными из БД данными
-     * @param rs полученные данные
-     * @param clazz заполняемый класс
-     * @return Модернизированый инстанс
-     */
-    Object fillInstance(ResultSet rs, Class clazz) throws SQLException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException;
+    List<Field> getOtherFields();
 }

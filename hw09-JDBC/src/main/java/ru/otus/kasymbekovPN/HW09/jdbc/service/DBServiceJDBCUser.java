@@ -45,6 +45,7 @@ public class DBServiceJDBCUser implements DBServiceUser {
                     sessionManager.commitSession();
                     logger.info("record was create");
                 } else {
+                    sessionManager.rollbackSession();
                     logger.info("record wasn't create");
                 }
                 return record;
@@ -71,6 +72,7 @@ public class DBServiceJDBCUser implements DBServiceUser {
                     sessionManager.commitSession();
                     logger.info("record was update");
                 } else {
+                    sessionManager.rollbackSession();
                     logger.info("record wasn't update");
                 }
                 return record;
