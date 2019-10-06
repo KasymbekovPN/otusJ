@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ResultSetHelper {
+public class ResultSetHelper {
 
     /**
      * Заполняет ключевое поле инстанса
@@ -14,7 +14,10 @@ public interface ResultSetHelper {
      * @param instance Инстанс
      * @param key Ключевое поле
      */
-    void setKeyField(ResultSet rs, Object instance, Field key) throws SQLException, IllegalAccessException;
+    static public void setKeyField(ResultSet rs, Object instance, Field key) throws SQLException, IllegalAccessException {
+        rs.next();
+        key.set(instance, rs.getObject(key.getName()));
+    }
 
     /**
      * Создает инстанс и заполняет его поля
@@ -24,5 +27,14 @@ public interface ResultSetHelper {
      * @param others Прочие аоля
      * @return Созданные инстанс
      */
-    Object makeInstance(ResultSet rs, Class clazz, Field key, List<Field> others) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException;
+    static public Object makeInstance(ResultSet rs, Class clazz, Field key, List<Field> others) throws SQLException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Object instance = clazz.getConstructor().newInstance();
+        rs.next();
+        int index = 1;
+        key.set(instance, rs.getObject(index++));
+        for (Field field : others) {
+            field.set(instance, rs.getObject(index++));
+        }
+        return instance;
+    }
 }
