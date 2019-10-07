@@ -1,12 +1,12 @@
 package ru.otus.kasymbekovPN.HW10.api.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
-@Table(name="user")
-public class User {
+@Table(name = "tDBUser")
+public class DBUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -20,20 +20,25 @@ public class User {
     private int age;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "addressDataSet_id")
     private AddressDataSet addressDataSet;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "dbUser")
     private List<PhoneDataSet> phones;
 
-    public User() {
+    public DBUser() {
     }
 
-    public User(String name, int age, AddressDataSet addressDataSet, List<PhoneDataSet> phones) {
+    public DBUser(long id, String name, int age, AddressDataSet addressDataSet, List<PhoneDataSet> phones) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.addressDataSet = addressDataSet;
         this.phones = phones;
+
+        for (PhoneDataSet phone : this.phones) {
+            phone.setDbUser(this);
+        }
     }
 
     public long getId() {
@@ -77,25 +82,8 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                age == user.age &&
-                Objects.equals(name, user.name) &&
-                Objects.equals(addressDataSet, user.addressDataSet) &&
-                Objects.equals(phones, user.phones);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, age, addressDataSet, phones);
-    }
-
-    @Override
     public String toString() {
-        return "User{" +
+        return "DBUser{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +

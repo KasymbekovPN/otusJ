@@ -3,7 +3,7 @@ package ru.otus.kasymbekovPN.HW10.api.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW10.api.dao.UserDao;
-import ru.otus.kasymbekovPN.HW10.api.model.User;
+import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 
 import java.util.Optional;
@@ -19,11 +19,11 @@ public class DBServiceUserImpl implements DBServiceUser {
     }
 
     @Override
-    public long saveUser(User user) {
+    public long saveUser(DBUser DBUser) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                long userId = dao.saveUser(user);
+                long userId = dao.saveUser(DBUser);
                 sessionManager.commitSession();
 
                 logger.info("created user : {}", userId);
@@ -37,11 +37,11 @@ public class DBServiceUserImpl implements DBServiceUser {
     }
 
     @Override
-    public Optional<User> getUser(long id) {
+    public Optional<DBUser> getUser(long id) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<User> user = dao.findById(id);
+                Optional<DBUser> user = dao.findById(id);
 
                 logger.info("user : {}", user.orElse(null));
                 return user;

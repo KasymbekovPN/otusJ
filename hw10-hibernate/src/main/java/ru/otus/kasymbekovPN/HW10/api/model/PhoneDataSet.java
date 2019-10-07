@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "phone")
+@Table(name = "tPhones")
 public class PhoneDataSet {
 
     @Id
@@ -12,13 +12,18 @@ public class PhoneDataSet {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "number", nullable = false)
+    @Column(name = "phone", nullable = false)
     private String phone;
+
+    @ManyToOne
+    @JoinColumn(name = "dBUser_id", nullable = false)
+    private DBUser dbUser;
 
     public PhoneDataSet() {
     }
 
-    public PhoneDataSet(String phone) {
+    public PhoneDataSet(long id, String phone) {
+        this.id = id;
         this.phone = phone;
     }
 
@@ -36,6 +41,14 @@ public class PhoneDataSet {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public DBUser getDbUser() {
+        return dbUser;
+    }
+
+    public void setDbUser(DBUser dbUser) {
+        this.dbUser = dbUser;
     }
 
     @Override

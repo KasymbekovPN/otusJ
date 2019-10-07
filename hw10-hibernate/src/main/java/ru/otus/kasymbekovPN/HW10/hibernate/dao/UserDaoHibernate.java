@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW10.api.dao.UserDao;
 import ru.otus.kasymbekovPN.HW10.api.dao.UserDaoException;
-import ru.otus.kasymbekovPN.HW10.api.model.User;
+import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.DataBaseSession;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 
@@ -21,11 +21,11 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public Optional<User> findById(long id) {
+    public Optional<DBUser> findById(long id) {
         DataBaseSession currentSession = sessionManager.getCurrentSession();
         try{
             return Optional.ofNullable(
-                    currentSession.getSession().find(User.class, id)
+                    currentSession.getSession().find(DBUser.class, id)
             );
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
@@ -35,17 +35,17 @@ public class UserDaoHibernate implements UserDao {
     }
 
     @Override
-    public long saveUser(User user) {
+    public long saveUser(DBUser DBUser) {
         DataBaseSession currentSession = sessionManager.getCurrentSession();
         try{
             Session session = currentSession.getSession();
-            if (user.getId() > 0){
-                session.merge(user);
+            if (DBUser.getId() > 0){
+                session.merge(DBUser);
             } else {
-                session.persist(user);
+                session.persist(DBUser);
             }
 
-            return user.getId();
+            return DBUser.getId();
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new UserDaoException(ex);

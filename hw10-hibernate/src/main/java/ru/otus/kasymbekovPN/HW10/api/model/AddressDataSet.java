@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name="address")
+@Table(name="tAddresses")
 public class AddressDataSet {
 
     @Id
@@ -18,7 +18,8 @@ public class AddressDataSet {
     public AddressDataSet() {
     }
 
-    public AddressDataSet(String street) {
+    public AddressDataSet(long id, String street) {
+        this.id = id;
         this.street = street;
     }
 
