@@ -57,12 +57,13 @@ public class PhoneDataSet {
         if (o == null || getClass() != o.getClass()) return false;
         PhoneDataSet that = (PhoneDataSet) o;
         return id == that.id &&
-                Objects.equals(phone, that.phone);
+                Objects.equals(phone, that.phone) &&
+                Objects.equals(dbUser, that.dbUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, phone);
+        return Objects.hash(id, phone, dbUser);
     }
 
     @Override

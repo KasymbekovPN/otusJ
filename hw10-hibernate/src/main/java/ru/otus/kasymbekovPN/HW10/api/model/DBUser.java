@@ -1,8 +1,10 @@
 package ru.otus.kasymbekovPN.HW10.api.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tDBUser")
@@ -90,5 +92,27 @@ public class DBUser {
                 ", addressDataSet=" + addressDataSet +
                 ", phones=" + phones +
                 '}';
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DBUser dbUser = (DBUser) o;
+
+        //<
+        boolean phoneEq = true;
+
+        return id == dbUser.id &&
+                age == dbUser.age &&
+                Objects.equals(name, dbUser.name) &&
+                Objects.equals(addressDataSet, dbUser.addressDataSet) &&
+                Objects.equals(phones, dbUser.phones);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, addressDataSet, phones);
     }
 }

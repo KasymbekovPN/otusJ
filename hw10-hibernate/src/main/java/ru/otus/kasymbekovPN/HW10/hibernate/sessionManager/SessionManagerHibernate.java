@@ -7,10 +7,19 @@ import ru.otus.kasymbekovPN.HW10.api.sessionManager.DataBaseSession;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManagerException;
 
+/**
+ * Реализации менеджера сессий
+ */
 public class SessionManagerHibernate implements SessionManager {
 
+    /**
+     * Сессия для работы с БД
+     */
     private DataBaseSession dataBaseSession;
 
+    /**
+     * Фактория сессий.
+     */
     private final SessionFactory sessionFactory;
 
     public SessionManagerHibernate(SessionFactory sessionFactory) {
@@ -19,6 +28,9 @@ public class SessionManagerHibernate implements SessionManager {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Начать сессию
+     */
     @Override
     public void beginSession() {
         try{
@@ -28,6 +40,9 @@ public class SessionManagerHibernate implements SessionManager {
         }
     }
 
+    /**
+     * Фиксировать изменения
+     */
     @Override
     public void commitSession() {
         checkSessionAndTransaction();
@@ -39,6 +54,9 @@ public class SessionManagerHibernate implements SessionManager {
         }
     }
 
+    /**
+     * Откатить изменения
+     */
     @Override
     public void rollbackSession() {
         checkSessionAndTransaction();
@@ -50,6 +68,9 @@ public class SessionManagerHibernate implements SessionManager {
         }
     }
 
+    /**
+     * Закрыить сессию
+     */
     @Override
     public void close() {
         if (dataBaseSession == null) {
@@ -73,12 +94,19 @@ public class SessionManagerHibernate implements SessionManager {
         }
     }
 
+    /**
+     * Геттер текущий сессии
+     * @return Текущая сессия
+     */
     @Override
     public DataBaseSession getCurrentSession() {
         checkSessionAndTransaction();
         return dataBaseSession;
     }
 
+    /**
+     * Проверить сессию и транзакцию.
+     */
     private void checkSessionAndTransaction(){
         if (dataBaseSession == null)
             throw new SessionManagerException("DataSession not opened");
