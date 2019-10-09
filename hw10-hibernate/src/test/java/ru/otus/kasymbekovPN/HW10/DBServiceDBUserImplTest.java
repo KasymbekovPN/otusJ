@@ -16,9 +16,7 @@ import ru.otus.kasymbekovPN.HW10.hibernate.HibernateUtils;
 import ru.otus.kasymbekovPN.HW10.hibernate.dao.DBUserDaoHibernate;
 import ru.otus.kasymbekovPN.HW10.hibernate.sessionManager.SessionManagerHibernate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -49,47 +47,18 @@ class DBServiceDBUserImplTest {
         Optional<DBUser> selectUserOpt = service.getUser(userId);
 
         assertThat(selectUserOpt).isPresent();
-
-        System.out.println(insertedUser);
-        System.out.println(selectUserOpt.get());
-
-        System.out.println(selectUserOpt.get().equals(insertedUser));
-
+        System.out.println("insert : " + insertedUser);
+        System.out.println("select : " + selectUserOpt.get());
         assertThat(selectUserOpt.get()).isEqualTo(insertedUser);
 
-//        Optional<DBUser> userOpt = service.getUser(id);
-//        outputUserOptional("1)", userOpt);
-//
-//        id = service.saveUser(new DBUser(1L, "Pavel K", 31, addressDataSet, phones));
-//        userOpt = service.getUser(id);
-//        outputUserOptional("2)", userOpt);
+        insertedUser.setName("Pavel K");
+        userId = service.saveUser(insertedUser);
+        selectUserOpt = service.getUser(userId);
 
-        //<
-//        SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate-test.cfg.xml",
-//                DBUser.class, AddressDataSet.class, PhoneDataSet.class);
-//
-//        SessionManager sessionManager = new SessionManagerHibernate(sessionFactory);
-//
-//        DBUserDao dao = new DBUserDaoHibernate(sessionManager);
-//
-//        DBServiceDBUser service = new DBServiceDBUserImpl(dao);
-//
-//        AddressDataSet addressDataSet = new AddressDataSet(0, "my street");
-//
-//        List<PhoneDataSet> phones = new ArrayList<>(){{
-//            add(new PhoneDataSet(0, "123"));
-//            add(new PhoneDataSet(0, "456"));
-//            add(new PhoneDataSet(0, "789"));
-//        }};
-//
-//        long id = service.saveUser(new DBUser(0, "Pavel", 30, addressDataSet, phones));
-//
-//        Optional<DBUser> userOpt = service.getUser(id);
-//        outputUserOptional("1)", userOpt);
-//
-//        id = service.saveUser(new DBUser(1L, "Pavel K", 31, addressDataSet, phones));
-//        userOpt = service.getUser(id);
-//        outputUserOptional("2)", userOpt);
+        assertThat(selectUserOpt).isPresent();
+        System.out.println("insert : " + insertedUser);
+        System.out.println("select : " + selectUserOpt.get());
+        assertThat(selectUserOpt.get()).isEqualTo(insertedUser);
     }
 
 

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tPhones")
-public class PhoneDataSet {
+public class PhoneDataSet implements Comparable<PhoneDataSet> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -57,8 +57,7 @@ public class PhoneDataSet {
         if (o == null || getClass() != o.getClass()) return false;
         PhoneDataSet that = (PhoneDataSet) o;
         return id == that.id &&
-                Objects.equals(phone, that.phone) &&
-                Objects.equals(dbUser, that.dbUser);
+                Objects.equals(phone, that.phone);
     }
 
     @Override
@@ -72,5 +71,10 @@ public class PhoneDataSet {
                 "id=" + id +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(PhoneDataSet o) {
+        return phone.compareTo(o.phone);
     }
 }
