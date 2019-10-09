@@ -1,5 +1,7 @@
 package ru.otus.kasymbekovPN.HW10.api.sessionManager;
 
+import ru.otus.kasymbekovPN.HW10.hibernate.sessionManager.DataBaseSessionHibernate;
+
 /**
  * Интерфейс для реализации менеджера сессий
  */
@@ -29,5 +31,5 @@ public interface SessionManager extends AutoCloseable{
      * Геттер текущий сессии
      * @return Текущая сессия
      */
-    DataBaseSession getCurrentSession();
+    DataBaseSessionHibernate getCurrentSession();
 }

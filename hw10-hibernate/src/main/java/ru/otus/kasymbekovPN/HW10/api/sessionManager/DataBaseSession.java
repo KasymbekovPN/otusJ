@@ -8,20 +8,21 @@ import org.hibernate.Transaction;
  */
 public interface DataBaseSession {
 
-    /**
-     * Геттер сессии
-     * @return Сессия
-     */
-    Session getSession();
-
-    /**
-     * Геттер транзакции
-     * @return Транзакция
-     */
-    Transaction getTransaction();
-
-    /**
-     * Закрыть сессию
-     */
-    void close();
+    //<
+//    /**
+//     * Геттер сессии
+//     * @return Сессия
+//     */
+//    Session getSession();
+//
+//    /**
+//     * Геттер транзакции
+//     * @return Транзакция
+//     */
+//    Transaction getTransaction();
+//
+//    /**
+//     * Закрыть сессию
+//     */
+//    void close();
 }

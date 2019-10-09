@@ -15,7 +15,7 @@ public class SessionManagerHibernate implements SessionManager {
     /**
      * Сессия для работы с БД
      */
-    private DataBaseSession dataBaseSession;
+    private DataBaseSessionHibernate dataBaseSession;
 
     /**
      * Фактория сессий.
@@ -99,7 +99,7 @@ public class SessionManagerHibernate implements SessionManager {
      * @return Текущая сессия
      */
     @Override
-    public DataBaseSession getCurrentSession() {
+    public DataBaseSessionHibernate getCurrentSession() {
         checkSessionAndTransaction();
         return dataBaseSession;
     }

@@ -8,6 +8,7 @@ import ru.otus.kasymbekovPN.HW10.api.dao.DBUserDaoException;
 import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.DataBaseSession;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
+import ru.otus.kasymbekovPN.HW10.hibernate.sessionManager.DataBaseSessionHibernate;
 
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class DBUserDaoHibernate implements DBUserDao {
      */
     @Override
     public Optional<DBUser> findById(long id) {
-        DataBaseSession currentSession = sessionManager.getCurrentSession();
+        DataBaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try{
             return Optional.ofNullable(
                     currentSession.getSession().find(DBUser.class, id)
@@ -57,7 +58,7 @@ public class DBUserDaoHibernate implements DBUserDao {
      */
     @Override
     public long saveUser(DBUser DBUser) {
-        DataBaseSession currentSession = sessionManager.getCurrentSession();
+        DataBaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try{
             Session session = currentSession.getSession();
             if (DBUser.getId() > 0){

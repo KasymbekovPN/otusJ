@@ -6,14 +6,18 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW10.api.dao.DBUserDao;
+import ru.otus.kasymbekovPN.HW10.api.dao.DaoDBUser_;
 import ru.otus.kasymbekovPN.HW10.api.model.AddressDataSet;
 import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
 import ru.otus.kasymbekovPN.HW10.api.model.PhoneDataSet;
 import ru.otus.kasymbekovPN.HW10.api.service.DBServiceDBUser;
 import ru.otus.kasymbekovPN.HW10.api.service.DBServiceDBUserImpl;
+import ru.otus.kasymbekovPN.HW10.api.service.DBServiceDBUserImpl_;
+import ru.otus.kasymbekovPN.HW10.api.service.DBServiceDBUser_;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 import ru.otus.kasymbekovPN.HW10.hibernate.HibernateUtils;
 import ru.otus.kasymbekovPN.HW10.hibernate.dao.DBUserDaoHibernate;
+import ru.otus.kasymbekovPN.HW10.hibernate.dao.DaoDBUserHibernate_;
 import ru.otus.kasymbekovPN.HW10.hibernate.sessionManager.SessionManagerHibernate;
 
 import java.util.*;
@@ -31,9 +35,9 @@ class DBServiceDBUserImplTest {
 
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate-test.cfg.xml",
                 DBUser.class, AddressDataSet.class, PhoneDataSet.class);
-        SessionManager sessionManager = new SessionManagerHibernate(sessionFactory);
-        DBUserDao dao = new DBUserDaoHibernate(sessionManager);
-        DBServiceDBUser service = new DBServiceDBUserImpl(dao);
+        SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
+        DaoDBUser_ dao = new DaoDBUserHibernate_(sessionManager);
+        DBServiceDBUser_ service = new DBServiceDBUserImpl_(dao);
 
         AddressDataSet addressDataSet = new AddressDataSet(0, "my street");
         List<PhoneDataSet> phones = new ArrayList<>(){{
@@ -43,27 +47,19 @@ class DBServiceDBUserImplTest {
         }};
 
         DBUser insertedUser = new DBUser(0, "Pavel", 30, addressDataSet, phones);
-        long userId = service.saveUser(insertedUser);
-        Optional<DBUser> selectUserOpt = service.getUser(userId);
+        Optional<DBUser> insertedRecOpt = service.createRecord(insertedUser);
+        assertThat(insertedRecOpt).isPresent();
 
-        assertThat(selectUserOpt).isPresent();
-        System.out.println("insert : " + insertedUser);
-        System.out.println("select : " + selectUserOpt.get());
-        assertThat(selectUserOpt.get()).isEqualTo(insertedUser);
+        Optional<DBUser> selectedRecOpt = service.loadRecord(insertedRecOpt.get().getId());
+        assertThat(selectedRecOpt).isPresent();
+        assertThat(selectedRecOpt.get()).isEqualTo(insertedRecOpt.get());
 
-        insertedUser.setName("Pavel K");
-        userId = service.saveUser(insertedUser);
-        selectUserOpt = service.getUser(userId);
+        insertedRecOpt.get().setName("Pavel K");
+        Optional<DBUser> updateRecordOpt = service.updateRecord(insertedRecOpt.get());
+        assertThat(updateRecordOpt).isPresent();
 
-        assertThat(selectUserOpt).isPresent();
-        System.out.println("insert : " + insertedUser);
-        System.out.println("select : " + selectUserOpt.get());
-        assertThat(selectUserOpt.get()).isEqualTo(insertedUser);
-    }
-
-
-    private static void outputUserOptional(String header, Optional<DBUser> userOpt){
-        System.out.println(header);
-        userOpt.ifPresentOrElse(System.out::println, () ->{logger.info("User not found");});
+        selectedRecOpt = service.loadRecord(insertedRecOpt.get().getId());
+        assertThat(selectedRecOpt).isPresent();
+        assertThat(selectedRecOpt.get()).isEqualTo(updateRecordOpt.get());
     }
 }
