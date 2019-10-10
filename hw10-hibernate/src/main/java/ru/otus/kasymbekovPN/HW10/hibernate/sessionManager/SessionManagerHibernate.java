@@ -3,7 +3,6 @@ package ru.otus.kasymbekovPN.HW10.hibernate.sessionManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import ru.otus.kasymbekovPN.HW10.api.sessionManager.DataBaseSession;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManagerException;
 

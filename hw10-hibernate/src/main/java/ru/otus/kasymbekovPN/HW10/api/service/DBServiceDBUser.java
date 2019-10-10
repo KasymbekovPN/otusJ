@@ -5,22 +5,28 @@ import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
 import java.util.Optional;
 
 /**
- * Интерфейс для реализации серсиса работы
- * инстансов класса DBUser
+ * Интерфейс для реализации сервиса работы класса
+ * DBUser с БД.
  */
 public interface DBServiceDBUser {
+    /**
+     * Создание записи в БД
+     * @param user Записываемый инстанс
+     * @return Записанный инстанс
+     */
+    Optional<DBUser> createRecord(DBUser user);
 
     /**
-     * Сохраняем инстанс в БД
-     * @param DBUser инстанс
-     * @return Идентификатор записи
+     * Обновление записи в БД
+     * @param user Инстанс, запись которого должна быль обновленв
+     * @return Инстанс
      */
-    long saveUser(DBUser DBUser);
+    Optional<DBUser> updateRecord(DBUser user);
 
     /**
-     * Получаем запись с данными по идентификатору
-     * @param id идентификатор
-     * @return Результат запроса.
+     * Выгрузка данных по ключу
+     * @param id значение ключа
+     * @return Инстанс, с выгруженными данными.
      */
-    Optional<DBUser> getUser(long id);
+    Optional<DBUser> loadRecord(long id);
 }

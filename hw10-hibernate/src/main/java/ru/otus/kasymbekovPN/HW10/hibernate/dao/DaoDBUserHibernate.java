@@ -1,12 +1,10 @@
 package ru.otus.kasymbekovPN.HW10.hibernate.dao;
 
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW10.api.dao.DBUserDaoException;
-import ru.otus.kasymbekovPN.HW10.api.dao.DaoDBUser_;
+import ru.otus.kasymbekovPN.HW10.api.dao.DaoDBUser;
 import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
-import ru.otus.kasymbekovPN.HW10.api.sessionManager.DataBaseSession;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 import ru.otus.kasymbekovPN.HW10.hibernate.sessionManager.DataBaseSessionHibernate;
 import ru.otus.kasymbekovPN.HW10.hibernate.sessionManager.SessionManagerHibernate;
@@ -16,9 +14,9 @@ import java.util.Optional;
 /**
  * Реализации DAO для DBUser
  */
-public class DaoDBUserHibernate_ implements DaoDBUser_ {
+public class DaoDBUserHibernate implements DaoDBUser {
 
-    private static Logger logger = LoggerFactory.getLogger(DaoDBUserHibernate_.class);
+    private static Logger logger = LoggerFactory.getLogger(DaoDBUserHibernate.class);
 
     /**
      * Менеджер сессий
@@ -29,7 +27,7 @@ public class DaoDBUserHibernate_ implements DaoDBUser_ {
      * Конструктор
      * @param sessionManager менеджер сессий
      */
-    public DaoDBUserHibernate_(SessionManagerHibernate sessionManager) {
+    public DaoDBUserHibernate(SessionManagerHibernate sessionManager) {
         this.sessionManager = sessionManager;
     }
 

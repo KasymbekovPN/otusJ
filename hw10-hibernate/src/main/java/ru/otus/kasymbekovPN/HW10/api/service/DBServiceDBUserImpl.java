@@ -2,14 +2,15 @@ package ru.otus.kasymbekovPN.HW10.api.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW10.api.dao.DBUserDao;
+import ru.otus.kasymbekovPN.HW10.api.dao.DaoDBUser;
 import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
 import ru.otus.kasymbekovPN.HW10.api.sessionManager.SessionManager;
 
 import java.util.Optional;
 
 /**
- * Реализация серсиса работы инстансов класса DBUser
+ * Реализации сервиса работы класса
+ * DBUser с БД.
  */
 public class DBServiceDBUserImpl implements DBServiceDBUser {
 
@@ -18,32 +19,36 @@ public class DBServiceDBUserImpl implements DBServiceDBUser {
     /**
      * DAO
      */
-    private final DBUserDao dao;
+    private final DaoDBUser dao;
 
     /**
      * Конструктор
      * @param dao DAO
      */
-    public DBServiceDBUserImpl(DBUserDao dao) {
+    public DBServiceDBUserImpl(DaoDBUser dao) {
         this.dao = dao;
     }
 
     /**
-     * Сохраняем инстанс в БД
-     * @param DBUser инстанс
-     * @return Идентификатор записи
+     * Создание записи в БД
+     * @param user Записываемый инстанс
+     * @return Записанный инстанс
      */
     @Override
-    public long saveUser(DBUser DBUser) {
+    public Optional<DBUser> createRecord(DBUser user) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                long userId = dao.saveUser(DBUser);
-                sessionManager.commitSession();
-
-                logger.info("created user : {}", userId);
-                return userId;
-            } catch (Exception ex){
+                Optional<DBUser> record = dao.createRecord(user);
+                if (record.isPresent()){
+                    sessionManager.commitSession();
+                    logger.info("record was create");
+                } else {
+                    sessionManager.rollbackSession();
+                    logger.info("record wasn't create");
+                }
+                return record;
+            } catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
                 sessionManager.rollbackSession();
                 throw new DBServiceException(ex);
@@ -52,23 +57,50 @@ public class DBServiceDBUserImpl implements DBServiceDBUser {
     }
 
     /**
-     * Получаем запись с данными по идентификатору
-     * @param id идентификатор
-     * @return Результат запроса.
+     * Обновление записи в БД
+     * @param user Инстанс, запись которого должна быль обновленв
+     * @return Инстанс
      */
     @Override
-    public Optional<DBUser> getUser(long id) {
+    public Optional<DBUser> updateRecord(DBUser user) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<DBUser> user = dao.findById(id);
-
-                logger.info("user : {}", user.orElse(null));
-                return user;
+                Optional<DBUser> record = dao.updateRecord(user);
+                if (record.isPresent()){
+                    sessionManager.commitSession();
+                    logger.info("record was update");
+                } else {
+                    sessionManager.rollbackSession();
+                    logger.info("record wasn't update");
+                }
+                return record;
             } catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
                 sessionManager.rollbackSession();
+                throw new DBServiceException(ex);
             }
+        }
+    }
+
+    /**
+     * Выгрузка данных по ключу
+     * @param id значение ключа
+     * @return Инстанс, с выгруженными данными.
+     */
+    @Override
+    public Optional<DBUser> loadRecord(long id) {
+        try(SessionManager sessionManager = dao.getSessionManager()){
+            sessionManager.beginSession();
+            try{
+                Optional<DBUser> record = dao.loadRecord(id);
+                logger.info("loaded record : {}", record.orElse(null));
+                return record;
+            } catch (Exception ex){
+                logger.error(ex.getMessage(), ex);
+                sessionManager.rollbackSession();
+            }
+
             return Optional.empty();
         }
     }

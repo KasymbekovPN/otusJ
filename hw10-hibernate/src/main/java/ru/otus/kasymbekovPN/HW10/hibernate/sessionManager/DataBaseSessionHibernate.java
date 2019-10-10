@@ -32,8 +32,6 @@ public class DataBaseSessionHibernate implements DataBaseSession {
      * Геттер сессии
      * @return Сессия
      */
-    //<
-//    @Override
     public Session getSession() {
         return session;
     }
@@ -42,18 +40,14 @@ public class DataBaseSessionHibernate implements DataBaseSession {
      * Геттер транзакции
      * @return Транзакция
      */
-    //<
-//    @Override
-    public Transaction getTransaction() {
+    Transaction getTransaction() {
         return transaction;
     }
 
     /**
      * Закрыть сессию
      */
-    //<
-//    @Override
-    public void close() {
+    void close() {
         if (transaction.isActive())
             transaction.commit();
         session.close();

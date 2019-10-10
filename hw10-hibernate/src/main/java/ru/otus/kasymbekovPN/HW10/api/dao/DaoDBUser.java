@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Интерфейс для реализации DAO для DBUser
  */
-public interface DaoDBUser_ {
+public interface DaoDBUser {
     /**
      * Выгрузка записи по ключю
      * @param id ключ
