@@ -13,6 +13,10 @@ public class User {
 
     private int age;
 
+    public long getId() {
+        return id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
