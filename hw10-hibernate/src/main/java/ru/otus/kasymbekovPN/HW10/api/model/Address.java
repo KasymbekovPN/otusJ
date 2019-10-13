@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name="tAddresses")
-public class AddressDataSet {
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -15,10 +15,10 @@ public class AddressDataSet {
     @Column(name = "street", nullable = false)
     private String street;
 
-    public AddressDataSet() {
+    public Address() {
     }
 
-    public AddressDataSet(long id, String street) {
+    public Address(long id, String street) {
         this.id = id;
         this.street = street;
     }
@@ -43,7 +43,7 @@ public class AddressDataSet {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressDataSet that = (AddressDataSet) o;
+        Address that = (Address) o;
         return id == that.id &&
                 Objects.equals(street, that.street);
     }
@@ -55,7 +55,7 @@ public class AddressDataSet {
 
     @Override
     public String toString() {
-        return "AddressDataSet{" +
+        return "Address{" +
                 "id=" + id +
                 ", street='" + street + '\'' +
                 '}';

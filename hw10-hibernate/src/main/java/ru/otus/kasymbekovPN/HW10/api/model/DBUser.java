@@ -19,23 +19,23 @@ public class DBUser {
     private int age;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "addressDataSet_id")
-    private AddressDataSet addressDataSet;
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "dbUser")
-    private List<PhoneDataSet> phones;
+    private List<Phone> phones;
 
     public DBUser() {
     }
 
-    public DBUser(long id, String name, int age, AddressDataSet addressDataSet, List<PhoneDataSet> phones) {
+    public DBUser(long id, String name, int age, Address address, List<Phone> phones) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.addressDataSet = addressDataSet;
+        this.address = address;
         this.phones = phones;
 
-        for (PhoneDataSet phone : this.phones) {
+        for (Phone phone : this.phones) {
             phone.setDbUser(this);
         }
     }
@@ -64,19 +64,19 @@ public class DBUser {
         this.age = age;
     }
 
-    public AddressDataSet getAddressDataSet() {
-        return addressDataSet;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressDataSet(AddressDataSet addressDataSet) {
-        this.addressDataSet = addressDataSet;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
-    public List<PhoneDataSet> getPhones() {
+    public List<Phone> getPhones() {
         return phones;
     }
 
-    public void setPhones(List<PhoneDataSet> phones) {
+    public void setPhones(List<Phone> phones) {
         this.phones = phones;
     }
 
@@ -86,7 +86,7 @@ public class DBUser {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +
-                ", addressDataSet=" + addressDataSet +
+                ", address=" + address +
                 ", phones=" + phones +
                 '}';
     }
@@ -114,12 +114,12 @@ public class DBUser {
         return id == dbUser.id &&
                 age == dbUser.age &&
                 Objects.equals(name, dbUser.name) &&
-                Objects.equals(addressDataSet, dbUser.addressDataSet) &&
+                Objects.equals(address, dbUser.address) &&
                 phonesEq;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, addressDataSet, phones);
+        return Objects.hash(id, name, age, address, phones);
     }
 }

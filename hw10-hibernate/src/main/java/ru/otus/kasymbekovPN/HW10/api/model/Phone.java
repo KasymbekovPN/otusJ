@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "tPhones")
-public class PhoneDataSet implements Comparable<PhoneDataSet> {
+public class Phone implements Comparable<Phone> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,10 +19,10 @@ public class PhoneDataSet implements Comparable<PhoneDataSet> {
     @JoinColumn(name = "dBUser_id", nullable = false)
     private DBUser dbUser;
 
-    public PhoneDataSet() {
+    public Phone() {
     }
 
-    public PhoneDataSet(long id, String phone) {
+    public Phone(long id, String phone) {
         this.id = id;
         this.phone = phone;
     }
@@ -55,7 +55,7 @@ public class PhoneDataSet implements Comparable<PhoneDataSet> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PhoneDataSet that = (PhoneDataSet) o;
+        Phone that = (Phone) o;
         return id == that.id &&
                 Objects.equals(phone, that.phone);
     }
@@ -67,14 +67,14 @@ public class PhoneDataSet implements Comparable<PhoneDataSet> {
 
     @Override
     public String toString() {
-        return "PhoneDataSet{" +
+        return "Phone{" +
                 "id=" + id +
                 ", phone='" + phone + '\'' +
                 '}';
     }
 
     @Override
-    public int compareTo(PhoneDataSet o) {
+    public int compareTo(Phone o) {
         return phone.compareTo(o.phone);
     }
 }
