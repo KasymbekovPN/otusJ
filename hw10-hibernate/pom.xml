@@ -32,12 +32,6 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate-core.version}</version>
         </dependency>
-        <dependency>
-            <groupId>ru.otus.kasymbekovPN</groupId>
-            <artifactId>hw09-JDBC</artifactId>
-            <version>2019-06-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
