@@ -31,23 +31,24 @@ public class DBServiceDBUserImpl implements DBServiceDBUser {
 
     /**
      * Создание записи в БД
-     * @param user Записываемый инстанс
-     * @return Записанный инстанс
+     * @param user записываемый объект
+     * @return Успешность
      */
     @Override
-    public Optional<DBUser> createRecord(DBUser user) {
+    public boolean createRecord(DBUser user) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<DBUser> record = dao.createRecord(user);
-                if (record.isPresent()){
+                boolean success = dao.createRecord(user);
+                if (success){
                     sessionManager.commitSession();
-                    logger.info("record was create");
+                    logger.info("The record was create");
                 } else {
                     sessionManager.rollbackSession();
-                    logger.info("record wasn't create");
+                    logger.info("The record wasn't create");
                 }
-                return record;
+
+                return success;
             } catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
                 sessionManager.rollbackSession();
@@ -58,23 +59,23 @@ public class DBServiceDBUserImpl implements DBServiceDBUser {
 
     /**
      * Обновление записи в БД
-     * @param user Инстанс, запись которого должна быль обновленв
-     * @return Инстанс
+     * @param user Объект для записи
+     * @return Успешность
      */
     @Override
-    public Optional<DBUser> updateRecord(DBUser user) {
+    public boolean updateRecord(DBUser user) {
         try(SessionManager sessionManager = dao.getSessionManager()){
             sessionManager.beginSession();
             try{
-                Optional<DBUser> record = dao.updateRecord(user);
-                if (record.isPresent()){
+                boolean success = dao.updateRecord(user);
+                if (success){
                     sessionManager.commitSession();
-                    logger.info("record was update");
+                    logger.info("The record was update");
                 } else {
                     sessionManager.rollbackSession();
-                    logger.info("record wasn't update");
+                    logger.info("The record wasn't update");
                 }
-                return record;
+                return success;
             } catch(Exception ex){
                 logger.error(ex.getMessage(), ex);
                 sessionManager.rollbackSession();

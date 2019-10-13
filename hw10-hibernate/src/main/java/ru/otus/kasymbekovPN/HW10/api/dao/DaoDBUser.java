@@ -18,17 +18,17 @@ public interface DaoDBUser {
 
     /**
      * Сохранение объекта
-     * @param user объект
-     * @return Сохраненный объект
+     * @param user объекта
+     * @return успешность сохранения
      */
-    Optional<DBUser> createRecord(DBUser user);
+    boolean createRecord(DBUser user);
 
     /**
-     * Обновление объекта
-     * @param user объект
-     * @return обновленный объект
+     * Обновление записи
+     * @param user записываем объект
+     * @return успешность
      */
-    Optional<DBUser> updateRecord(DBUser user);
+    boolean updateRecord(DBUser user);
 
     /**
      * @return Текущий менеджер сессий

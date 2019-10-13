@@ -51,49 +51,47 @@ public class DaoDBUserHibernate implements DaoDBUser {
     }
 
     /**
-     * Сохранение объекта
-     * @param user объект
-     * @return Сохраненный объект
+     * Сохрание объекта
+     * @param user объекта
+     * @return Успешность сохранения
      */
     @Override
-    public Optional<DBUser> createRecord(DBUser user) {
+    public boolean createRecord(DBUser user) {
         DataBaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try{
             if (user.getId() == 0){
                 currentSession.getSession().persist(user);
-                return Optional.of(user);
-            } else {
-                logger.error("This record does exist");
+                return true;
             }
+
+            logger.error("This record already exist");
+            return false;
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DBUserDaoException(ex);
         }
-
-        return Optional.empty();
     }
 
     /**
-     * Обновление объекта
-     * @param user объект
-     * @return обновленный объект
+     * Обновление записи объекта
+     * @param user записываем объект
+     * @return успешность
      */
     @Override
-    public Optional<DBUser> updateRecord(DBUser user) {
+    public boolean updateRecord(DBUser user) {
         DataBaseSessionHibernate currentSession = sessionManager.getCurrentSession();
         try{
             if (user.getId() > 0){
                 currentSession.getSession().merge(user);
-                return Optional.of(user);
-            } else {
-                logger.error("This record doesn't exist");
+                return true;
             }
+
+            logger.error("The record doesn't exist");
+            return false;
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
             throw new DBUserDaoException(ex);
         }
-
-        return Optional.empty();
     }
 
     /**

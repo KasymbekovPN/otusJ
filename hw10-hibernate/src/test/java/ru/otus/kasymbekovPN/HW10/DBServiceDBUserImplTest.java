@@ -3,8 +3,6 @@ package ru.otus.kasymbekovPN.HW10;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW10.api.dao.DaoDBUser;
 import ru.otus.kasymbekovPN.HW10.api.model.AddressDataSet;
 import ru.otus.kasymbekovPN.HW10.api.model.DBUser;
@@ -21,8 +19,6 @@ import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Testing of DBServiceUserImplTest")
 class DBServiceDBUserImplTest {
-
-    static private Logger logger = LoggerFactory.getLogger(DBServiceDBUserImplTest.class);
 
     @DisplayName("test class User")
     @Test
@@ -42,19 +38,20 @@ class DBServiceDBUserImplTest {
         }};
 
         DBUser insertedUser = new DBUser(0, "Pavel", 30, addressDataSet, phones);
-        Optional<DBUser> insertedRecOpt = service.createRecord(insertedUser);
-        assertThat(insertedRecOpt).isPresent();
+        boolean success = service.createRecord(insertedUser);
+        assertThat(success).isTrue();
 
-        Optional<DBUser> selectedRecOpt = service.loadRecord(insertedRecOpt.get().getId());
+        Optional<DBUser> selectedRecOpt = service.loadRecord(insertedUser.getId());
         assertThat(selectedRecOpt).isPresent();
-        assertThat(selectedRecOpt.get()).isEqualTo(insertedRecOpt.get());
+        assertThat(selectedRecOpt.get()).isEqualTo(insertedUser);
 
-        insertedRecOpt.get().setName("Pavel K");
-        Optional<DBUser> updateRecordOpt = service.updateRecord(insertedRecOpt.get());
-        assertThat(updateRecordOpt).isPresent();
+        DBUser updatedUser = insertedUser;
+        updatedUser.setName("Pavel K");
+        success = service.updateRecord(updatedUser);
+        assertThat(success).isTrue();
 
-        selectedRecOpt = service.loadRecord(insertedRecOpt.get().getId());
+        selectedRecOpt = service.loadRecord(updatedUser.getId());
         assertThat(selectedRecOpt).isPresent();
-        assertThat(selectedRecOpt.get()).isEqualTo(updateRecordOpt.get());
+        assertThat(selectedRecOpt.get()).isEqualTo(updatedUser);
     }
 }

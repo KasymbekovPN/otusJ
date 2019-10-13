@@ -11,17 +11,17 @@ import java.util.Optional;
 public interface DBServiceDBUser {
     /**
      * Создание записи в БД
-     * @param user Записываемый инстанс
-     * @return Записанный инстанс
+     * @param user записываемый объект
+     * @return успешность
      */
-    Optional<DBUser> createRecord(DBUser user);
+    boolean createRecord(DBUser user);
 
     /**
      * Обновление записи в БД
-     * @param user Инстанс, запись которого должна быль обновленв
-     * @return Инстанс
+     * @param user Объект для записи
+     * @return Успешность
      */
-    Optional<DBUser> updateRecord(DBUser user);
+    boolean updateRecord(DBUser user);
 
     /**
      * Выгрузка данных по ключу
