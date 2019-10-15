@@ -36,4 +36,15 @@ public interface Cache<K, V> {
      * @param listener слушатель
      */
     void unsubscribeListener(CacheListener<K,V> listener);
+
+    /**
+     * Геттер размера данных
+     * @return размер данных
+     */
+    int size();
+
+    /**
+     * Очистить кэш
+     */
+    void clear();
 }

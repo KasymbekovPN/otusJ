@@ -29,7 +29,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
      * Конструктор
      */
     public CacheImpl() {
-        this.data = new HashMap<>();
+        this.data = new WeakHashMap<>();
         this.listeners = Collections.newSetFromMap(new WeakHashMap<CacheListener<K, V>, Boolean>());
     }
 
@@ -56,12 +56,8 @@ public class CacheImpl<K, V> implements Cache<K, V> {
      */
     @Override
     public void remove(K key) {
-        if (data.containsKey(key)){
-            traverseListeners(key, data.get(key), CacheActionNames.REMOVE.get());
-            data.remove(key);
-        } else {
-            traverseListeners(key, null, CacheActionNames.ATTEMPT_REMOVE_NOT_EXISTING.get());
-        }
+        data.remove(key);
+        traverseListeners(key, null, CacheActionNames.REMOVE.get());
     }
 
     /**
@@ -71,13 +67,7 @@ public class CacheImpl<K, V> implements Cache<K, V> {
      */
     @Override
     public V get(K key) {
-        if (data.containsKey(key)){
-            traverseListeners(key, data.get(key), CacheActionNames.GET.get());
-            return data.get(key);
-        }
-
-        traverseListeners(key, null, CacheActionNames.ATTEMPT_GET_NOT_EXIST.get());
-        return null;
+        return data.get(key);
     }
 
     /**
@@ -108,5 +98,22 @@ public class CacheImpl<K, V> implements Cache<K, V> {
         for (CacheListener<K, V> listener : listeners) {
             listener.notify(key, value, action);
         }
+    }
+
+    /**
+     * Геттер размера данных
+     * @return размер данных
+     */
+    @Override
+    public int size(){
+        return data.size();
+    }
+
+    /**
+     * Очистить кэш
+     */
+    @Override
+    public void clear(){
+        data.clear();
     }
 }

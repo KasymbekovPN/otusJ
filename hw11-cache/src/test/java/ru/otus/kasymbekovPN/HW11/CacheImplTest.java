@@ -1,7 +1,5 @@
 package ru.otus.kasymbekovPN.HW11;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -23,20 +21,12 @@ class CacheImplTest {
         };
     }
 
-    private CacheImpl<Integer, Integer> cache;
-
-    @BeforeEach
-    void before(){
-        logger.info("Creating of new cache");
-        cache = new CacheImpl<Integer, Integer>();
-    }
-
     @DisplayName("cache test")
     @ParameterizedTest
     @MethodSource("getDataForTestCache")
     void testCache(int min, int max){
 
-        CacheImpl<Integer, Integer> cache = new CacheImpl<Integer, Integer>();
+        CacheImpl<Integer, Integer> cache = new CacheImpl<>();
         CacheListener<Integer, Integer> listener = (key, value, action) -> {
             logger.info("key : {}, value : {}, action : {}", key, value, action);
         };
@@ -52,14 +42,6 @@ class CacheImplTest {
         for (int i = min; i <= max; i++){
             cache.remove(i);
             assertThat(cache.get(i)).isNull();
-            cache.remove(i);
-            assertThat(cache.get(i)).isNull();
         }
-    }
-
-    @AfterEach
-    void after(){
-        logger.info("Checking of deleting listeners in cache");
-        assertThat(cache.getListeners().size()).isEqualTo(0);
     }
 }

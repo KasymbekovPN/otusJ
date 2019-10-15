@@ -7,15 +7,11 @@ import ru.otus.kasymbekovPN.HW09.jdbc.service.DBServiceJDBCUser;
 import ru.otus.kasymbekovPN.HW11.cache.Cache;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Реализация сервиса для работы класса User с БД
  */
 public class DBServiceCacheUser extends DBServiceJDBCUser implements DBServiceUser {
-
-    private static final int DELAY = 1;
-
     /**
      * Кэш
      */
@@ -38,7 +34,9 @@ public class DBServiceCacheUser extends DBServiceJDBCUser implements DBServiceUs
      */
     @Override
     public Optional<User> createRecord(User user) {
-        return super.createRecord(user);
+        Optional<User> record = super.createRecord(user);
+        record.ifPresent(value -> cache.put(value.getId(), value));
+        return record;
     }
 
     /**
@@ -48,7 +46,9 @@ public class DBServiceCacheUser extends DBServiceJDBCUser implements DBServiceUs
      */
     @Override
     public Optional<User> updateRecord(User user) {
-        return super.updateRecord(user);
+        Optional<User> record = super.updateRecord(user);
+        record.ifPresent(value -> cache.put(value.getId(), value));
+        return record;
     }
 
     /**
@@ -58,20 +58,13 @@ public class DBServiceCacheUser extends DBServiceJDBCUser implements DBServiceUs
      */
     @Override
     public Optional<User> loadRecord(long id) {
-        try {
-            User user = cache.get(id);
-            if (user == null){
-                Thread.sleep(TimeUnit.SECONDS.toMillis(DELAY));
-                Optional<User> record = super.loadRecord(id);
-                record.ifPresent(value -> cache.put(value.getId(), value));
-                return record;
-            } else {
-                return Optional.of(user);
-            }
-        } catch (InterruptedException ex){
-            Thread.currentThread().interrupt();
+        User user = cache.get(id);
+        if (user == null){
+            Optional<User> record = super.loadRecord(id);
+            record.ifPresent(value -> cache.put(value.getId(), value));
+            return record;
+        } else {
+            return Optional.of(user);
         }
-
-        return Optional.empty();
     }
 }

@@ -1,7 +1,8 @@
 package ru.otus.kasymbekovPN.HW11;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW09.api.dao.DaoUser;
@@ -16,18 +17,26 @@ import ru.otus.kasymbekovPN.HW11.cache.CacheImpl;
 import ru.otus.kasymbekovPN.HW11.cache.CacheListener;
 import ru.otus.kasymbekovPN.HW11.jdbc.DBServiceCacheUser;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.*;
 
+/*
+    run test with -Xms128m -Xmx128m
+ */
 @DisplayName("Testing of DBServiceJDBCUserTest")
-class DBServiceJDBCUserTest {
+class DBServiceJDBCUserTestCleaning {
 
-    static private Logger logger = LoggerFactory.getLogger(DBServiceCacheUser.class);
+    static private Logger logger = LoggerFactory.getLogger(DBServiceJDBCUserTestCleaning.class);
 
-    @DisplayName("Testing of loading duration")
-    @Test
-    void test(){
+    private static Object[][] getDataForTestWeakMap(){
+        return new Object[][]{
+                {1, 5_000}
+        };
+    }
+
+    @DisplayName("Testing of cleaning of cache data")
+    @ParameterizedTest
+    @MethodSource("getDataForTestWeakMap")
+    void testWeakMap(int first, int number){
         SessionManager sessionManager = new SessionManagerJDBC(new DataSourceH2());
         DBExecutorJDBC<User> executor = new DBExecutorJDBC<>();
         DaoUser dao = new DaoJDBCUser(sessionManager, executor);
@@ -39,29 +48,10 @@ class DBServiceJDBCUserTest {
         cache.subscribeListener(listener);
         DBServiceUser service = new DBServiceCacheUser(cache, dao);
 
-        User u1 = new User("user_1", 20);
-        Optional<User> record = service.createRecord(u1);
-
-        long timestamp1 = System.currentTimeMillis();
-
-        Optional<User> loaded_u = service.loadRecord(1);
-        assertThat(record).isPresent();
-        assertThat(loaded_u).isPresent();
-        assertThat(loaded_u.get()).isEqualTo(record.get());
-
-        long timestamp2 = System.currentTimeMillis();
-
-        loaded_u = service.loadRecord(1);
-        assertThat(record).isPresent();
-        assertThat(loaded_u).isPresent();
-        assertThat(loaded_u.get()).isEqualTo(record.get());
-
-        long timestamp3 = System.currentTimeMillis();
-
-        long durationWithoutCache = timestamp2 - timestamp1;
-        long durationWithCache = timestamp3 - timestamp2;
-        logger.info("Loading duration without cache : {} ms", durationWithoutCache);
-        logger.info("Loading duration with cache : {} ms", durationWithCache);
-        assertThat(durationWithoutCache).isGreaterThan(durationWithCache);
+        for (int i = first; i <= number; i++){
+            service.createRecord(new User("user_" + i, i));
+        }
+        assertThat(cache.size()).isLessThan(number);
     }
 }
+

@@ -6,10 +6,7 @@ package ru.otus.kasymbekovPN.HW11.cache;
 public enum CacheActionNames {
     PUT("element inserting"),
     UPDATE("element updating"),
-    REMOVE("element removing"),
-    ATTEMPT_REMOVE_NOT_EXISTING("The attempt remove not existing element"),
-    GET("element getting"),
-    ATTEMPT_GET_NOT_EXIST("The attempt get not existing element");
+    REMOVE("element removing");
 
     /**
      * Наименование действия
