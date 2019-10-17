@@ -16,35 +16,53 @@ public class TimerServlet extends HttpServlet {
     private static final String REFRESH_VARIABLE_NAME = "refreshPeriod";
     private static final String TIME_VARIABLE_NAME = "time";
     private static final String TIMER_PAGE_TEMPLATE = "timer.html";
-    private static final int PERIOD_MS = 1_000;
+    private static final int PERIOD_MS = 1000;
 
     private final TemplateProcessor templateProcessor;
 
-    //<
-    public TimerServlet(/*TemplateProcessor templateProcessor*/) throws IOException {
-//        this.templateProcessor = templateProcessor;
-        //<
+    TimerServlet() throws IOException {
         this.templateProcessor = new TemplateProcessor();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //  Безопасный
+//  Идемпотентный
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put(REFRESH_VARIABLE_NAME, String.valueOf(PERIOD_MS));
         pageVariables.put(TIME_VARIABLE_NAME, getTime());
 
-        resp.setContentType("text/html;charset=utf-8");
-        resp.getWriter().println(templateProcessor.getPage(TIMER_PAGE_TEMPLATE, pageVariables));
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().println(templateProcessor.getPage(TIMER_PAGE_TEMPLATE, pageVariables));
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    private String getTime(){
-        Date date = new Date();
-        //<
-//        date.getTime();
-        DateFormat format = new SimpleDateFormat("HH.mm.ss");
-        return format.format(date.getTime());
-        //<
-//        return format.format(date);
+    //  Не безопасный
+//  Не идемпотентный
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
     }
+
+    //  Не безопасный
+//  Идемпотентный
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPut(req, resp);
+    }
+
+    //  Не безопасный
+//  Идемпотентный
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doDelete(req, resp);
+    }
+
+    private String getTime() {
+        Date date = new Date();
+        date.getTime();
+        DateFormat formatter = new SimpleDateFormat("HH.mm.ss");
+        return formatter.format(date);
+    }
+
 }
+

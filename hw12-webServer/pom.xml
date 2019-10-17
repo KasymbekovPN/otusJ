@@ -11,10 +11,11 @@
 
     <artifactId>hw12-webServer</artifactId>
 
-<!--    <properties>-->
+    <properties>
 <!--        <exec.mainClass>ru.otus.timer.TimerMain</exec.mainClass>-->
-<!--        <jar.name>L13.1.1-resource</jar.name>-->
-<!--    </properties>-->
+        <exec.mainClass>ru.otus.kasymbekovPN.HW12.timer.TimerMain</exec.mainClass>
+        <jar.name>L13.1.1-resource</jar.name>
+    </properties>
 
     <dependencies>
         <dependency>
