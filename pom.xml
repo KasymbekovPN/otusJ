@@ -30,9 +30,13 @@
         <module>hw08-jsonObjectWriter</module>
         <module>hw09-JDBC</module>
         <module>hw10-hibernate</module>
+        <module>hw11-cache</module>
     </modules>
 
     <properties>
+        <!--region BOMs -->
+        <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
+        <!--endregion-->
         <!-- region abs-->
         <java.encoding>UTF-8</java.encoding>
         <java.version>11</java.version>
@@ -62,6 +66,15 @@
 
     <dependencyManagement>
         <dependencies>
+            <!--region BOMs-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--endregion-->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
