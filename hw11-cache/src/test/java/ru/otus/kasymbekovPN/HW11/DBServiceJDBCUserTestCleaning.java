@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("Testing of DBServiceJDBCUserTest")
 class DBServiceJDBCUserTestCleaning {
 
-    static private Logger logger = LoggerFactory.getLogger(DBServiceJDBCUserTestCleaning.class);
+    private final static Logger logger = LoggerFactory.getLogger(DBServiceJDBCUserTestCleaning.class);
 
     private static Object[][] getDataForTestWeakMap(){
         return new Object[][]{

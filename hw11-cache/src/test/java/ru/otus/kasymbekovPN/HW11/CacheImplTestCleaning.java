@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("Testing of CacheImplTes")
 class CacheImplTestCleaning {
 
-    private static final Logger logger = LoggerFactory.getLogger(CacheImplTestCleaning.class);
+    private final static  Logger logger = LoggerFactory.getLogger(CacheImplTestCleaning.class);
 
     private static Object[][] getDataForTestCache(){
         return new Object[][]{

@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.*;
 @DisplayName("Testing of CacheImplTes")
 class CacheImplTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(CacheImplTest.class);
+    private final static  Logger logger = LoggerFactory.getLogger(CacheImplTest.class);
 
     private static Object[][] getDataForTestCache(){
         return new Object[][]{
