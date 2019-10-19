@@ -13,6 +13,7 @@ import ru.otus.kasymbekovPN.HW12.user.InMemoryUserDao;
 import ru.otus.kasymbekovPN.HW12.user.UserService;
 
 public class Main {
+
     private static final int PORT = 8080;
 
     public static void main(String[] args) throws Exception {
@@ -32,19 +33,58 @@ public class Main {
 
         server.start();
         server.join();
-
     }
 
-    private UserService userService(){
+    private UserService userService() {
         return new UserService(userDao());
     }
 
-    private InMemoryUserDao userDao(){
+
+    private InMemoryUserDao userDao() {
         return new InMemoryUserDao();
     }
 
-    private Gson gson(){
+    private Gson gson() {
         return new Gson();
     }
+
+    //<
+//    private static final int PORT = 8080;
+//
+//    public static void main(String[] args) throws Exception {
+//        new Main().start();
+//    }
+//
+//    private void start() throws Exception {
+//        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+//
+//        context.addServlet(new ServletHolder(new UserServlet(userDao(), gson())), "/user");
+//        context.addServlet(new ServletHolder(new LoginServlet(userService())), "/login");
+//
+//        //<
+////        System.out.println(context);
+//
+//        //<
+//        context.addFilter(new FilterHolder(new AuthorizationFilter()), "/user", null);
+//
+//        Server server = new Server(PORT);
+//        server.setHandler(new HandlerList(context));
+//
+//        server.start();
+//        server.join();
+//
+//    }
+//
+//    private UserService userService(){
+//        return new UserService(userDao());
+//    }
+//
+//    private InMemoryUserDao userDao(){
+//        return new InMemoryUserDao();
+//    }
+//
+//    private Gson gson(){
+//        return new Gson();
+//    }
 
 }

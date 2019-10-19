@@ -14,22 +14,55 @@ import java.io.IOException;
 public class UserServlet extends HttpServlet {
 
     private static final String APPLICATION_JSON = "application/json;charset=UTF-8";
-    private final UserDao dao;
+    private final UserDao userDao;
     private final Gson gson;
 
-    public UserServlet(UserDao dao, Gson gson) {
-        this.dao = dao;
+    public UserServlet(UserDao userDao, Gson gson) {
+        this.userDao = userDao;
         this.gson = gson;
     }
 
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        //<
+        System.out.println("user doGet req : " + req + " : " + req.getSession(false) );
+
         String name = req.getParameterValues("name")[0];
-        User user = dao.findByName(name);
+        User user = userDao.findByName(name);
+
+        //<
+        System.out.println("name : " + name);
 
         resp.setContentType(APPLICATION_JSON);
         ServletOutputStream out = resp.getOutputStream();
         out.print(gson.toJson(user));
     }
+
+    //<
+//    private static final String APPLICATION_JSON = "application/json;charset=UTF-8";
+//    private final UserDao dao;
+//    private final Gson gson;
+//
+//    public UserServlet(UserDao dao, Gson gson) {
+//        this.dao = dao;
+//        this.gson = gson;
+//    }
+//
+//    @Override
+//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        String name = request.getParameterValues("name")[0];
+//        User user = dao.findByName(name);
+//
+//        //<
+//        System.out.println("name : " + name);
+//
+//        response.setContentType(APPLICATION_JSON);
+//        ServletOutputStream out = response.getOutputStream();
+//        out.print(gson.toJson(user));
+//
+//        System.out.println(out);
+//    }
 
 }

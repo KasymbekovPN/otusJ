@@ -8,10 +8,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminPageServlet extends HttpServlet {
+public class AuthorizationServlet extends HttpServlet {
 
-//    package ru.otus.kasymbekovPN.HW12.timer;
-//
 //import javax.servlet.ServletException;
 //import javax.servlet.http.HttpServlet;
 //import javax.servlet.http.HttpServletRequest;
@@ -27,18 +25,18 @@ public class AdminPageServlet extends HttpServlet {
 //
 //        private static final String REFRESH_VARIABLE_NAME = "refreshPeriod";
 //        private static final String TIME_VARIABLE_NAME = "time";
-        private static final String TIMER_PAGE_TEMPLATE = "adminPage.html";
-//        private static final int PERIOD_MS = 1000;
+    private static final String TIMER_PAGE_TEMPLATE = "authorization.html";
+    //        private static final int PERIOD_MS = 1000;
 //
     private final TemplateProcessor templateProcessor;
 //
 
-    public AdminPageServlet() throws IOException {
+    public AuthorizationServlet() throws IOException {
         this.templateProcessor = new TemplateProcessor();
     }
 
 
-//        TimerServlet() throws IOException {
+    //        TimerServlet() throws IOException {
 //            this.templateProcessor = new TemplateProcessor();
 //        }
 //
@@ -47,7 +45,7 @@ public class AdminPageServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        System.out.println("adminget");
+        System.out.println("auth");
 
         Map<String, Object> pageVariables = new HashMap<>();
 //        pageVariables.put(REFRESH_VARIABLE_NAME, String.valueOf(PERIOD_MS));
@@ -57,21 +55,21 @@ public class AdminPageServlet extends HttpServlet {
         response.getWriter().println(templateProcessor.getPage(TIMER_PAGE_TEMPLATE, pageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
     }
-//
+    //
 //        //  Не безопасный
 ////  Не идемпотентный
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
     }
-//
+    //
 //        //  Не безопасный
 ////  Идемпотентный
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPut(req, resp);
     }
-//
+    //
 //        //  Не безопасный
 ////  Идемпотентный
     @Override
@@ -88,6 +86,5 @@ public class AdminPageServlet extends HttpServlet {
 //
 //    }
 //
-
 
 }

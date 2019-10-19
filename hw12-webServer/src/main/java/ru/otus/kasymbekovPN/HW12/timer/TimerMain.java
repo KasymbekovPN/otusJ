@@ -64,8 +64,10 @@ public class TimerMain {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder(new TimerServlet()), "/timer");
-        context.addServlet(new ServletHolder(new AdminPageServlet()), "/adminPage");
+        context.addServlet(new ServletHolder(new AuthorizationServlet()), "/authorization");
+        context.addServlet(new ServletHolder(new UserServlet2()), "/user");
+//        context.addServlet(new ServletHolder(new TimerServlet()), "/timer");
+//        context.addServlet(new ServletHolder(new AdminPageServlet()), "/adminPage");
 
         Server server = new Server(PORT);
         server.setHandler(new HandlerList(resourceHandler, context));

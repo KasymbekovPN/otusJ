@@ -27,6 +27,10 @@ public class TimerServlet extends HttpServlet {
     //  Безопасный
 //  Идемпотентный
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        //<
+        System.out.println("doGet");
+
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put(REFRESH_VARIABLE_NAME, String.valueOf(PERIOD_MS));
         pageVariables.put(TIME_VARIABLE_NAME, getTime());

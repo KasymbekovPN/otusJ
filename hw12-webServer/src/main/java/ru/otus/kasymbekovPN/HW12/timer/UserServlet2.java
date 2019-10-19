@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminPageServlet extends HttpServlet {
+public class UserServlet2 extends HttpServlet {
 
-//    package ru.otus.kasymbekovPN.HW12.timer;
-//
-//import javax.servlet.ServletException;
+        //import javax.servlet.ServletException;
 //import javax.servlet.http.HttpServlet;
 //import javax.servlet.http.HttpServletRequest;
 //import javax.servlet.http.HttpServletResponse;
@@ -27,18 +25,22 @@ public class AdminPageServlet extends HttpServlet {
 //
 //        private static final String REFRESH_VARIABLE_NAME = "refreshPeriod";
 //        private static final String TIME_VARIABLE_NAME = "time";
-        private static final String TIMER_PAGE_TEMPLATE = "adminPage.html";
-//        private static final int PERIOD_MS = 1000;
+
+    private static final String ADMIN_PAGE_TEMPLATE = "admin.html";
+    private static final String USER_PAGE_TEMPLATE = "user.html";
+
+
+    //        private static final int PERIOD_MS = 1000;
 //
     private final TemplateProcessor templateProcessor;
 //
 
-    public AdminPageServlet() throws IOException {
+    public UserServlet2() throws IOException {
         this.templateProcessor = new TemplateProcessor();
     }
 
 
-//        TimerServlet() throws IOException {
+    //        TimerServlet() throws IOException {
 //            this.templateProcessor = new TemplateProcessor();
 //        }
 //
@@ -47,31 +49,44 @@ public class AdminPageServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        System.out.println("adminget");
+        System.out.println("user");
+
+        //< change
+        String login = request.getParameter("login");
+        String pageTemplate = login.equals("admin")
+                ? ADMIN_PAGE_TEMPLATE
+                : USER_PAGE_TEMPLATE;
+
+
+        System.out.println(request.getParameterMap());
 
         Map<String, Object> pageVariables = new HashMap<>();
 //        pageVariables.put(REFRESH_VARIABLE_NAME, String.valueOf(PERIOD_MS));
 //        pageVariables.put(TIME_VARIABLE_NAME, getTime());
 
         response.setContentType("text/html;charset=utf-8");
-        response.getWriter().println(templateProcessor.getPage(TIMER_PAGE_TEMPLATE, pageVariables));
+        response.getWriter().println(templateProcessor.getPage(pageTemplate, pageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
+
+        //<
+
+        //<
     }
-//
+    //
 //        //  Не безопасный
 ////  Не идемпотентный
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
     }
-//
+    //
 //        //  Не безопасный
 ////  Идемпотентный
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPut(req, resp);
     }
-//
+    //
 //        //  Не безопасный
 ////  Идемпотентный
     @Override
