@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdminPageServlet extends HttpServlet {
+public class AdminPageServlet_ extends HttpServlet {
 
 //    package ru.otus.kasymbekovPN.HW12.timer;
 //
@@ -33,7 +33,7 @@ public class AdminPageServlet extends HttpServlet {
     private final TemplateProcessor templateProcessor;
 //
 
-    public AdminPageServlet() throws IOException {
+    public AdminPageServlet_() throws IOException {
         this.templateProcessor = new TemplateProcessor();
     }
 

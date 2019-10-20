@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserServlet2 extends HttpServlet {
+public class UserServlet2_ extends HttpServlet {
 
         //import javax.servlet.ServletException;
 //import javax.servlet.http.HttpServlet;
@@ -35,7 +35,7 @@ public class UserServlet2 extends HttpServlet {
     private final TemplateProcessor templateProcessor;
 //
 
-    public UserServlet2() throws IOException {
+    public UserServlet2_() throws IOException {
         this.templateProcessor = new TemplateProcessor();
     }
 

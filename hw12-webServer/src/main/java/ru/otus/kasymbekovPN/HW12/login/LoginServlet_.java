@@ -1,20 +1,19 @@
 package ru.otus.kasymbekovPN.HW12.login;
 
-import ru.otus.kasymbekovPN.HW12.user.UserService;
+import ru.otus.kasymbekovPN.HW12.user.UserService_;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet {
+public class LoginServlet_ extends HttpServlet {
 
     private static final int EXPIRE_INTERVAL = 20; // seconds
-    private final UserService userService;
+    private final UserService_ userService;
 
-    public LoginServlet(UserService userService) {
+    public LoginServlet_(UserService_ userService) {
         this.userService = userService;
     }
 

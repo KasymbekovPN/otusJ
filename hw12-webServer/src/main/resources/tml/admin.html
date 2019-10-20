@@ -4,14 +4,27 @@
     <title>ADMIN</title>
 </head>
 <body>
-<!--<form method="get" action="user.html">-->
-<!--    <p><b>Login:</b><br>-->
-<!--        <input type="text" size="40">-->
-<!--    </p>-->
-<!--    <p><b>Password:</b><br>-->
-<!--        <input type="text" size="40">-->
-<!--    </p>-->
-<!--    <p><input type="submit" value="Enter"></p>-->
-<!--</form>-->
+<hr>
+<h3>New User Adding</h3>
+<form method="post" action="user">
+    <p>Login:<br>
+        <input type="text" size="40" name="login">
+    </p>
+    <p>Password:<br>
+        <input type="text" size="40" name="password">
+    </p>
+    <p><input type="submit" value="Enter"></p>
+</form>
+<hr>
+<h3>User Deleting</h3>
+<form method="post" action="user">
+    <p>Login:<br>
+        <input type="text" size="40" name="delLogin">
+    </p>
+    <p><input type="submit" value="Enter"></p>
+</form>
+<hr>
+${userTable}
+${status}
 </body>
 </html>

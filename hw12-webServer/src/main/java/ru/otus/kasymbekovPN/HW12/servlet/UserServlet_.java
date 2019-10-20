@@ -1,23 +1,22 @@
 package ru.otus.kasymbekovPN.HW12.servlet;
 
 import com.google.gson.Gson;
-import ru.otus.kasymbekovPN.HW12.user.User;
-import ru.otus.kasymbekovPN.HW12.user.UserDao;
+import ru.otus.kasymbekovPN.HW12.user.User_;
+import ru.otus.kasymbekovPN.HW12.user.UserDao_;
 
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class UserServlet extends HttpServlet {
+public class UserServlet_ extends HttpServlet {
 
     private static final String APPLICATION_JSON = "application/json;charset=UTF-8";
-    private final UserDao userDao;
+    private final UserDao_ userDao;
     private final Gson gson;
 
-    public UserServlet(UserDao userDao, Gson gson) {
+    public UserServlet_(UserDao_ userDao, Gson gson) {
         this.userDao = userDao;
         this.gson = gson;
     }
@@ -30,7 +29,7 @@ public class UserServlet extends HttpServlet {
         System.out.println("user doGet req : " + req + " : " + req.getSession(false) );
 
         String name = req.getParameterValues("name")[0];
-        User user = userDao.findByName(name);
+        User_ user = userDao.findByName(name);
 
         //<
         System.out.println("name : " + name);

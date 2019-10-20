@@ -3,6 +3,7 @@ package ru.otus.kasymbekovPN.HW12.timer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
@@ -64,8 +65,12 @@ public class TimerMain {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder(new AuthorizationServlet()), "/authorization");
-        context.addServlet(new ServletHolder(new UserServlet2()), "/user");
+        context.addServlet(new ServletHolder(new AuthorizationServlet_()), "/authorization");
+        context.addServlet(new ServletHolder(new UserServlet2_()), "/user");
+
+        context.addFilter(new FilterHolder(new AuthorizationFilter2_()), "/authorization", null);
+
+        //<
 //        context.addServlet(new ServletHolder(new TimerServlet()), "/timer");
 //        context.addServlet(new ServletHolder(new AdminPageServlet()), "/adminPage");
 

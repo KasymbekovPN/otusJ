@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TimerServlet extends HttpServlet {
+public class TimerServlet_ extends HttpServlet {
 
     private static final String REFRESH_VARIABLE_NAME = "refreshPeriod";
     private static final String TIME_VARIABLE_NAME = "time";
@@ -20,7 +20,7 @@ public class TimerServlet extends HttpServlet {
 
     private final TemplateProcessor templateProcessor;
 
-    TimerServlet() throws IOException {
+    TimerServlet_() throws IOException {
         this.templateProcessor = new TemplateProcessor();
     }
 

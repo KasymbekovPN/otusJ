@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class AuthorizationFilter implements Filter {
+public class AuthorizationFilter_ implements Filter {
 
     private ServletContext context;
 
