@@ -11,11 +11,11 @@
 
     <artifactId>hw12-webServer</artifactId>
 
-    <properties>
-<!--        <exec.mainClass>ru.otus.timer.TimerMain</exec.mainClass>-->
-        <exec.mainClass>ru.otus.kasymbekovPN.HW12.timer.TimerMain</exec.mainClass>
-        <jar.name>L13.1.1-resource</jar.name>
-    </properties>
+<!--    <properties>-->
+<!--&lt;!&ndash;        <exec.mainClass>ru.otus.timer.TimerMain</exec.mainClass>&ndash;&gt;-->
+<!--        <exec.mainClass>ru.otus.kasymbekovPN.HW12.timer.TimerMain</exec.mainClass>-->
+<!--        <jar.name>L13.1.1-resource</jar.name>-->
+<!--    </properties>-->
 
     <dependencies>
         <dependency>
@@ -60,24 +60,24 @@
     </dependencies>
 
 
-    <build>
-        <finalName>${jar.name}</finalName>
+<!--    <build>-->
+<!--        <finalName>${jar.name}</finalName>-->
 
-        <defaultGoal>verify exec:exec</defaultGoal>
+<!--        <defaultGoal>verify exec:exec</defaultGoal>-->
 
-        <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <artifactId>maven-assembly-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>11</source>-->
+<!--                    <target>11</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
 </project>

@@ -2,77 +2,89 @@ package ru.otus.kasymbekovPN.HW12.server.servlet;
 
 import ru.otus.kasymbekovPN.HW12.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW12.db.api.service.DBServiceOnlineUser;
-import ru.otus.kasymbekovPN.HW12.timer.TemplateProcessor;
+import ru.otus.kasymbekovPN.HW12.server.utils.TemplateProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Сервлет для работы со страницами : admin, user
+ */
 public class UserServlet extends HttpServlet {
 
+    /**
+     * Имя файла, содержащего страницу admin
+     */
     private static final String ADMIN_PAGE_TEMPLATE = "admin.html";
+
+    /**
+     * Имя файла, содержащего страницу user
+     */
     private static final String USER_PAGE_TEMPLATE = "user.html";
+
+    /**
+     * Имя шаблона (в admin), заменяемого на таблицу пользователей
+     */
     private static final String USER_TABLE_VAR_NAME = "userTable";
+
+    /**
+     * Имя шаблона (в admin), заменяемого на статусную строку
+     */
     private static final String STATUS_VAR_NAME = "status";
+
+    /**
+     * Имя шаблона (в user), заменяемого на имя пользователя
+     */
     private static final String USER_NAME_VAR_NAME = "userName";
 
+    /**
+     * Процессор шаблонов
+     */
     private final TemplateProcessor templateProcessor;
+
+    /**
+     * Сервис работы с БД для OnlineUser
+     */
     private final DBServiceOnlineUser dbService;
 
+    /**
+     * Конструктор
+     * @param dbService сервис работы с БД для OnlineUser
+     */
     public UserServlet(DBServiceOnlineUser dbService) throws IOException {
         this.templateProcessor = new TemplateProcessor();
         this.dbService = dbService;
     }
 
+    /**
+     * Обработчик get-метода
+     * @param req запрос
+     * @param resp ответ
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        //<
-        System.out.println("user");
-
-        //<
-//        HttpSession session = req.getSession(false);
-//        String pageTemplate = (Boolean)session.getAttribute("admin") ? ADMIN_PAGE_TEMPLATE : USER_PAGE_TEMPLATE;
-//        Map<String, Object> pageVariables = new HashMap<>();
-//        pageVariables.put(REFRESH_VARIABLE_NAME, String.valueOf(PERIOD_MS));
-//        pageVariables.put(TIME_VARIABLE_NAME, getTime());
-
-
         boolean admin = (boolean)req.getSession(false).getAttribute("admin");
         resp.setContentType("text/html;charset=utf-8");
-//        resp.getWriter().println(templateProcessor.getPage(pageTemplate, pageVariables));
-        //<
         resp.getWriter().println(
             admin ? makeAdminPage("") : makeUserPage(req)
         );
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
+    /**
+     * Обработчик post-метода
+     * @param req запрос
+     * @param resp ответ
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        //<
-        System.out.println("+++++++++ : " + req.getParameterMap());
-        //<
-
-//        String login = req.getParameter("login");
-//        String password = req.getParameter("password");
-//        String status = "";
-//        List<OnlineUser> records = dbService.loadRecord(login);
-//        if (records.size() == 0){
-//            dbService.createRecord(new OnlineUser(0, login, password, false));
-//            status = "user : '" + login + "' was add.";
-//        } else {
-//            status = "user : '" + login + "' already exists.";
-//        }
-        //<
         Map<String, String[]> parameterMap = req.getParameterMap();
         String status = "Unknown parameter(s)";
         if (parameterMap.containsKey("login") && parameterMap.containsKey("password")){
@@ -86,21 +98,35 @@ public class UserServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
+    /**
+     * Добавляет пользователя
+     * @param req запрос
+     * @return Статус действия
+     */
     private String addUser(HttpServletRequest req){
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        String status = "";
-        List<OnlineUser> records = dbService.loadRecord(login);
-        if (records.size() == 0){
-            dbService.createRecord(new OnlineUser(0, login, password, false));
-            status = "user : '" + login + "' was add.";
+        String status;
+        if (!login.equals("") && !password.equals("")){
+            List<OnlineUser> records = dbService.loadRecord(login);
+            if (records.size() == 0){
+                dbService.createRecord(new OnlineUser(0, login, password, false));
+                status = "user : '" + login + "' was add.";
+            } else {
+                status = "user : '" + login + "' already exists.";
+            }
         } else {
-            status = "user : '" + login + "' already exists.";
+            status = "Login and/or password is empty.";
         }
 
         return status;
     }
 
+    /**
+     * Удаляет пользователя
+     * @param req запрос
+     * @return Статус действия
+     */
     private String delUser(HttpServletRequest req){
         String delLogin = req.getParameter("delLogin");
 
@@ -114,6 +140,11 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Создает страницу админа
+     * @param status Статус
+     * @return HTML-код страницы
+     */
     private String makeAdminPage(String status) throws IOException {
 
         StringBuilder table = new StringBuilder(
@@ -142,6 +173,11 @@ public class UserServlet extends HttpServlet {
         return templateProcessor.getPage(ADMIN_PAGE_TEMPLATE, pageVariables);
     }
 
+    /**
+     * Создает страницу пользователя
+     * @param req Запрос
+     * @return HTML-код страницы
+     */
     private String makeUserPage(HttpServletRequest req) throws IOException {
         String login = req.getParameter("login");
         Map<String, Object> pageVariables = new HashMap<>();

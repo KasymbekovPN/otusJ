@@ -1,6 +1,5 @@
 package ru.otus.kasymbekovPN.HW12.server;
 
-import com.google.gson.Gson;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
@@ -9,8 +8,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW12.db.api.dao.OnlineUserDao;
 import ru.otus.kasymbekovPN.HW12.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW12.db.api.service.DBServiceOnlineUser;
@@ -23,19 +20,37 @@ import ru.otus.kasymbekovPN.HW12.server.filter.SessionFilter;
 import ru.otus.kasymbekovPN.HW12.server.servlet.AuthorizationServlet;
 import ru.otus.kasymbekovPN.HW12.server.servlet.UserServlet;
 
+/**
+ * Класс, реализующий функционал запуска сервера
+ */
 public class ServerStarter {
 
-    private final static Logger logger = LoggerFactory.getLogger(ServerStarter.class);
+    /**
+     * Порт сервера
+     */
     private final static int PORT = 8080;
+
+    /**
+     * Имя директории (в ресурсах) с index-файлом.
+     */
     private final static String STATIC = "/static";
 
+    /**
+     * Сервис работы OnlineUser с БД
+     */
     private DBServiceOnlineUser dbService;
 
+    /**
+     * Конструктор
+     */
     public ServerStarter() {
         dbService = createOnlineUserService();
         createAdmin(dbService);
     }
 
+    /**
+     * Запускает сервер
+     */
     public void start() throws Exception {
         ResourceHandler resourceHandler = new ResourceHandler();
         Resource resource = Resource.newClassPathResource(STATIC);
@@ -56,6 +71,10 @@ public class ServerStarter {
         server.join();
     }
 
+    /**
+     * Создает сервис работы с БД для OnlineUser
+     * @return Сервис
+     */
     static private DBServiceOnlineUser createOnlineUserService(){
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml",
                 OnlineUser.class);
@@ -64,6 +83,10 @@ public class ServerStarter {
         return new DBServiceOnlineUserImpl(dao);
     }
 
+    /**
+     * Добавляем запись с данными админа в БД
+     * @param dbService сервис работы с БД
+     */
     static private void createAdmin(DBServiceOnlineUser dbService){
         if (dbService != null)
         {

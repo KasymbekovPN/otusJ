@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW12.timer;
+package ru.otus.kasymbekovPN.HW12.server.utils;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

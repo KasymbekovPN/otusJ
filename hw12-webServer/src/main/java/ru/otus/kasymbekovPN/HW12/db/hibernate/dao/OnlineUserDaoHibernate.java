@@ -73,26 +73,6 @@ public class OnlineUserDaoHibernate implements OnlineUserDao {
             }
 
             return retList;
-
-//            List lst = currentSession.getSession()
-//                    .createQuery("select name, password, admin from tOnlineUser where name = :name").setParameter("name", name).list();
-//            System.out.println(lst);
-//            return new ArrayList<>();
-
-    //<
-//            List<OnlineUserDao> = currentSession.getSession().createQuery("select * from tOnlineUser where name = :name").setParameter("name", name).list();
-
-//            List results = this.sessionFactory.getCurrentSession()
-//                    .createQuery("select au from AppUser au where au.email = :email")
-//                    .setParameter("email", email)
-//                    .list();
-
-//Criteria criteria = session.createCriteria(YourClass.class);
-//        YourObject yourObject = criteria.add(Restrictions.eq("yourField", yourFieldValue))
-//                .uniqueResult();
-//
-//        List<YourObject> list = criteria.add(Restrictions.eq("yourField", yourFieldValue)).list();
-
         } catch (Exception ex){
             logger.error(ex.getMessage(), ex);
         }

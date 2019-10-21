@@ -1,6 +1,5 @@
 package ru.otus.kasymbekovPN.HW12.db.api.service;
 
-import ru.otus.kasymbekovPN.HW12.db.api.dao.OnlineUserDao;
 import ru.otus.kasymbekovPN.HW12.db.api.model.OnlineUser;
 
 import java.util.List;
