@@ -39,6 +39,12 @@ public interface DBServiceOnlineUser {
     List<OnlineUser> loadRecord(String login);
 
     /**
+     * Выгрузка всех записей
+     * @return Все записи таблицы
+     */
+    List<OnlineUser> loadAll();
+
+    /**
      * Удаление поля по значению поля login
      * @param login значение поля login
      * @return Успешность

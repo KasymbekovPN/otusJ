@@ -131,6 +131,27 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
     }
 
     /**
+     * Выгрузка всех записей
+     * @return Все записи таблицы
+     */
+    @Override
+    public List<OnlineUser> loadAll() {
+        try(SessionManager sessionManager = dao.getSessionManager()){
+            sessionManager.beginSession();
+            try{
+                List<OnlineUser> records = dao.loadAll();
+                logger.info("loaded records : " + records);
+                return records;
+            } catch (Exception ex){
+                logger.error(ex.getMessage(), ex);
+                sessionManager.rollbackSession();
+            }
+
+            return new ArrayList<>();
+        }
+    }
+
+    /**
      * Удаление поля по значению поля login
      * @param login значение поля login
      * @return Успешность

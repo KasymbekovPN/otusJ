@@ -81,6 +81,30 @@ public class OnlineUserDaoHibernate implements OnlineUserDao {
     }
 
     /**
+     * Выгрузка всех записей
+     * @return Все записи таблицы
+     */
+    @Override
+    public List<OnlineUser> loadAll() {
+        DataBaseSessionHibernate currentSession = sessionManager.getCurrentSession();
+        try{
+            List<OnlineUser> retList = new ArrayList<>();
+
+            Criteria criteria = currentSession.getSession().createCriteria(OnlineUser.class);
+            List onlineUsers = criteria.list();
+
+            for (Object onlineUser : onlineUsers) {
+                retList.add((OnlineUser) onlineUser);
+            }
+            return retList;
+        } catch (Exception ex){
+            logger.error(ex.getMessage(), ex);
+        }
+
+        return new ArrayList<>();
+    }
+
+    /**
      * Сохрание объекта
      * @param user объекта
      * @return Успешность сохранения

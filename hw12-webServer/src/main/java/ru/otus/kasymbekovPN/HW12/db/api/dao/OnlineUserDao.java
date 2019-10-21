@@ -26,6 +26,12 @@ public interface OnlineUserDao {
     List<OnlineUser> loadRecord(String login);
 
     /**
+     * Выгрузка всех записей
+     * @return Все записи таблицы
+     */
+    List<OnlineUser> loadAll();
+
+    /**
      * Сохранение объекта
      * @param user объекта
      * @return успешность сохранения

@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Сервлет для работы со страницами : admin, user
@@ -153,17 +152,15 @@ public class UserServlet extends HttpServlet {
                         "<tr><th>ID</th><th>login</th><th>password</th><th>admin</th></tr>"
         );
 
-        long id = 1;
-        Optional<OnlineUser> maybeOnlineUser = Optional.empty();
-        do {
-            maybeOnlineUser = dbService.loadRecord(id++);
-            maybeOnlineUser.ifPresent(onlineUser -> table.append("<tr>")
+        List<OnlineUser> onlineUsers = dbService.loadAll();
+        for (OnlineUser onlineUser : onlineUsers) {
+            table.append("<tr>")
                     .append("<th>").append(onlineUser.getId()).append("</th>")
                     .append("<th>").append(onlineUser.getLogin()).append("</th>")
                     .append("<th>").append(onlineUser.getPassword()).append("</th>")
                     .append("<th>").append(onlineUser.isAdmin()).append("</th>")
-                    .append("</tr>"));
-        } while (maybeOnlineUser.isPresent());
+                    .append("</tr>");
+        }
 
         table.append("</table>");
 
