@@ -24,7 +24,14 @@
     <p><input type="submit" value="Enter"></p>
 </form>
 <hr>
-${userTable}
+
+<table border="1">
+    <caption>User Table</caption>
+    <tr><th>ID</th><th>login</th><th>password</th><th>admin</th></tr>
+    <#list users as user>
+    <tr><td>${user.id}</td><td>${user.login}</td><td>${user.password}</td><td>${user.adminStatus}</td></tr>
+    </#list>
+</table>
 ${status}
 </body>
 </html>

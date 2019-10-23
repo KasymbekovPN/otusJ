@@ -145,27 +145,9 @@ public class UserServlet extends HttpServlet {
      * @return HTML-код страницы
      */
     private String makeAdminPage(String status) throws IOException {
-
-        StringBuilder table = new StringBuilder(
-                "<table border=1>\n" +
-                        "<caption>User Table</caption>\n" +
-                        "<tr><th>ID</th><th>login</th><th>password</th><th>admin</th></tr>"
-        );
-
         List<OnlineUser> onlineUsers = dbService.loadAll();
-        for (OnlineUser onlineUser : onlineUsers) {
-            table.append("<tr>")
-                    .append("<th>").append(onlineUser.getId()).append("</th>")
-                    .append("<th>").append(onlineUser.getLogin()).append("</th>")
-                    .append("<th>").append(onlineUser.getPassword()).append("</th>")
-                    .append("<th>").append(onlineUser.isAdmin()).append("</th>")
-                    .append("</tr>");
-        }
-
-        table.append("</table>");
-
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put(USER_TABLE_VAR_NAME, table);
+        pageVariables.put("users", onlineUsers);
         pageVariables.put(STATUS_VAR_NAME, status);
         return templateProcessor.getPage(ADMIN_PAGE_TEMPLATE, pageVariables);
     }

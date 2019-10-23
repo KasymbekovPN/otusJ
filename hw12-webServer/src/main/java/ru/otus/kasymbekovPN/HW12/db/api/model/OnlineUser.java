@@ -63,6 +63,10 @@ public class OnlineUser {
         this.admin = admin;
     }
 
+    public String getAdminStatus(){
+        return String.valueOf(admin);
+    }
+
     @Override
     public String toString() {
         return "OnlineUser{" +
