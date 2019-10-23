@@ -47,7 +47,7 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
                     logger.info("The record was create");
                 } else {
                     sessionManager.rollbackSession();
-                    logger.info("The record wasn't create");
+                    logger.error("The record wasn't create");
                 }
 
                 return success;
