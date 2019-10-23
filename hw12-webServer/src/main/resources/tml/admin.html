@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" content="text/html;">
+<head>
+    <meta charset="utf-8">
+    <title>ADMIN</title>
+</head>
+<body>
+<hr>
+<h3>New User Adding</h3>
+<form method="post" action="user">
+    <p>Login:<br>
+        <input type="text" size="40" name="login">
+    </p>
+    <p>Password:<br>
+        <input type="text" size="40" name="password">
+    </p>
+    <p><input type="submit" value="Enter"></p>
+</form>
+<hr>
+<h3>User Deleting</h3>
+<form method="post" action="user">
+    <p>Login:<br>
+        <input type="text" size="40" name="delLogin">
+    </p>
+    <p><input type="submit" value="Enter"></p>
+</form>
+<hr>
+
+<table border="1">
+    <caption>User Table</caption>
+    <tr><th>ID</th><th>login</th><th>password</th><th>admin</th></tr>
+    <#list users as user>
+    <tr><td>${user.id}</td><td>${user.login}</td><td>${user.password}</td><td>${user.adminStatus}</td></tr>
+    </#list>
+</table>
+${status}
+</body>
+</html>
