@@ -50,7 +50,7 @@ public class AuthorizationFilter implements Filter {
             if ((records.size() == 1) && (records.get(0).getPassword().equals(password))){
                 session.setAttribute("admin", login.equals("admin"));
             } else {
-                errCode = 401;
+                errCode = HttpServletResponse.SC_UNAUTHORIZED;
             }
         }
 
