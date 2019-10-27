@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>ADMIN</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Users Information</h3>
+    <table class="users" border="1">
+        <caption>Users</caption>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Password</th>
+            <th>is Admin</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"> </td>
+            <td th:text="${user.login}"> </td>
+            <td th:text="${user.password}"> </td>
+            <td th:text="${user.admin}"> </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <h3>Status:</h3>
+    <p th:text="${status}"> </p>
+
+    <hr>
+    <h3>New User Creation</h3>
+    <form id="create-form" th:action="@{/createUser}" th:object="${user}" th:method="post" accept-charset="utf-8">
+        <div class="row">
+            <label for="holder-input">Login:</label>
+            <input id="holder-input" name="login" type="text" th:value="${user.login}" value=""/>
+            <br>
+            <label for="holder-input1">Password:</label>
+            <input id="holder-input1" name="password" type="text" th:value="${user.password}" value=""/>
+            <br>
+            <button type="submit">Create</button>
+        </div>
+    </form>
+
+    <hr>
+    <h3>User Deleting</h3>
+    <form id="delete-form" th:action="@{/deleteUser}" th:object="${user}" th:method="post" accept-charset="utf-8">
+        <div class="row">
+            <label for="holder-input2">Login:</label>
+            <input id="holder-input2" name="login" type="text" th:value="${user.login}" value=""/>
+            <br>
+            <button type="submit">Delete</button>
+        </div>
+    </form>
+</body>
+</html>

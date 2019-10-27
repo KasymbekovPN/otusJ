@@ -1,8 +1,7 @@
-package ru.otus.kasymbekovPN.HW13.generators;
+package ru.otus.kasymbekovPN.HW13.server.generators;
 
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
