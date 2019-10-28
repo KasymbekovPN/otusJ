@@ -4,7 +4,6 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import ru.otus.kasymbekovPN.HW13.db.api.dao.OnlineUserDao;
 import ru.otus.kasymbekovPN.HW13.db.api.dao.OnlineUserDaoException;
 import ru.otus.kasymbekovPN.HW13.db.api.model.OnlineUser;

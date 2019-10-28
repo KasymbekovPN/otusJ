@@ -3,14 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-
-<!--    <parent>-->
-<!--        <artifactId>otusJ</artifactId>-->
-<!--        <groupId>ru.otus.kasymbekovPN</groupId>-->
-<!--        <version>2019-06-SNAPSHOT</version>-->
-<!--    </parent>-->
-<!--    <modelVersion>4.0.0</modelVersion>-->
-
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hw13-DI</artifactId>
@@ -18,7 +10,6 @@
     <version>${revision}</version>
 
     <packaging>war</packaging>
-<!--    <name>hw13-DI</name>-->
     <name>HW13DI</name>
 
     <properties>
@@ -54,7 +45,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -62,7 +52,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -70,7 +59,6 @@
                 <scope>provided</scope>
                 <optional>true</optional>
             </dependency>
-
             <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker</artifactId>
@@ -101,23 +89,14 @@
                 <version>${error_prone_annotations.version}</version>
                 <scope>provided</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>spring</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -130,14 +109,12 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -147,7 +124,6 @@
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.checkerframework</groupId>
             <artifactId>checker</artifactId>
@@ -168,7 +144,6 @@
             <groupId>com.google.errorprone</groupId>
             <artifactId>error_prone_annotations</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -181,23 +156,19 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
         <finalName>${project.name}</finalName>
         <defaultGoal>package</defaultGoal>
-
         <resources>
             <resource>
                 <directory>src/main/webapp</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
-
         <pluginManagement>
             <plugins>
-
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
@@ -223,40 +194,8 @@
                     </configuration>
 
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
-
-<!--    <build>-->
-<!--&lt;!&ndash;        <finalName>${name}</finalName>&ndash;&gt;-->
-<!--        <finalName>${project.name}</finalName>-->
-<!--&lt;!&ndash;        <defaultGoal>package</defaultGoal>&ndash;&gt;-->
-
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-war-plugin</artifactId>-->
-<!--                <version>${maven-war-plugin.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>war</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <webResources>-->
-<!--                        <resource>-->
-<!--                            <directory>src/main/webapp</directory>-->
-<!--                        </resource>-->
-<!--                    </webResources>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
-
-
 
 </project>

@@ -2,7 +2,6 @@ package ru.otus.kasymbekovPN.HW13.db.hibernate.sessionManager;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Component;
 import ru.otus.kasymbekovPN.HW13.db.api.sessionManager.DataBaseSession;
 
 /**

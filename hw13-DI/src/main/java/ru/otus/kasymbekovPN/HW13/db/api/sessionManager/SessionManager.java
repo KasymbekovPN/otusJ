@@ -31,6 +31,5 @@ public interface SessionManager extends AutoCloseable{
      * Геттер текущий сессии
      * @return Текущая сессия
      */
-    //< change with interface ???
     DataBaseSessionHibernate getCurrentSession();
 }

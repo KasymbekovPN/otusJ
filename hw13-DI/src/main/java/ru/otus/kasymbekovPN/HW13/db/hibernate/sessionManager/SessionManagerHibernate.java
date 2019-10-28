@@ -4,9 +4,6 @@ import lombok.experimental.NonFinal;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.orm.hibernate.LocalSessionFactoryBean;
-import org.springframework.stereotype.Component;
-
 
 import ru.otus.kasymbekovPN.HW13.db.api.sessionManager.SessionManager;
 
