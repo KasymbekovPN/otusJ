@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.otus.kasymbekovPN.HW13.db.api.model.OnlineUser;
-import ru.otus.kasymbekovPN.HW13.server.repository.OnlineUserRepository;
+import ru.otus.kasymbekovPN.HW13.db.api.service.DBServiceOnlineUser;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ import java.util.List;
 public class AuthorizationController {
 
     /**
-     * Хранилище пользователей
+     * Сервис работы с БД для OnlineUser
      */
-    OnlineUserRepository repository;
+    private final DBServiceOnlineUser dbService;
 
     /**
      * Обработка get-запроса для стартовой страницы
@@ -42,10 +42,13 @@ public class AuthorizationController {
      */
     @PostMapping("/authorization")
     public String handleAuthorization(@NotNull Model model, OnlineUser user){
-        OnlineUser userByLogin = repository.findByLogin(user.getLogin().trim());
-        if (userByLogin != null && user.getPassword().trim().equals(userByLogin.getPassword())){
+
+        List<OnlineUser> usersByLogin = dbService.loadRecord(user.getLogin().trim());
+
+        if (usersByLogin.size() > 0){
+            OnlineUser userByLogin = usersByLogin.get(0);
             if (userByLogin.isAdmin()){
-                List<OnlineUser> users = repository.loadAll();
+                List<OnlineUser> users = dbService.loadAll();
                 model.addAttribute("users", users);
                 model.addAttribute("status", "Hello !!!");
                 model.addAttribute("user", new OnlineUser());

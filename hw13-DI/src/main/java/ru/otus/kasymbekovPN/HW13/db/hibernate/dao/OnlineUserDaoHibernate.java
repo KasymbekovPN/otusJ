@@ -1,9 +1,11 @@
 package ru.otus.kasymbekovPN.HW13.db.hibernate.dao;
 
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 import ru.otus.kasymbekovPN.HW13.db.api.dao.OnlineUserDao;
 import ru.otus.kasymbekovPN.HW13.db.api.dao.OnlineUserDaoException;
 import ru.otus.kasymbekovPN.HW13.db.api.model.OnlineUser;
@@ -18,6 +20,8 @@ import java.util.Optional;
 /**
  * Реализации DAO для OnlineUser
  */
+@Repository
+@RequiredArgsConstructor
 public class OnlineUserDaoHibernate implements OnlineUserDao {
 
     private static Logger logger = LoggerFactory.getLogger(OnlineUserDaoHibernate.class);
@@ -26,14 +30,6 @@ public class OnlineUserDaoHibernate implements OnlineUserDao {
      * Менеджер сессий
      */
     private final SessionManagerHibernate sessionManager;
-
-    /**
-     * Конструктор
-     * @param sessionManager менеджер сессий
-     */
-    public OnlineUserDaoHibernate(SessionManagerHibernate sessionManager) {
-        this.sessionManager = sessionManager;
-    }
 
     /**
      * Выгрузка записи по ключю

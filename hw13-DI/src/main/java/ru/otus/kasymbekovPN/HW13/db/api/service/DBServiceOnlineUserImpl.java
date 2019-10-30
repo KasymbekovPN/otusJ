@@ -1,11 +1,14 @@
 package ru.otus.kasymbekovPN.HW13.db.api.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import ru.otus.kasymbekovPN.HW13.db.api.dao.OnlineUserDao;
 import ru.otus.kasymbekovPN.HW13.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW13.db.api.sessionManager.SessionManager;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,8 @@ import java.util.Optional;
  * Реализации сервиса работы класса
  * OnlineUser с БД.
  */
+@Service
+@RequiredArgsConstructor
 public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
 
     private final static Logger logger = LoggerFactory.getLogger(DBServiceOnlineUserImpl.class);
@@ -24,11 +29,11 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
     private final OnlineUserDao dao;
 
     /**
-     * Конструктор
-     * @param dao DAO
+     * Инициализатор. Создает администрирующего пользователя.
      */
-    public DBServiceOnlineUserImpl(OnlineUserDao dao) {
-        this.dao = dao;
+    @PostConstruct
+    public final void init(){
+        createRecord(new OnlineUser(0, "admin", "qwerty", true));
     }
 
     /**

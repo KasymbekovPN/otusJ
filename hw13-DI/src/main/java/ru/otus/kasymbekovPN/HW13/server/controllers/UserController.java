@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.otus.kasymbekovPN.HW13.db.api.model.OnlineUser;
-import ru.otus.kasymbekovPN.HW13.server.repository.OnlineUserRepository;
+import ru.otus.kasymbekovPN.HW13.db.api.service.DBServiceOnlineUser;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 public class UserController {
 
     /**
-     * Хранилище пользователей
+     * Сервис работы с БД для OnlineUser
      */
-    OnlineUserRepository repository;
+    private final DBServiceOnlineUser dbService;
 
     /**
      * Обработчик создания пользователя
@@ -31,15 +31,14 @@ public class UserController {
      */
     @PostMapping("/createUser")
     public String handleUserCreation(@NotNull Model model, OnlineUser user){
-
-        String login = user.getLogin().trim();
-        OnlineUser findUser = repository.findByLogin(login);
-
         String status;
-        if (findUser == null){
+        String login = user.getLogin().trim();
+        List<OnlineUser> usersByLogin = dbService.loadRecord(login);
+
+        if (usersByLogin.size() == 0){
             String password = user.getPassword().trim();
             if (!login.equals("") && !password.equals("")){
-                repository.create(login, password);
+                dbService.createRecord(new OnlineUser(0, login, password, false));
                 status = "User '" + login + " was create.";
             } else {
                 status = "Login and/or password are empty.";
@@ -67,7 +66,7 @@ public class UserController {
         if (login.equals("admin")){
             status = "Couldn't delete 'admin'";
         } else {
-            boolean success = repository.delete(login);
+            boolean success = dbService.deleteRecord(login);
             status = success
                     ? "User '" + login + "' was delete."
                     : "User '" + login + "' doesn't exist";
@@ -84,7 +83,7 @@ public class UserController {
      * @param status статус действия
      */
     private void fillModel(@NotNull Model model, String status){
-        List<OnlineUser> users = repository.loadAll();
+        List<OnlineUser> users = dbService.loadAll();
         model.addAttribute("users", users);
         model.addAttribute("status", status);
         model.addAttribute("user", new OnlineUser());
