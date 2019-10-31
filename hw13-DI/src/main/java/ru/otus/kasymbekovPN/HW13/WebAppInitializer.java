@@ -9,7 +9,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return null;
+        return new Class<?>[]{HibernateConfig.class};
     }
 
     @Override
@@ -21,6 +21,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
+
 
     @Override
     protected Filter[] getServletFilters() {

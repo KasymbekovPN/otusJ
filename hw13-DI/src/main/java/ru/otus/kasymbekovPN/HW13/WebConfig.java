@@ -1,7 +1,6 @@
 package ru.otus.kasymbekovPN.HW13;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,9 +11,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import ru.otus.kasymbekovPN.HW13.db.api.model.OnlineUser;
-import ru.otus.kasymbekovPN.HW13.db.hibernate.HibernateUtils;
-import ru.otus.kasymbekovPN.HW13.db.hibernate.sessionManager.SessionManagerHibernate;
 
 @EnableWebMvc
 @Configuration
@@ -50,12 +46,5 @@ public class WebConfig implements WebMvcConfigurer {
         viewResolver.setOrder(1);
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
-    }
-
-    @Bean
-    public SessionManagerHibernate sessionManagerHibernate(){
-        SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml",
-                OnlineUser.class);
-        return new SessionManagerHibernate(sessionFactory);
     }
 }

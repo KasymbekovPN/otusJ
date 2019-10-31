@@ -47,15 +47,18 @@ public class AuthorizationController {
 
         if (usersByLogin.size() > 0){
             OnlineUser userByLogin = usersByLogin.get(0);
-            if (userByLogin.isAdmin()){
-                List<OnlineUser> users = dbService.loadAll();
-                model.addAttribute("users", users);
-                model.addAttribute("status", "Hello !!!");
-                model.addAttribute("user", new OnlineUser());
-                return "adminPage.html";
-            } else {
-                model.addAttribute("login", userByLogin.getLogin());
-                return "userPage.html";
+            String password = user.getPassword().trim();
+            if (userByLogin.getPassword().equals(password)) {
+                if (userByLogin.isAdmin()){
+                    List<OnlineUser> users = dbService.loadAll();
+                    model.addAttribute("users", users);
+                    model.addAttribute("status", "Hello !!!");
+                    model.addAttribute("user", new OnlineUser());
+                    return "adminPage.html";
+                } else {
+                    model.addAttribute("login", userByLogin.getLogin());
+                    return "userPage.html";
+                }
             }
         }
 
