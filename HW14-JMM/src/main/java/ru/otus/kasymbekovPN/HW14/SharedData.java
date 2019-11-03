@@ -1,8 +1,36 @@
 package ru.otus.kasymbekovPN.HW14;
 
+/**
+ * Интерфейс для реализации класса расшаренных данных
+ */
 public interface SharedData {
-    String waitedThread();
-    void doIt();
+
+    /**
+     * Возвращает имя ожидаемого потока
+     * @return Имя потока
+     */
+    String getWaitedThreadName();
+
+    /**
+     * Функция воздействия потока на расшаренные данные
+     */
+    void calculate();
+
+    /**
+     * Добавляет имя потока
+     * @param threadName имя потока
+     */
     void addThreadName(String threadName);
+
+    /**
+     * Возвращает текущее значение счетчика
+     * @return Значение счетчик
+     */
     int getCounter();
+
+    /**
+     * Выполнена работа
+     * @return Статус завершенности
+     */
+    boolean isDone();
 }

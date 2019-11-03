@@ -3,80 +3,146 @@ package ru.otus.kasymbekovPN.HW14;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класса расшаренных данных
+ */
 public class SharedDataImpl implements SharedData {
 
-    private int minCounterValue;
-    private int maxCounterValue;
+    /**
+     * Минимальный порог счета
+     */
+    private int minThreshold;
+
+    /**
+     * Максимальный порог счета
+     */
+    private int maxThreshold;
+
+    /**
+     * Флаг, указывающий направление счета:
+     *  + true - вверх
+     *  + false - вниз
+     */
     private boolean up;
 
-    private int counter;
-    private List<String> threadIds;
-    private int threadIdsIndex;
+    /**
+     * Флаг завершенности работы
+     */
+    private boolean done;
 
-    public SharedDataImpl(int minCounterValue, int maxCounterValue) {
-        this.minCounterValue = minCounterValue;
-        this.maxCounterValue = maxCounterValue;
-        this.counter = minCounterValue;
-        this.threadIds = new ArrayList<>();
-        this.threadIdsIndex = -1;
+    /**
+     * Счетчик пройденных циклов
+     */
+    private int cycleCounter;
+
+    /**
+     * Количество циклов нужное для завершения работы.
+     */
+    private int cycleNumber;
+
+    /**
+     * Счетчик, изменяемый в отрезке [minThreshold, maxThreshold]
+     */
+    private int counter;
+
+    /**
+     * Имена покотов, служат для организации порядка обращения
+     * каждого потока к расшаренным данным.
+     */
+    private List<String> threadNames;
+
+    /**
+     * Индекс элемента threadNames который соответствует потоку,
+     * которому разрешен доступ к расшаренным данным.
+     *
+     * Циклично инкрементируется в интервале [0, threadNames.size()).
+     */
+    private int threadNamesIndex;
+
+    SharedDataImpl(int minThreshold, int maxThreshold, int cycleNumber) {
+        this.minThreshold = minThreshold;
+        this.maxThreshold = maxThreshold;
+        this.counter = minThreshold;
+        this.threadNames = new ArrayList<>();
+        this.threadNamesIndex = -1;
         this.up = true;
+        this.cycleNumber = 2 * cycleNumber;
+        this.cycleCounter = 0;
     }
 
+    /**
+     * Возвращает имя ожидаемого потока
+     * @return Имя потока
+     */
     @Override
-    public String waitedThread() {
-        if (threadIdsIndex == -1){
+    public String getWaitedThreadName() {
+        if (threadNamesIndex == -1){
             return null;
         } else {
-            return threadIds.get(threadIdsIndex);
+            return threadNames.get(threadNamesIndex);
         }
     }
 
+    /**
+     * Функция воздействия потока на расшаренные данные
+     *
+     * + После обращения всех зарегистрированных потоков счетчик или
+     *   инкрементируется, или декрементируется, в зависиммости up
+     *
+     * + Если счетчик прошёл полный рабочий цикл (от минимального
+     *   порога до максимального и обратно), то происходит инкремент
+     *   счетчика циклов.
+     *
+     * + Если количество пройденных циклов сравняется с cycleNumberб
+     *   то работа считается выполненной.
+     */
     @Override
-    public void doIt() {
-        if (threadIds.size() - 1 == threadIdsIndex){
-            threadIdsIndex = 0;
+    public void calculate() {
+        if (threadNames.size() - 1 == threadNamesIndex){
+            threadNamesIndex = 0;
 
-            if (up){
-                if (counter == maxCounterValue){
-                    counter--;
-                    up = !up;
-                } else {
-                    counter++;
+            int threshold = up ? maxThreshold : minThreshold;
+            if (counter == threshold){
+                counter = up ? --counter : ++counter;
+                up = !up;
+                if (++cycleCounter == cycleNumber){
+                    done = true;
                 }
             } else {
-                if (counter == minCounterValue){
-                    counter++;
-                    up = !up;
-                } else {
-                    counter--;
-                }
+                counter = up ? ++counter : --counter;
             }
-
         } else {
-            threadIdsIndex++;
+            threadNamesIndex++;
         }
     }
 
+    /**
+     * Добавляет имя потока
+     * @param threadName имя потока
+     */
     @Override
     public void addThreadName(String threadName) {
-
-        //<
-        System.out.println("threadId : " + threadName);
-
-
-
-        threadIds.add(threadName);
-
-        //<
-        System.out.println("threadIds : " + threadIds);
-
-        if (threadIdsIndex == -1){
-            threadIdsIndex = 0;
+        threadNames.add(threadName);
+        if (threadNamesIndex == -1){
+            threadNamesIndex = 0;
         }
     }
 
+    /**
+     * Возвращает текущее значение счетчика
+     * @return Значение счетчик
+     */
     @Override
     public int getCounter() {
         return counter;
+    }
+
+    /**
+     * Выполнена работа
+     * @return Статус завершенности
+     */
+    @Override
+    public boolean isDone() {
+        return done;
     }
 }
