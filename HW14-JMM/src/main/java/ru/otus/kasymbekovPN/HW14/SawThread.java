@@ -16,7 +16,7 @@ class SawThread extends Thread {
     private final SharedData sharedData;
 
     /**
-     * Работа выволнена
+     * Работа выполнена
      */
     private boolean done;
 
@@ -51,7 +51,7 @@ class SawThread extends Thread {
                 if (!done){
                     if (sharedData.getWaitedThreadName().equals(this.getName())){
                         logger.info("[{}] : {}", this.getName(), sharedData.getCounter());
-                        sharedData.calculate();
+                        sharedData.calculate(this.getName());
                     }
                 }
             }

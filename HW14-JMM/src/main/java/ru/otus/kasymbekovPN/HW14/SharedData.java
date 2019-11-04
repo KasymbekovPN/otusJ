@@ -13,8 +13,9 @@ public interface SharedData {
 
     /**
      * Функция воздействия потока на расшаренные данные
+     * @param threadName имя потока
      */
-    void calculate();
+    void calculate(String threadName);
 
     /**
      * Добавляет имя потока

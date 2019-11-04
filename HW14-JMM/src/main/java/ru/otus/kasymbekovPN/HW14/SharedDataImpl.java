@@ -95,24 +95,28 @@ public class SharedDataImpl implements SharedData {
      *
      * + Если количество пройденных циклов сравняется с cycleNumberб
      *   то работа считается выполненной.
+     *
+     *   @param threadName имя потока
      */
     @Override
-    public void calculate() {
-        if (threadNames.size() - 1 == threadNamesIndex){
-            threadNamesIndex = 0;
+    public void calculate(String threadName) {
+        if (threadNames.contains(threadName)){
+            if (threadNames.size() - 1 == threadNamesIndex){
+                threadNamesIndex = 0;
 
-            int threshold = up ? maxThreshold : minThreshold;
-            if (counter == threshold){
-                counter = up ? --counter : ++counter;
-                up = !up;
-                if (++cycleCounter == cycleNumber){
-                    done = true;
+                int threshold = up ? maxThreshold : minThreshold;
+                if (counter == threshold){
+                    counter = up ? --counter : ++counter;
+                    up = !up;
+                    if (++cycleCounter == cycleNumber){
+                        done = true;
+                    }
+                } else {
+                    counter = up ? ++counter : --counter;
                 }
             } else {
-                counter = up ? ++counter : --counter;
+                threadNamesIndex++;
             }
-        } else {
-            threadNamesIndex++;
         }
     }
 
