@@ -33,6 +33,7 @@
         <module>hw11-cache</module>
         <module>hw12-webServer</module>
         <module>hw13-DI</module>
+        <module>HW14-JMM</module>
     </modules>
 
     <properties>
