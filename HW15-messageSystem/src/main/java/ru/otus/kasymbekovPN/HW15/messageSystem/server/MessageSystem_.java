@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15.L29.messageSystem;
+package ru.otus.kasymbekovPN.HW15.messageSystem.server;
 
 public interface MessageSystem_ {
     void addClient(MsClient_ msClient);

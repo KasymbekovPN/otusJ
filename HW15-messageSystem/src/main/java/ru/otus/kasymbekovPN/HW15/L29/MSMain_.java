@@ -2,13 +2,6 @@ package ru.otus.kasymbekovPN.HW15.L29;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW15.L29.db.DBServiceImpl_;
-import ru.otus.kasymbekovPN.HW15.L29.db.DBService_;
-import ru.otus.kasymbekovPN.HW15.L29.db.handlers.GetUserDataRequestHandler_;
-import ru.otus.kasymbekovPN.HW15.L29.front.FrontendServiceImpl_;
-import ru.otus.kasymbekovPN.HW15.L29.front.FrontendService_;
-import ru.otus.kasymbekovPN.HW15.L29.front.handlers.GetUserDataResponseHandler_;
-import ru.otus.kasymbekovPN.HW15.L29.messageSystem.*;
 
 public class MSMain_ {
 

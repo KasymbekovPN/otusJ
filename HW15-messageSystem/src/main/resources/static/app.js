@@ -4,9 +4,9 @@ const setConnected = connected => {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);
     if (connected)
-        $("#chatLine").show();
+        $("#userInformation").show();
     else
-        $("#chatLine").hide();
+        $("#userInformation").hide();
     $("#message").html("");
 };
 
@@ -33,12 +33,35 @@ const sendName = () => stompClient.send(
     {},
     JSON.stringify({'messageStr': $("#message").val()}));
 
-const showGreeting = messageStr =>
-    $("#chatLine").append(`<tr><td>${messageStr}</td></tr>`);
+const authorization = () => stompClient.send(
+    "/app/authorization",
+    {},
+    JSON.stringify(
+        {
+            'login' : $("#login").val(),
+            'password' : $('#password').val()
+        }
+    )
+);
+
+const showGreeting = messageStr => {
+    console.log('+++ ' + messageStr + ' +++');
+
+    if (messageStr == "clear"){
+      const myNode = document.getElementById("userInformation");
+      myNode.innerHTML = '';
+    } else {
+        $("#userInformation").append(`<tr><td>${messageStr}</td></tr>`);
+    }
+};
+//<
+//const showGreeting = messageStr =>
+//    $("#chatLine").append(`<tr><td>${messageStr}</td></tr>`);
 
 $(() => {
     $("form").on('submit', event => event.preventDefault());
     $("#connect").click(connect);
     $("#disconnect").click(disconnect);
     $("#send").click(sendName);
+    $("#authorization").click(authorization);
 });

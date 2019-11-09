@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15.L29.db;
+package ru.otus.kasymbekovPN.HW15.messageSystem.server.db;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

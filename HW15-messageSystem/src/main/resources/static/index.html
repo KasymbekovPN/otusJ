@@ -25,25 +25,42 @@
                 </div>
             </form>
         </div>
+
+
+
+<!--        <div class="col-md-6">-->
+<!--            <form class="form-inline">-->
+<!--                <div class="form-group">-->
+<!--                    <label for="message">Message</label>-->
+<!--                    <input type="text" id="message" class="form-control" placeholder="type a message...">-->
+<!--                </div>-->
+<!--                <button id="send" class="btn btn-default" type="submit">Send</button>-->
+<!--            </form>-->
+<!--        </div>-->
         <div class="col-md-6">
             <form class="form-inline">
                 <div class="form-group">
-                    <label for="message">Message</label>
-                    <input type="text" id="message" class="form-control" placeholder="type a message...">
+                    <label for="login">Login</label>
+                    <input id="login", type="text" class="form-control">
+                    <label for="password">Password</label>
+                    <input id="password", type="text" class="form-control">
+                    <button id="authorization" class="btn btn-default" type="submit">Enter</button>
                 </div>
-                <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>
         </div>
+
+
+
     </div>
     <div class="row">
         <div class="col-md-12">
             <table id="conversation" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Chat line</th>
+                    <th>User Information</th>
                 </tr>
                 </thead>
-                <tbody id="chatLine"></tbody>
+                <tbody id="userInformation"></tbody>
             </table>
         </div>
     </div>

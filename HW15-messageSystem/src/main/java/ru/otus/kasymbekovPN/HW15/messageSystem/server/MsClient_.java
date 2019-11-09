@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15.L29.messageSystem;
+package ru.otus.kasymbekovPN.HW15.messageSystem.server;
 
 public interface MsClient_ {
     void addHandler(MessageType_ type_, RequestHandler_ requestHandler);;

@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15.L29.front;
+package ru.otus.kasymbekovPN.HW15.messageSystem.server.front;
 
 import java.util.Optional;
 import java.util.UUID;

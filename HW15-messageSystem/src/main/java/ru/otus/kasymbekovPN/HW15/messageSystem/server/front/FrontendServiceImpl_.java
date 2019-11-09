@@ -1,10 +1,10 @@
-package ru.otus.kasymbekovPN.HW15.L29.front;
+package ru.otus.kasymbekovPN.HW15.messageSystem.server.front;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW15.L29.messageSystem.MessageType_;
-import ru.otus.kasymbekovPN.HW15.L29.messageSystem.Message__;
-import ru.otus.kasymbekovPN.HW15.L29.messageSystem.MsClient_;
+import ru.otus.kasymbekovPN.HW15.messageSystem.server.MessageType_;
+import ru.otus.kasymbekovPN.HW15.messageSystem.server.Message__;
+import ru.otus.kasymbekovPN.HW15.messageSystem.server.MsClient_;
 
 import java.util.Map;
 import java.util.Optional;

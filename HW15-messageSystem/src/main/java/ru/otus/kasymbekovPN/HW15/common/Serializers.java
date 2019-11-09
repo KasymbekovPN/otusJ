@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15.L29.app.common;
+package ru.otus.kasymbekovPN.HW15.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,23 +8,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class Serializers_ {
+public class Serializers {
 
-//    package ru.otus.app.common;
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
-//import java.io.ByteArrayInputStream;
-//import java.io.ByteArrayOutputStream;
-//import java.io.ObjectInputStream;
-//import java.io.ObjectOutputStream;
-//
-//    public class Serializers {
+    private static final Logger logger = LoggerFactory.getLogger(Serializers.class);
 
-    private static final Logger logger = LoggerFactory.getLogger(Serializers_.class);
-
-    public Serializers_() {
+    public Serializers() {
     }
 
     public static byte[] serialize(Object data){
