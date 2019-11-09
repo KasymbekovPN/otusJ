@@ -3,6 +3,8 @@ package ru.otus.kasymbekovPN.HW15.L25;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+//@ComponentScan
+//<
 @SpringBootApplication
 public class WsDemo_ {
     public static void main(String[] args) {
