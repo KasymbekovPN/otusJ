@@ -10,19 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MsClientImpl_ implements MsClient_ {
 
-//    package ru.otus.messagesystem;
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import ru.otus.app.common.Serializers;
-//
-//import java.util.Map;
-//import java.util.Objects;
-//import java.util.concurrent.ConcurrentHashMap;
-//
-//    public class MsClientImpl implements MsClient {
-//        private static final Logger logger = LoggerFactory.getLogger(MsClientImpl.class);
-//
     private static final Logger logger = LoggerFactory.getLogger(MsClientImpl_.class);
 
     private final String name;
