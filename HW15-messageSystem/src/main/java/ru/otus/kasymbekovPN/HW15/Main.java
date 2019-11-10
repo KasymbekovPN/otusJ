@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.MessageSystemImpl;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.MessageType;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.MsClient;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.MsClientImpl;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.db.DBService;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.db.DBServiceImpl;
-import ru.otus.kasymbekovPN.HW15.messageSystem.server.db.handlers.GetUserDataRequestHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageSystemImpl;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClient;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClientImpl;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.DBService;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.DBServiceImpl;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetUserDataRequestHandler;
 
 @SpringBootApplication
 public class Main {
