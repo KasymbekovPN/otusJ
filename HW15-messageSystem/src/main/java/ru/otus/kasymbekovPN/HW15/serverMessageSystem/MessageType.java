@@ -1,7 +1,11 @@
 package ru.otus.kasymbekovPN.HW15.serverMessageSystem;
 
 public enum MessageType {
-    USER_DATA("UserData");
+    USER_DATA("UserData"),
+    CHECK_USER("CheckUser"),
+    IS_ADMIN("IsAdmin"),
+    IS_NOT_ADMIN("IsNotAdmin"),
+    WRONG_AUTH_DATA("WrongAuthorizationData");
 
     private final String value;
 

@@ -12,6 +12,7 @@ import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClientImpl;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.DBService;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.DBServiceImpl;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetCheckUserRequestHandler;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetUserDataRequestHandler;
 
 import javax.annotation.PostConstruct;
@@ -54,7 +55,10 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
         MessageSystemImpl messageSystem = MessageSystemImpl.getInstance();
         MsClientImpl databaseMsClient = new MsClientImpl(DATABASE_SERVICE_CLIENT_NAME, messageSystem);
         dbService = new DBServiceImpl();
+
         databaseMsClient.addHandler(MessageType.USER_DATA, new GetUserDataRequestHandler(dbService));
+        databaseMsClient.addHandler(MessageType.CHECK_USER, new GetCheckUserRequestHandler(this));
+
         messageSystem.addClient(databaseMsClient);
     }
 

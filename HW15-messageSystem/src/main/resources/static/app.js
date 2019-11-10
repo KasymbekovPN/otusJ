@@ -1,3 +1,6 @@
+
+//< renaming entity inner file
+
 let stompClient = null;
 
 const setConnected = connected => {
@@ -15,8 +18,9 @@ const connect = () => {
     stompClient.connect({}, frame => {
         setConnected(true);
         console.log(`Connected: ${frame}`);
-        stompClient.subscribe('/topic/response', greeting =>
-            showGreeting(JSON.parse(greeting.body).messageStr));
+        stompClient.subscribe('/topic/response', greeting =>{
+            showGreeting(greeting)
+        });
     });
 };
 
@@ -44,15 +48,22 @@ const authorization = () => stompClient.send(
     )
 );
 
-const showGreeting = messageStr => {
-    console.log('+++ ' + messageStr + ' +++');
+//const showGreeting = messageStr => {
+const showGreeting = greeting => {
 
-    if (messageStr == "clear"){
-      const myNode = document.getElementById("userInformation");
-      myNode.innerHTML = '';
-    } else {
-        $("#userInformation").append(`<tr><td>${messageStr}</td></tr>`);
-    }
+    console.log('+++ ' + greeting + ' +++');
+//    console.log('+++ ' + greeting.body + ' +++');
+//
+//    messageStr = JSON.parse(greeting.body).messageStr;
+//
+//    console.log('+++ ' + messageStr + ' +++');
+//
+//    if (messageStr == "clear"){
+//      const myNode = document.getElementById("userInformation");
+//      myNode.innerHTML = '';
+//    } else {
+//        $("#userInformation").append(`<tr><td>${messageStr}</td></tr>`);
+//    }
 };
 //<
 //const showGreeting = messageStr =>
