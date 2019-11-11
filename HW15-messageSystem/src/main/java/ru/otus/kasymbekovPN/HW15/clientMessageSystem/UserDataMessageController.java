@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import ru.otus.kasymbekovPN.HW15.db.api.model.OnlineUser;
@@ -40,11 +39,11 @@ public class UserDataMessageController {
         MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME, messageSystem);
         frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
 
-        frontendMsClient.addHandler(MessageType.CHECK_USER, new GetIsAdminResponseHandler(frontendService));
+//        frontendMsClient.addHandler(MessageType.CHECK_USER, new GetIsAdminResponseHandler(frontendService));
         //<
-//        frontendMsClient.addHandler(MessageType.USER_DATA, new GetUserDataResponseHandler(frontendService));
-//        frontendMsClient.addHandler(MessageType.IS_ADMIN, new GetIsAdminResponseHandler(frontendService));
-//        frontendMsClient.addHandler(MessageType.WRONG_AUTH_DATA, new GetIsAdminResponseHandler(frontendService));
+        frontendMsClient.addHandler(MessageType.USER_DATA, new GetIsAdminResponseHandler(frontendService));
+        frontendMsClient.addHandler(MessageType.IS_ADMIN, new GetIsAdminResponseHandler(frontendService));
+        frontendMsClient.addHandler(MessageType.WRONG_AUTH_DATA, new GetIsAdminResponseHandler(frontendService));
 
 
         messageSystem.addClient(frontendMsClient);
@@ -67,18 +66,57 @@ public class UserDataMessageController {
 
         //< !!! почистить data (для админа убрать ид, для юзера отставить только логин) перед
 
-        sendMessage(data);
+        if (data.size() > 0){
+            boolean admin = false;
+            for (OnlineUser datum : data) {
+                if (datum.isAdmin()){
+                    admin = true;
+                    break;
+                }
+            }
+
+            if (admin)
+                sendAdminAuthResponse(data);
+            else
+                sendUserAuthResponse(data.get(0).getLogin());
+
+        } else {
+            sendWrongAuthResponse();
+        }
+
+    //<
+        //        sendMessage(data);
     }
 
     //< !!! добавить свои "/topic/response????" для редактирования поля управления и строки статуса
-    @SendTo("/topic/response")
-    public void sendMessage(List<OnlineUser> data){
-        System.out.println("SendMessage");
+//    @SendTo("/topic/response")
+//    public void sendMessage(List<OnlineUser> data){
+//        System.out.println("SendMessage");
+//        this.simpMessagingTemplate.convertAndSend(
+//                "/topic/response",
+//                data
+//                /*new Message_("Hello")*/
+//        );
+//    }
+
+    private void sendAdminAuthResponse(List<OnlineUser> users){
         this.simpMessagingTemplate.convertAndSend(
-                "/topic/response",
-                data
-                /*new Message_("Hello")*/
+                "/topic/adminAuthResponse",
+                users
         );
     }
 
+    private void sendUserAuthResponse(String login){
+        simpMessagingTemplate.convertAndSend(
+                "/topic/userAuthResponse",
+                login
+        );
+    }
+
+    private void sendWrongAuthResponse(){
+        simpMessagingTemplate.convertAndSend(
+                "/topic/wrongAuthResponse",
+                "Wrong Login and/or Password"
+        );
+    }
 }

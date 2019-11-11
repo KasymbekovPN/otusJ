@@ -18,9 +18,14 @@ const connect = () => {
     stompClient.connect({}, frame => {
         setConnected(true);
         console.log(`Connected: ${frame}`);
-        stompClient.subscribe('/topic/response', greeting =>{
-            showGreeting(greeting)
-        });
+        stompClient.subscribe(
+            "/topic/adminAuthResponse",
+            rawUserData => handleAdminUserResponse(rawUserData)
+        );
+        //<
+//        stompClient.subscribe('/topic/response', greeting =>{
+//            showGreeting(greeting)
+//        });
     });
 };
 
@@ -48,6 +53,56 @@ const authorization = () => stompClient.send(
     )
 );
 
+const handleAdminUserResponse = rawUserData => {
+
+//    console.log("? :" + rawUserData);
+
+    userData = JSON.parse(rawUserData.body);
+
+    const userInfoNode = document.getElementById("userInformation");
+    userInfoNode.innerHTML = "";
+
+    for (var i in userData){
+        id = userData[i].id;
+        login = userData[i].login;
+        password = userData[i].password;
+        admin = userData[i].admin
+        $("#userInformation").append(
+            `<tr><td>${id}</td><td>${login}</td><td>${password}</td><td>${admin}</td></tr>`
+        );
+    }
+
+//    console.log("??? : " + userData);
+
+    //      const myNode = document.getElementById("userInformation");
+    //      myNode.innerHTML = '';
+    //    } else {
+    //        $("#userInformation").append(`<tr><td>${messageStr}</td></tr>`);
+    //    }
+
+
+//    console.log("raw user data : " + userData);
+//    console.log("type : " + typeof(userData));
+//    console.log("body : " + userData.body);
+//
+//    console.log("len : " + userData.length);
+//
+//    hUserData = JSON.parse(userData.body)
+//
+//
+//    for(var k in hUserData)
+//    {
+//        console.log(k + ")");
+//        console.log("login : " + hUserData[k].login);
+////        console.log("?? : " + k + ", ?? : " + userData[k]);
+//    }
+
+//    for(var k in result) {
+//       console.log(k, result[k]);
+//    }
+
+};
+//<
 //const showGreeting = messageStr => {
 const showGreeting = greeting => {
 
