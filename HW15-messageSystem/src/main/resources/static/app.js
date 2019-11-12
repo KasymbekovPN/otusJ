@@ -55,12 +55,15 @@ const authorization = () => stompClient.send(
 
 const handleAdminUserResponse = rawUserData => {
 
-//    console.log("? :" + rawUserData);
+    const statusLine = document.getElementById("statusLine");
+    statusLine.innerHTML = "<hr><p>User Information was load.</p><hr>";
+
+    const userDataTableContainer = document.getElementById("userDataTableContainer");
+    userDataTableContainer.innerHTML = "<table id='conversation' class='table table-striped'><thead><tr><th>User Information</th></tr></thead><tbody id='userInformation'><tr><td>ID</td><td>Login</td><td>Password</td><td>Is Admin</td></tr></tbody></table>";
 
     userData = JSON.parse(rawUserData.body);
 
     const userInfoNode = document.getElementById("userInformation");
-    userInfoNode.innerHTML = "";
 
     for (var i in userData){
         id = userData[i].id;
@@ -72,34 +75,21 @@ const handleAdminUserResponse = rawUserData => {
         );
     }
 
-//    console.log("??? : " + userData);
+    const addUser = document.getElementById("addUser");
+    addUser.innerHTML = "<hr>"
+        + "<h5>User Addition</h5>"
+        + "<label for='addLogin'>Login</label>"
+        + "<input id='addLogin' type'text' class='form-control'>"
+        + "<label for='addPassword'>Password</label>"
+        + "<input id='addPassword' type'text' class='form-control'>"
+        + "<button id='addUserButton' class='btn btn-default' type='submit'>Add</button";
 
-    //      const myNode = document.getElementById("userInformation");
-    //      myNode.innerHTML = '';
-    //    } else {
-    //        $("#userInformation").append(`<tr><td>${messageStr}</td></tr>`);
-    //    }
-
-
-//    console.log("raw user data : " + userData);
-//    console.log("type : " + typeof(userData));
-//    console.log("body : " + userData.body);
-//
-//    console.log("len : " + userData.length);
-//
-//    hUserData = JSON.parse(userData.body)
-//
-//
-//    for(var k in hUserData)
-//    {
-//        console.log(k + ")");
-//        console.log("login : " + hUserData[k].login);
-////        console.log("?? : " + k + ", ?? : " + userData[k]);
-//    }
-
-//    for(var k in result) {
-//       console.log(k, result[k]);
-//    }
+    const delUser = document.getElementById("delUser");
+    delUser.innerHTML = "<hr>"
+        + "<h5>User Deleting</h5>"
+        + "<label for='delLogin'>Login</label>"
+        + "<input id='delLogin' type'text' class='form-control'>"
+        + "<button id='delUserButton' class='btn btn-default' type='submit'>Del</button";
 
 };
 //<
