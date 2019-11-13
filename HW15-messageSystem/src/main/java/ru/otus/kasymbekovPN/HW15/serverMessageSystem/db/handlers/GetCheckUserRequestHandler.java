@@ -25,27 +25,27 @@ public class GetCheckUserRequestHandler implements RequestHandler {
 
         List<OnlineUser> data= new ArrayList<OnlineUser>();
         //<
-        MessageType messageType = MessageType.WRONG_AUTH_DATA;
+//        MessageType messageType = MessageType.WRONG_AUTH_DATA;
         List<OnlineUser> loadedUsers = dbServiceOnlineUser.loadRecord(user.getLogin());
         if (loadedUsers.size() > 0){
             OnlineUser loadedUser = loadedUsers.get(0);
             if (loadedUser.isAdmin()){
                 data = dbServiceOnlineUser.loadAll();
                 //<
-                messageType = MessageType.IS_ADMIN;
+//                messageType = MessageType.IS_ADMIN;
             } else {
 //                data = loadedUser;
                 //<
                 data.add(loadedUser);
                 //<
-                messageType = MessageType.IS_NOT_ADMIN;
+//                messageType = MessageType.IS_NOT_ADMIN;
             }
         }
 
         return Optional.of(
                 new Message(
                         message.getTo(), message.getFrom(), Optional.of(message.getId()),
-                        messageType.getValue(), Serializers.serialize(data)
+                        MessageType.CHECK_USER.getValue(), Serializers.serialize(data)
                 )
         );
     }

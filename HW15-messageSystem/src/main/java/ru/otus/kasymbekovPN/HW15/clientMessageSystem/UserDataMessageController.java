@@ -10,6 +10,7 @@ import ru.otus.kasymbekovPN.HW15.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.*;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendService;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendServiceImpl;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.handlers.GetAddUserResponseHandler;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.handlers.GetIsAdminResponseHandler;
 
 import javax.annotation.PostConstruct;
@@ -39,26 +40,33 @@ public class UserDataMessageController {
         MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME, messageSystem);
         frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
 
-//        frontendMsClient.addHandler(MessageType.CHECK_USER, new GetIsAdminResponseHandler(frontendService));
+        frontendMsClient.addHandler(MessageType.CHECK_USER, new GetIsAdminResponseHandler(frontendService));
+        frontendMsClient.addHandler(MessageType.ADD_USER, new GetAddUserResponseHandler(frontendService));
         //<
-        frontendMsClient.addHandler(MessageType.USER_DATA, new GetIsAdminResponseHandler(frontendService));
-        frontendMsClient.addHandler(MessageType.IS_ADMIN, new GetIsAdminResponseHandler(frontendService));
-        frontendMsClient.addHandler(MessageType.WRONG_AUTH_DATA, new GetIsAdminResponseHandler(frontendService));
+//        frontendMsClient.addHandler(MessageType.USER_DATA, new GetIsAdminResponseHandler(frontendService));
+//        frontendMsClient.addHandler(MessageType.IS_ADMIN, new GetIsAdminResponseHandler(frontendService));
+//        frontendMsClient.addHandler(MessageType.WRONG_AUTH_DATA, new GetIsAdminResponseHandler(frontendService));
 
 
         messageSystem.addClient(frontendMsClient);
     }
 
+    //< rename
     @MessageMapping("/authorization")
     public void handleMessage(OnlineUser user){
         logger.info("user data message : {}", user);
-
-        //<
-//        frontendService.getUserData(1, data -> logger.info("got data : {}", data));
-        //<
-//        frontendService.getUserData(1, this::h);
-        //<
         frontendService.checkUser(user, this::handleCheckUserResponse);
+    }
+
+    @MessageMapping("/addUser")
+    public void handleAddUserMessage(OnlineUser user){
+        logger.info("handleAddUserMessage, user data : {}", user);
+        frontendService.addUser(user, this::handleAddUserResponse);
+    }
+
+    @MessageMapping("/delUser")
+    public void handleDelUserMessage(OnlineUser user){
+        logger.info("handleDelUserMessage, user data : {}", user);
     }
 
     private void handleCheckUserResponse(List<OnlineUser> data){
@@ -100,6 +108,9 @@ public class UserDataMessageController {
 //    }
 
     private void sendAdminAuthResponse(List<OnlineUser> users){
+        //<
+        System.out.println("sendAdminAuthResponse");
+        //<
         this.simpMessagingTemplate.convertAndSend(
                 "/topic/adminAuthResponse",
                 users
@@ -107,6 +118,9 @@ public class UserDataMessageController {
     }
 
     private void sendUserAuthResponse(String login){
+        //<
+        System.out.println("sendUserAuthResponse");
+        //<
         simpMessagingTemplate.convertAndSend(
                 "/topic/userAuthResponse",
                 login
@@ -114,9 +128,22 @@ public class UserDataMessageController {
     }
 
     private void sendWrongAuthResponse(){
+        //<
+        System.out.println("sendWrongAuthResponse");
+        //<
         simpMessagingTemplate.convertAndSend(
                 "/topic/wrongAuthResponse",
                 "Wrong Login and/or Password"
+        );
+    }
+
+    private void handleAddUserResponse(OnlineUserPackage data){
+        //<
+        System.out.println("----------------- : " + data);
+        //<
+        simpMessagingTemplate.convertAndSend(
+                "/topic/addUserResponse",
+                data
         );
     }
 }

@@ -2,6 +2,7 @@ package ru.otus.kasymbekovPN.HW15.serverMessageSystem.front;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.kasymbekovPN.HW15.clientMessageSystem.OnlineUserPackage;
 import ru.otus.kasymbekovPN.HW15.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.Message;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
@@ -37,6 +38,13 @@ public class FrontendServiceImpl implements FrontendService {
     @Override
     public void checkUser(OnlineUser user, Consumer<List<OnlineUser>> dataConsumer) {
         Message outMessage = msClient.produceMessage(databaseServiceClientName, user, MessageType.CHECK_USER);
+        consumerMap.put(outMessage.getId(), dataConsumer);
+        msClient.sendMessage(outMessage);
+    }
+
+    @Override
+    public void addUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer) {
+        Message outMessage = msClient.produceMessage(databaseServiceClientName, user, MessageType.ADD_USER);
         consumerMap.put(outMessage.getId(), dataConsumer);
         msClient.sendMessage(outMessage);
     }
