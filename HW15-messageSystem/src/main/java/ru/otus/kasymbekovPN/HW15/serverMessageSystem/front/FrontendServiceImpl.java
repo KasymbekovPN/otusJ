@@ -28,13 +28,15 @@ public class FrontendServiceImpl implements FrontendService {
         this.databaseServiceClientName = databaseServiceClientName;
     }
 
-    @Override
-    public void getUserData(long userId, Consumer<String> dataConsumer) {
-        Message outMessage = msClient.produceMessage(databaseServiceClientName, userId, MessageType.USER_DATA);
-        consumerMap.put(outMessage.getId(), dataConsumer);
-        msClient.sendMessage(outMessage);
-    }
+    //<
+//    @Override
+//    public void getUserData(long userId, Consumer<String> dataConsumer) {
+//        Message outMessage = msClient.produceMessage(databaseServiceClientName, userId, MessageType.USER_DATA);
+//        consumerMap.put(outMessage.getId(), dataConsumer);
+//        msClient.sendMessage(outMessage);
+//    }
 
+    //< in one method
     @Override
     public void checkUser(OnlineUser user, Consumer<List<OnlineUser>> dataConsumer) {
         Message outMessage = msClient.produceMessage(databaseServiceClientName, user, MessageType.CHECK_USER);
@@ -42,9 +44,26 @@ public class FrontendServiceImpl implements FrontendService {
         msClient.sendMessage(outMessage);
     }
 
+    //< in one method
+    @Override
+    public void authUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer) {
+        Message outMessage = msClient.produceMessage(databaseServiceClientName, user, MessageType.AUTH_USER);
+        consumerMap.put(outMessage.getId(), dataConsumer);
+        msClient.sendMessage(outMessage);
+    }
+
+    //< in one method
     @Override
     public void addUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer) {
         Message outMessage = msClient.produceMessage(databaseServiceClientName, user, MessageType.ADD_USER);
+        consumerMap.put(outMessage.getId(), dataConsumer);
+        msClient.sendMessage(outMessage);
+    }
+
+    //< in one method
+    @Override
+    public void delUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer) {
+        Message outMessage = msClient.produceMessage(databaseServiceClientName, user, MessageType.DEL_USER);
         consumerMap.put(outMessage.getId(), dataConsumer);
         msClient.sendMessage(outMessage);
     }
@@ -58,4 +77,11 @@ public class FrontendServiceImpl implements FrontendService {
         }
         return Optional.of(consumer);
     }
+
+    //<
+//    private void sendMessage(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer, MessageType messageType){
+//        Message outMessage = msClient.produceMessage(databaseServiceClientName, user, messageType);
+//        consumerMap.put(outMessage.getId(), dataConsumer);
+//        msClient.sendMessage(outMessage);
+//    }
 }
