@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW15.common.Serializers;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.Message;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.RequestHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.ReqRespHandler;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendService;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public class GetCommonUserResponseHandler implements RequestHandler {
+public class GetCommonUserResponseHandler implements ReqRespHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GetCommonUserResponseHandler.class);
 

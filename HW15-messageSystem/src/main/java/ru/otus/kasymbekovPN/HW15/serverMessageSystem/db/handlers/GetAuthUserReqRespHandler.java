@@ -6,16 +6,16 @@ import ru.otus.kasymbekovPN.HW15.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW15.db.api.service.DBServiceOnlineUser;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.Message;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.RequestHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.ReqRespHandler;
 
 import java.util.List;
 import java.util.Optional;
 
-public class GetAuthUserRequestHandler implements RequestHandler {
+public class GetAuthUserReqRespHandler implements ReqRespHandler {
 
     private final DBServiceOnlineUser dbServiceOnlineUser;
 
-    public GetAuthUserRequestHandler(DBServiceOnlineUser dbServiceOnlineUser) {
+    public GetAuthUserReqRespHandler(DBServiceOnlineUser dbServiceOnlineUser) {
         this.dbServiceOnlineUser = dbServiceOnlineUser;
     }
 

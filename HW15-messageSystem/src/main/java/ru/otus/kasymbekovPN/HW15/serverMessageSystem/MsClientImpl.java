@@ -14,7 +14,7 @@ public class MsClientImpl implements MsClient {
 
     private final String name;
     private final MessageSystem messageSystem;
-    private final Map<String, RequestHandler> handlers = new ConcurrentHashMap<>();
+    private final Map<String, ReqRespHandler> handlers = new ConcurrentHashMap<>();
 
     public MsClientImpl(String name, MessageSystem messageSystem) {
         this.name = name;
@@ -22,8 +22,8 @@ public class MsClientImpl implements MsClient {
     }
 
     @Override
-    public void addHandler(MessageType type, RequestHandler requestHandler) {
-        handlers.put(type.getValue(), requestHandler);
+    public void addHandler(MessageType type, ReqRespHandler reqRespHandler) {
+        handlers.put(type.getValue(), reqRespHandler);
     }
 
     @Override
@@ -39,9 +39,9 @@ public class MsClientImpl implements MsClient {
     public void handle(Message message) {
         logger.info("New message : {}", message);
         try{
-            RequestHandler requestHandler = handlers.get(message.getType());
-            if (requestHandler != null){
-                requestHandler.handle(message).ifPresent(this::sendMessage);
+            ReqRespHandler reqRespHandler = handlers.get(message.getType());
+            if (reqRespHandler != null){
+                reqRespHandler.handle(message).ifPresent(this::sendMessage);
             } else {
                 logger.error("Handler not found for the message type : {}", message.getType());
             }

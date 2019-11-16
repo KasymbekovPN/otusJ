@@ -20,8 +20,8 @@ public class UserDataMessageController {
     private static final Logger logger = LoggerFactory.getLogger(UserDataMessageController.class);
 
     //< !!! sync const name between classes
-    private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
-    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
+//    private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
+//    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
@@ -30,33 +30,22 @@ public class UserDataMessageController {
 
     @PostConstruct
     public void init(){
-        //<
-        System.out.println("----------------POST-----------------");
-        //<
-
         MessageSystem messageSystem = MessageSystemImpl.getInstance();
-        MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME, messageSystem);
-        frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
-
-//        frontendMsClient.addHandler(MessageType.CHECK_USER, new GetIsAdminResponseHandler(frontendService));
+        MsClient frontendMsClient = new MsClientImpl(MsClientName.FRONTEND.getName(), messageSystem);
+        frontendService = new FrontendServiceImpl(frontendMsClient, MsClientName.DATABASE.getName());
         //<
+//        MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME, messageSystem);
+//        frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
+
         frontendMsClient.addHandler(MessageType.AUTH_USER, new GetCommonUserResponseHandler(frontendService));
         frontendMsClient.addHandler(MessageType.ADD_USER, new GetCommonUserResponseHandler(frontendService));
         frontendMsClient.addHandler(MessageType.DEL_USER, new GetCommonUserResponseHandler(frontendService));
-//        frontendMsClient.addHandler(MessageType.ADD_USER, new GetAddUserResponseHandler(frontendService));
-//        frontendMsClient.addHandler(MessageType.DEL_USER, new GetDelUserResponseHandler(frontendService));
-        //<
-//        frontendMsClient.addHandler(MessageType.USER_DATA, new GetIsAdminResponseHandler(frontendService));
-//        frontendMsClient.addHandler(MessageType.IS_ADMIN, new GetIsAdminResponseHandler(frontendService));
-//        frontendMsClient.addHandler(MessageType.WRONG_AUTH_DATA, new GetIsAdminResponseHandler(frontendService));
-
 
         messageSystem.addClient(frontendMsClient);
     }
 
-    //< rename
     @MessageMapping("/authorization")
-    public void handleMessage(OnlineUser user){
+    public void handleAuthorization(OnlineUser user){
         logger.info("user data message : {}", user);
         frontendService.authUser(user, this::handleAuthUserResponse);
     }
@@ -73,78 +62,7 @@ public class UserDataMessageController {
         frontendService.delUser(user, this::handleDelUserResponse);
     }
 
-//    private void handleCheckUserResponse(List<OnlineUser> data){
-//        logger.info("got data : {}", data);
-//
-//        //< !!! почистить data (для админа убрать ид, для юзера отставить только логин) перед
-//
-//        if (data.size() > 0){
-//            boolean admin = false;
-//            for (OnlineUser datum : data) {
-//                if (datum.isAdmin()){
-//                    admin = true;
-//                    break;
-//                }
-//            }
-//
-//            if (admin)
-//                sendAdminAuthResponse(data);
-//            else
-//                sendUserAuthResponse(data.get(0).getLogin());
-//
-//        } else {
-//            sendWrongAuthResponse();
-//        }
-//
-//    //<
-//        //        sendMessage(data);
-//    }
-
-    //< !!! добавить свои "/topic/response????" для редактирования поля управления и строки статуса
-//    @SendTo("/topic/response")
-//    public void sendMessage(List<OnlineUser> data){
-//        System.out.println("SendMessage");
-//        this.simpMessagingTemplate.convertAndSend(
-//                "/topic/response",
-//                data
-//                /*new Message_("Hello")*/
-//        );
-//    }
-
-//    private void sendAdminAuthResponse(List<OnlineUser> users){
-//        //<
-//        System.out.println("sendAdminAuthResponse");
-//        //<
-//        this.simpMessagingTemplate.convertAndSend(
-//                "/topic/adminAuthResponse",
-//                users
-//        );
-//    }
-//
-//    private void sendUserAuthResponse(String login){
-//        //<
-//        System.out.println("sendUserAuthResponse");
-//        //<
-//        simpMessagingTemplate.convertAndSend(
-//                "/topic/userAuthResponse",
-//                login
-//        );
-//    }
-//
-//    private void sendWrongAuthResponse(){
-//        //<
-//        System.out.println("sendWrongAuthResponse");
-//        //<
-//        simpMessagingTemplate.convertAndSend(
-//                "/topic/wrongAuthResponse",
-//                "Wrong Login and/or Password"
-//        );
-//    }
-
     private void handleAuthUserResponse(OnlineUserPackage data){
-        //<
-        System.out.println("----------------- : " + data);
-        //<
         simpMessagingTemplate.convertAndSend(
                 "/topic/authResponse",
                 data
@@ -152,9 +70,6 @@ public class UserDataMessageController {
     }
 
     private void handleAddUserResponse(OnlineUserPackage data){
-        //<
-        System.out.println("----------------- : " + data);
-        //<
         simpMessagingTemplate.convertAndSend(
                 "/topic/addUserResponse",
                 data
@@ -162,9 +77,6 @@ public class UserDataMessageController {
     }
 
     private void handleDelUserResponse(OnlineUserPackage data){
-        //<
-        System.out.println("----------------- : " + data);
-        //<
         simpMessagingTemplate.convertAndSend(
                 "/topic/delUserResponse",
                 data

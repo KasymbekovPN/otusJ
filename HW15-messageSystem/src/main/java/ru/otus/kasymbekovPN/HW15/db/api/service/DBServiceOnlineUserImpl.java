@@ -10,9 +10,10 @@ import ru.otus.kasymbekovPN.HW15.db.api.sessionManager.SessionManager;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageSystemImpl;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClientImpl;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetAddUserRequestHandler;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetAuthUserRequestHandler;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetDelUserRequestHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClientName;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetAddUserReqRespHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetAuthUserReqRespHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetDelUserReqRespHandler;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
     private final static Logger logger = LoggerFactory.getLogger(DBServiceOnlineUserImpl.class);
 
     //< !! sync names between classes
-    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
+//    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
     /**
      * DAO
@@ -52,16 +53,18 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
         //<
 
         MessageSystemImpl messageSystem = MessageSystemImpl.getInstance();
-        MsClientImpl databaseMsClient = new MsClientImpl(DATABASE_SERVICE_CLIENT_NAME, messageSystem);
+        MsClientImpl databaseMsClient = new MsClientImpl(MsClientName.DATABASE.getName(), messageSystem);
+        //<
+//        MsClientImpl databaseMsClient = new MsClientImpl(DATABASE_SERVICE_CLIENT_NAME, messageSystem);
 //        dbService = new DBServiceImpl();
 
         //<
 //        databaseMsClient.addHandler(MessageType.USER_DATA, new GetUserDataRequestHandler(dbService));
 //        databaseMsClient.addHandler(MessageType.CHECK_USER, new GetCheckUserRequestHandler(this));
 
-        databaseMsClient.addHandler(MessageType.AUTH_USER, new GetAuthUserRequestHandler(this));
-        databaseMsClient.addHandler(MessageType.ADD_USER, new GetAddUserRequestHandler(this));
-        databaseMsClient.addHandler(MessageType.DEL_USER, new GetDelUserRequestHandler(this));
+        databaseMsClient.addHandler(MessageType.AUTH_USER, new GetAuthUserReqRespHandler(this));
+        databaseMsClient.addHandler(MessageType.ADD_USER, new GetAddUserReqRespHandler(this));
+        databaseMsClient.addHandler(MessageType.DEL_USER, new GetDelUserReqRespHandler(this));
 
         messageSystem.addClient(databaseMsClient);
     }
