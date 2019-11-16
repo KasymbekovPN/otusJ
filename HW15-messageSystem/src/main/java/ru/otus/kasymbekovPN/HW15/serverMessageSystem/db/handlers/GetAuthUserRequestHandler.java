@@ -11,11 +11,27 @@ import ru.otus.kasymbekovPN.HW15.serverMessageSystem.ReqRespHandler;
 import java.util.List;
 import java.util.Optional;
 
-public class GetAuthUserReqRespHandler implements ReqRespHandler {
+/**
+ * Класс-обработчик запроса на авторизации пользователя. <br><br>
+ *
+ * Обрабатывает сообщение типа {@link MessageType#AUTH_USER} <br><br>
+ *
+ * При успешном добавлении администрирующего пользователя поле status ответа
+ * {@link OnlineUserPackage} содержит "admin", поле users содержит информацию
+ * о пользователях из БД. <br><br>
+ *
+ * При успешном добавлении неадминистрирующего пользователя поле status ответа
+ * {@link OnlineUserPackage} содержит "user", поле users содержит инстанс {@link OnlineUser}
+ * с информацией о данном пользователе (без пароля и индификатора в БД). <br><br>
+ *
+ * При неуспешной попытке авторизации поле status ответа {@link OnlineUserPackage} содержит
+ * сообщение об ошибке, поле users пустое. <br><br>
+ */
+public class GetAuthUserRequestHandler implements ReqRespHandler {
 
     private final DBServiceOnlineUser dbServiceOnlineUser;
 
-    public GetAuthUserReqRespHandler(DBServiceOnlineUser dbServiceOnlineUser) {
+    public GetAuthUserRequestHandler(DBServiceOnlineUser dbServiceOnlineUser) {
         this.dbServiceOnlineUser = dbServiceOnlineUser;
     }
 
@@ -36,6 +52,8 @@ public class GetAuthUserReqRespHandler implements ReqRespHandler {
                     data.setUsers(dbServiceOnlineUser.loadAll());
                     data.setStatus("admin");
                 } else {
+                    user.setId(0);
+                    user.setPassword("");
                     data.getUsers().add(user);
                     data.setStatus("user");
                 }

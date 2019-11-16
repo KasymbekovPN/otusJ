@@ -46,7 +46,7 @@ public class MsClientImpl implements MsClient {
                 logger.error("Handler not found for the message type : {}", message.getType());
             }
         } catch (Exception ex){
-            logger.error("Message L : {}, {}", message, ex);
+            logger.error("Message : {}, {}", message, ex);
         }
     }
 

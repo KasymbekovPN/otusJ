@@ -10,11 +10,21 @@ import ru.otus.kasymbekovPN.HW15.serverMessageSystem.ReqRespHandler;
 
 import java.util.Optional;
 
-public class GetDelUserReqRespHandler implements ReqRespHandler {
+/**
+ * Класс-обработчик запроса на удаление пользователя. <br><br>
+ *
+ * Обрабатывает сообщение типа {@link MessageType#DEL_USER} <br><br>
+ *
+ * Проверяет валидность логина удаляемого пользователя - не должен быть равен
+ * пустой строке или "admin" и производит удаление <br><br>
+ *
+ * Поле users ответа {@link OnlineUserPackage} содержит данные пользователей из БД.
+ */
+public class GetDelUserRequestHandler implements ReqRespHandler {
 
     private final DBServiceOnlineUser dbServiceOnlineUser;
 
-    public GetDelUserReqRespHandler(DBServiceOnlineUser dbServiceOnlineUser) {
+    public GetDelUserRequestHandler(DBServiceOnlineUser dbServiceOnlineUser) {
         this.dbServiceOnlineUser = dbServiceOnlineUser;
     }
 

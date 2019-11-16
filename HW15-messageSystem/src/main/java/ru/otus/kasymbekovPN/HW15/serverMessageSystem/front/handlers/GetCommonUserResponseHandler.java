@@ -10,6 +10,10 @@ import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendService;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Обработчик ответа со стороны БД. Прокидывает данные, содержащиеся в сообщение-ответе в
+ * соответствующий обработчик {@link ru.otus.kasymbekovPN.HW15.clientMessageSystem.UserDataMessageController}
+ */
 public class GetCommonUserResponseHandler implements ReqRespHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GetCommonUserResponseHandler.class);

@@ -106,7 +106,6 @@ public class MessageSystemImpl implements MessageSystem {
     private void insertStopMessage() throws InterruptedException {
         boolean result = messageQueue.offer(Message.VOID_MESSAGE);
         while (!result){
-            //< 100 replace with const
             Thread.sleep(100);
             result = messageQueue.offer(Message.VOID_MESSAGE);
         }
@@ -146,7 +145,6 @@ public class MessageSystemImpl implements MessageSystem {
         runFlag.set(false);
         insertStopMessage();
         messageProcessor.shutdown();
-        //< 60 replace with const
         messageHandler.awaitTermination(60, TimeUnit.SECONDS);
     }
 }

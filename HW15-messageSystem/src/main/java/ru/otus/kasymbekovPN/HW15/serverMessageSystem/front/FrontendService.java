@@ -7,11 +7,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+/**
+ * Интерфейс сервиса для отправки сообщений в сервис работы с БД.
+ */
 public interface FrontendService {
-    //<
-//    void getUserData(long userId, Consumer<String> dataConsumer);
-    //<
-//    void checkUser(OnlineUser user, Consumer<List<OnlineUser>> dataConsumer);
     void authUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer);
     void addUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer);
     void delUser(OnlineUser user, Consumer<OnlineUserPackage> dataConsumer);
