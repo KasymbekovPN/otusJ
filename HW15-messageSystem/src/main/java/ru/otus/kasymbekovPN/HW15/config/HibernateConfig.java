@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15;
+package ru.otus.kasymbekovPN.HW15.config;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;

@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15;
+package ru.otus.kasymbekovPN.HW15.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

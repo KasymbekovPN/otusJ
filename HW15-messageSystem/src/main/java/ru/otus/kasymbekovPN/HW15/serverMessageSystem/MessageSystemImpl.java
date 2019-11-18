@@ -43,19 +43,20 @@ public class MessageSystemImpl implements MessageSystem {
             }
     );
 
-    public static MessageSystemImpl getInstance(){
-        if (instance == null){
-            synchronized (MessageSystemImpl.class){
-                if (instance == null){
-                    instance = new MessageSystemImpl();
-                }
-            }
-        }
+//    public static MessageSystemImpl getInstance(){
+//        if (instance == null){
+//            synchronized (MessageSystemImpl.class){
+//                if (instance == null){
+//                    instance = new MessageSystemImpl();
+//                }
+//            }
+//        }
+//
+//        return instance;
+//    }
+    //<
 
-        return instance;
-    }
-
-    private MessageSystemImpl() {
+    public MessageSystemImpl() {
         messageProcessor.submit(this::messageProcessor);
     }
 

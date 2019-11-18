@@ -1,18 +1,17 @@
 package ru.otus.kasymbekovPN.HW15.clientMessageSystem;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import ru.otus.kasymbekovPN.HW15.db.api.model.OnlineUser;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.*;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageSystem;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClient;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendService;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendServiceImpl;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.handlers.GetCommonUserResponseHandler;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Контроллер, осуществляющий обработку сообщений из GUI.<br><br>
@@ -51,26 +50,33 @@ import javax.annotation.PostConstruct;
  * @see OnlineUserPackage
  */
 @Controller
+@RequiredArgsConstructor
 public class UserDataMessageController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDataMessageController.class);
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+//    @Autowired
+    //<
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
-    private FrontendService frontendService;
+    @Qualifier("userDataMsgCtrlFrontendService")
+    private final FrontendService frontendService;
 
-    @PostConstruct
-    public void init(){
-        MessageSystem messageSystem = MessageSystemImpl.getInstance();
-        MsClient frontendMsClient = new MsClientImpl(MsClientName.FRONTEND.getName(), messageSystem);
-        frontendService = new FrontendServiceImpl(frontendMsClient, MsClientName.DATABASE.getName());
-        frontendMsClient.addHandler(MessageType.AUTH_USER, new GetCommonUserResponseHandler(frontendService));
-        frontendMsClient.addHandler(MessageType.ADD_USER, new GetCommonUserResponseHandler(frontendService));
-        frontendMsClient.addHandler(MessageType.DEL_USER, new GetCommonUserResponseHandler(frontendService));
-
-        messageSystem.addClient(frontendMsClient);
-    }
+    //<
+//    @PostConstruct
+//    public void init(){
+//        //<
+////        MessageSystem messageSystem = MessageSystemImpl.getInstance();
+////        MsClient frontendMsClient = new MsClientImpl(MsClientName.FRONTEND.getName(), messageSystem);
+////
+////        frontendService = new FrontendServiceImpl(frontendMsClient, MsClientName.DATABASE.getName());
+////
+////        frontendMsClient.addHandler(MessageType.AUTH_USER, new GetCommonUserResponseHandler(frontendService));
+////        frontendMsClient.addHandler(MessageType.ADD_USER, new GetCommonUserResponseHandler(frontendService));
+////        frontendMsClient.addHandler(MessageType.DEL_USER, new GetCommonUserResponseHandler(frontendService));
+////
+////        messageSystem.addClient(frontendMsClient);
+//    }
 
     @MessageMapping("/authUserRequest")
     public void handleAuthUserRequest(OnlineUser user){
