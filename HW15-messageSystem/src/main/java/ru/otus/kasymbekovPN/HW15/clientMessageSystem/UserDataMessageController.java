@@ -10,18 +10,10 @@ import org.springframework.stereotype.Controller;
 import ru.otus.kasymbekovPN.HW15.db.api.model.OnlineUser;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MessageType;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClient;
 import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendService;
 
 /**
  * Контроллер, осуществляющий обработку сообщений из GUI.<br><br>
- *
- * При инициализации после (создании инстанса даного класса) {@link UserDataMessageController#init()}
- * происходит инициализация frontend-сервиса {@link UserDataMessageController#frontendService},
- * frontend-клиента системы сообщений {@link MsClient}, получение инстанса системы сообщений
- * {@link MessageSystem} и их связка.
- * Во frontend-клиент добавляются обработчики сообщений (авторизация, добавление, удание
- * пользователя).<br><br>
  *
  * {@link UserDataMessageController#handleAuthUserRequest(OnlineUser)} - обработчик авторизационного
  * запроса от GUI. В систему сообщений {@link MessageSystem} отправляется сообщение типа - {@link MessageType#AUTH_USER}
@@ -55,28 +47,10 @@ public class UserDataMessageController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDataMessageController.class);
 
-//    @Autowired
-    //<
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Qualifier("userDataMsgCtrlFrontendService")
     private final FrontendService frontendService;
-
-    //<
-//    @PostConstruct
-//    public void init(){
-//        //<
-////        MessageSystem messageSystem = MessageSystemImpl.getInstance();
-////        MsClient frontendMsClient = new MsClientImpl(MsClientName.FRONTEND.getName(), messageSystem);
-////
-////        frontendService = new FrontendServiceImpl(frontendMsClient, MsClientName.DATABASE.getName());
-////
-////        frontendMsClient.addHandler(MessageType.AUTH_USER, new GetCommonUserResponseHandler(frontendService));
-////        frontendMsClient.addHandler(MessageType.ADD_USER, new GetCommonUserResponseHandler(frontendService));
-////        frontendMsClient.addHandler(MessageType.DEL_USER, new GetCommonUserResponseHandler(frontendService));
-////
-////        messageSystem.addClient(frontendMsClient);
-//    }
 
     @MessageMapping("/authUserRequest")
     public void handleAuthUserRequest(OnlineUser user){

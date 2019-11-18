@@ -28,29 +28,6 @@ public class DBServiceOnlineUserImpl implements DBServiceOnlineUser {
     private final OnlineUserDao dao;
 
     /**
-     * Инициализатор. Создает администрирующего пользователя.
-     */
-    //<
-//    @PostConstruct
-//    public final void init(){
-//        //<
-////        createRecord(new OnlineUser(0, "admin", "qwerty", true));
-//        //<
-//
-//        //<
-//        System.out.println("11111111111111111111111111111 : " + this);
-//
-////        MessageSystemImpl messageSystem = MessageSystemImpl.getInstance();
-////        MsClientImpl databaseMsClient = new MsClientImpl(MsClientName.DATABASE.getName(), messageSystem);
-////
-////        databaseMsClient.addHandler(MessageType.AUTH_USER, new GetAuthUserRequestHandler(this));
-////        databaseMsClient.addHandler(MessageType.ADD_USER, new GetAddUserRequestHandler(this));
-////        databaseMsClient.addHandler(MessageType.DEL_USER, new GetDelUserRequestHandler(this));
-////
-////        messageSystem.addClient(databaseMsClient);
-//    }
-
-    /**
      * Создание записи в БД
      * @param user записываемый объект
      * @return успешность

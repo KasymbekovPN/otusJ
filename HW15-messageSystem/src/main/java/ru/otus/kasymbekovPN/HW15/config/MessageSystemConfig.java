@@ -1,50 +1,71 @@
 package ru.otus.kasymbekovPN.HW15.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import ru.otus.kasymbekovPN.HW15.db.api.service.DBServiceOnlineUser;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.*;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetAddUserRequestHandler;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetAuthUserRequestHandler;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.db.handlers.GetDelUserRequestHandler;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendService;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.FrontendServiceImpl;
-import ru.otus.kasymbekovPN.HW15.serverMessageSystem.front.handlers.GetCommonUserResponseHandler;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.Message;
+import ru.otus.kasymbekovPN.HW15.serverMessageSystem.MsClient;
+
+import java.util.Map;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Configuration
+@ComponentScan
 @RequiredArgsConstructor
 public class MessageSystemConfig {
 
-    private final DBServiceOnlineUser dbService;
+    private static final int MESSAGE_QUEUE_SIZE = 1_000;
+    private static final int MESSAGE_HANDLER_THREAD_LIMIT = 2;
 
-    @Bean(name = "userDataMsgCtrlFrontendService")
-    public FrontendService frontendService(){
+    @Qualifier("msgSysImplRunFlag")
+    @Bean
+    public AtomicBoolean runFlag(){
+        return new AtomicBoolean(true);
+    }
 
-        //<
-        System.out.println("222222222222222222222222222 : " + dbService);
-        //<
+    @Qualifier("msgSysImplClientMap")
+    @Bean
+    public Map<String, MsClient> clientMap(){
+        return new ConcurrentHashMap<>();
+    }
 
-        MessageSystem messageSystem = new MessageSystemImpl();
+    @Qualifier("msgSysImplMessageQueue")
+    @Bean
+    public BlockingQueue<Message> messageQueue(){
+        return new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
+    }
 
-        MsClientImpl databaseMsClient = new MsClientImpl(MsClientName.DATABASE.getName(), messageSystem);
+    @Qualifier("msgSysImplMessageProcessor")
+    @Bean
+    public ExecutorService messageProcessor(){
+        return Executors.newSingleThreadExecutor(
+            runnable -> {
+                Thread thread = new Thread(runnable);
+                thread.setName("message-processor-thread");
+                return thread;
+            }
+        );
+    }
 
-        databaseMsClient.addHandler(MessageType.AUTH_USER, new GetAuthUserRequestHandler(dbService));
-        databaseMsClient.addHandler(MessageType.ADD_USER, new GetAddUserRequestHandler(dbService));
-        databaseMsClient.addHandler(MessageType.DEL_USER, new GetDelUserRequestHandler(dbService));
+    @Qualifier("msgSysImplMessageHandler")
+    @Bean
+    public ExecutorService messageHandler(){
+        return Executors.newFixedThreadPool(
+            MESSAGE_HANDLER_THREAD_LIMIT,
+            new ThreadFactory() {
+                private final AtomicInteger threadNameCounter = new AtomicInteger(0);
 
-        messageSystem.addClient(databaseMsClient);
-
-        MsClient frontendMsClient = new MsClientImpl(MsClientName.FRONTEND.getName(), messageSystem);
-
-        FrontendService  frontendService = new FrontendServiceImpl(frontendMsClient, MsClientName.DATABASE.getName());
-
-        frontendMsClient.addHandler(MessageType.AUTH_USER, new GetCommonUserResponseHandler(frontendService));
-        frontendMsClient.addHandler(MessageType.ADD_USER, new GetCommonUserResponseHandler(frontendService));
-        frontendMsClient.addHandler(MessageType.DEL_USER, new GetCommonUserResponseHandler(frontendService));
-
-        messageSystem.addClient(frontendMsClient);
-
-        return frontendService;
+                @Override
+                public Thread newThread(Runnable runnable) {
+                    Thread thread = new Thread(runnable);
+                    thread.setName("message-handler-thread-"+threadNameCounter.incrementAndGet());
+                    return thread;
+                }
+            }
+        );
     }
 }

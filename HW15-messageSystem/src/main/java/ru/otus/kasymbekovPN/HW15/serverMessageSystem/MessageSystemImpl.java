@@ -1,62 +1,41 @@
 package ru.otus.kasymbekovPN.HW15.serverMessageSystem;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
+@Service
+@RequiredArgsConstructor
 public class MessageSystemImpl implements MessageSystem {
 
     private static final Logger logger = LoggerFactory.getLogger(MessageSystemImpl.class);
-    private static final int MESSAGE_QUEUE_SIZE = 1_000;
-    private static final int MESSAGE_HANDLER_THREAD_LIMIT = 2;
 
-    private static volatile MessageSystemImpl instance;
+    @Qualifier("msgSysImplRunFlag")
+    private final AtomicBoolean runFlag;
 
-    private final AtomicBoolean runFlag = new AtomicBoolean(true);
+    @Qualifier("msgSysImplClientMap")
+    private final Map<String, MsClient> clientMap;
 
-    private final Map<String, MsClient> clientMap = new ConcurrentHashMap<>();
-    private final BlockingQueue<Message> messageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
+    @Qualifier("msgSysImplMessageQueue")
+    private final BlockingQueue<Message> messageQueue;
 
-    private final ExecutorService messageProcessor = Executors.newSingleThreadExecutor(
-            runnable -> {
-                Thread thread = new Thread(runnable);
-                thread.setName("message-processor-thread");
-                return thread;
-            }
-    );
+    @Qualifier("msgSysImplMessageProcessor")
+    private final ExecutorService messageProcessor;
 
-    private final ExecutorService messageHandler = Executors.newFixedThreadPool(
-            MESSAGE_HANDLER_THREAD_LIMIT,
-            new ThreadFactory() {
-                private final AtomicInteger threadNameCounter = new AtomicInteger(0);
+    @Qualifier("msgSysImplMessageHandler")
+    private final ExecutorService messageHandler;
 
-                @Override
-                public Thread newThread(Runnable runnable) {
-                    Thread thread = new Thread(runnable);
-                    thread.setName("message-handler-thread-"+threadNameCounter.incrementAndGet());
-                    return thread;
-                }
-            }
-    );
-
-//    public static MessageSystemImpl getInstance(){
-//        if (instance == null){
-//            synchronized (MessageSystemImpl.class){
-//                if (instance == null){
-//                    instance = new MessageSystemImpl();
-//                }
-//            }
-//        }
-//
-//        return instance;
-//    }
-    //<
-
-    public MessageSystemImpl() {
+    @PostConstruct
+    void init(){
         messageProcessor.submit(this::messageProcessor);
     }
 
