@@ -3,7 +3,6 @@ package ru.otus.kasymbekovPN.HW15.clientMessageSystem;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,6 @@ public class UserDataMessageController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    @Qualifier("userDataMsgCtrlFrontendService")
     private final FrontendService frontendService;
 
     @MessageMapping("/authUserRequest")

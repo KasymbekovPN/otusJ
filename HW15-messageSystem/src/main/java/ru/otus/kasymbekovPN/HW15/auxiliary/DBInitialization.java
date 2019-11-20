@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW15.initialization;
+package ru.otus.kasymbekovPN.HW15.auxiliary;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
