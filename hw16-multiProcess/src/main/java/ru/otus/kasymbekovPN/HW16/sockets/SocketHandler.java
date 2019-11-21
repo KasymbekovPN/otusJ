@@ -1,7 +1,7 @@
 package ru.otus.kasymbekovPN.HW16.sockets;
 
-import ru.otus.kasymbekovPN.HW16.common.Message;
+import com.google.gson.JsonObject;
 
 public interface SocketHandler {
-    void send(Message message);
+    void send(JsonObject message, String host, int port);
 }
