@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -43,8 +42,7 @@ public class MessageSystemImpl implements MessageSystem {
         }
     );
 
-    @PostConstruct
-    void init(){
+    public MessageSystemImpl() {
         messageProcessor.submit(this::messageProcessor);
     }
 
