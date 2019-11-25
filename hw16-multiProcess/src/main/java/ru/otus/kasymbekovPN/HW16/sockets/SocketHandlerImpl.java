@@ -1,8 +1,10 @@
 package ru.otus.kasymbekovPN.HW16.sockets;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.kasymbekovPN.HW16.sockets.inputHandler.SocketInputHandler;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,16 +12,22 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SocketHandlerImpl implements SocketHandler {
 
     private static Logger logger = LoggerFactory.getLogger(SocketHandler.class);
-    private static Set<Integer> usedPorts = new HashSet<>();
+//    private static Set<Integer> usedPorts = new HashSet<>();
+    //<
+    private static Set<String> usedUrls = new HashSet<>();
 
+    private final String host;
     private final int port;
+    private final Map<String, SocketInputHandler> handlers = new ConcurrentHashMap<>();
 
     private final ExecutorService inProcessor = Executors.newSingleThreadExecutor(
             runnable -> {
@@ -29,18 +37,31 @@ public class SocketHandlerImpl implements SocketHandler {
             }
     );
 
-    public static SocketHandlerImpl newInstance(int port){
-        if (!usedPorts.contains(port)){
-            usedPorts.add(port);
-            return new SocketHandlerImpl(port);
+    public static SocketHandlerImpl newInstance(String host, int port){
+        String url = host + String.valueOf(port);
+        if (!usedUrls.contains(url)){
+            usedUrls.add(url);
+            return new SocketHandlerImpl(host, port);
         } else {
             //< ??? null
-            logger.error("Not unique port");
+            logger.error("Not equal URL");
             return null;
         }
+        //<
+//        if (!usedPorts.contains(port)){
+//            usedPorts.add(port);
+//            return new SocketHandlerImpl(port);
+//        } else {
+//            //< ??? null
+//            logger.error("Not unique port");
+//            return null;
+//        }
     }
 
-    private SocketHandlerImpl(int port) {
+
+
+    private SocketHandlerImpl(String host, int port) {
+        this.host = host;
         this.port = port;
         inProcessor.submit(this::handleInProcessor);
     }
@@ -54,7 +75,7 @@ public class SocketHandlerImpl implements SocketHandler {
                 }
             }
         } catch (Exception ex){
-            logger.error("error", ex);
+            logger.error("error -------------", ex);
         }
     }
 
@@ -62,27 +83,57 @@ public class SocketHandlerImpl implements SocketHandler {
         try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
         ) {
-            String input = in.readLine();
-            //<<
-            logger.info("from server : {}", input);
-            //<<
+//            String input = in.readLine();
+//            //<<
+//            logger.info("from server : {}", input);
+//            JsonObject jo = (JsonObject) new JsonParser().parse(input);
+//            logger.info("as json : {}", jo);
+//            //<<
+
+            JsonObject jsonObject = (JsonObject) new JsonParser().parse(in);
+            String type = "wrongType";
+            if (jsonObject.has("type")){
+                String predictType = jsonObject.get("type").getAsString();
+                if (handlers.containsKey(predictType)){
+                    type = predictType;
+                }
+            }
+
+            handlers.get(type).handle(jsonObject);
+
         } catch (Exception ex){
-            logger.error("error", ex);
+            logger.error("error 222", ex);
         }
     }
 
     @Override
-    public void send(JsonObject message, String host, int port) {
+    public void send(JsonObject jsonObject, String host, int port) {
         try(Socket clientSocket = new Socket(host, port)){
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             //<
-            logger.info("send to server : {}", message);
+            logger.info("send to server : {}", jsonObject);
             //<
 
-            out.println(message);
+            JsonObject from = new JsonObject();
+            from.addProperty("host", this.host);
+            from.addProperty("port", this.port);
+
+            JsonObject to = new JsonObject();
+            to.addProperty("host", host);
+            to.addProperty("port", port);
+
+            jsonObject.add("from", from);
+            jsonObject.add("to", to);
+
+            out.println(jsonObject);
         } catch (Exception ex){
-            logger.error("error", ex);
+            logger.error("error 111", ex);
         }
+    }
+
+    @Override
+    public void addHandler(String name, SocketInputHandler handler) {
+        handlers.put(name, handler);
     }
 }

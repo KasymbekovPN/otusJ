@@ -1,24 +1,20 @@
 package ru.otus.kasymbekovPN.HW16.db;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import ru.otus.kasymbekovPN.HW16.sockets.SocketHandlerImpl;
-
 import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
 
-        Gson gson = new Gson();
-        JsonObject json = new JsonObject();
-        json.addProperty("field1", 123);
-        json.addProperty("field2", "Hello");
-
-        SocketHandlerImpl socketHandler = SocketHandlerImpl.newInstance(8081);
-        sleep(1);
-        assert socketHandler != null;
-        socketHandler.send(json, "localhost", 8080);
+//        Gson gson = new Gson();
+//        JsonObject json = new JsonObject();
+//        json.addProperty("field1", 123);
+//        json.addProperty("field2", "Hello");
+//
+//        SocketHandlerImpl socketHandler = SocketHandlerImpl.newInstance(8081);
+//        sleep(1);
+//        assert socketHandler != null;
+//        socketHandler.send(json, "localhost", 8080);
 
 
 //        socketHandler.send();

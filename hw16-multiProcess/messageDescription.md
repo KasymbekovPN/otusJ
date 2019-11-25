@@ -10,6 +10,14 @@
 ```json
 {
   "type" : "authUserRequest",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "login" : "...",
   "password" : "..."
 }
@@ -19,6 +27,14 @@
 ```json
 {
   "type" : "authUserRequest",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "login" : "...",
   "password" : "..."
 }
@@ -28,6 +44,14 @@
 ```json
 {
   "type" : "authUserRequest",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "login" : "..."
 }
 ``` 
@@ -36,6 +60,14 @@
 ```json
 {
   "type" : "authUserResponse",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "status" : "admin-success",
   "users" : [
     {
@@ -59,6 +91,14 @@
 ```json
 {
   "type" : "authUserResponse",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "status" : "user-success",
   "login" : "..."
 }
@@ -68,6 +108,14 @@
 ```json
 {
   "type" : "authUserResponse",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "status" : "wrong-login-password"
 }
 ```
@@ -76,6 +124,14 @@
 ```json
 {
   "type" : "addUserResponse",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "status" : "...",
   "users" : []
 }
@@ -92,6 +148,14 @@
 ```json
 {
   "type" : "delUserResponse",
+  "to" : {
+    "host" : "...",
+    "port" : 8080
+  },
+  "from" : {
+    "host" : "...",
+    "port" : 8081
+  },
   "status" : "...",
   "users" : []
 }
