@@ -36,6 +36,8 @@
         <module>HW14-JMM</module>
         <module>HW15-messageSystem</module>
         <module>hw16-multiProcess</module>
+        <module>hw16-multiProcess-frontend</module>
+        <module>hw16-multiProcess-common</module>
     </modules>
 
     <properties>
