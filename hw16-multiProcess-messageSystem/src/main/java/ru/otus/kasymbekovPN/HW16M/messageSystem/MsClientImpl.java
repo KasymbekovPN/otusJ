@@ -18,16 +18,14 @@ public class MsClientImpl implements MsClient{
     //< ??? type ???
     private static Set<String> usedUrls = new HashSet<>();
 
-    private final String host;
-    private final int port;
+    private final String url;
     private final MessageSystem messageSystem;
     private final Map<String, ReqRespHandler> handlers = new ConcurrentHashMap<>();
 
-    public MsClientImpl newInstance(String host, int port, MessageSystem messageSystem){
-        String url = host + String.valueOf(port);
+    public MsClientImpl newInstance(String url, MessageSystem messageSystem){
         if (!usedUrls.contains(url)){
             usedUrls.add(url);
-            return new MsClientImpl(host, port, messageSystem);
+            return new MsClientImpl(url, messageSystem);
         } else {
             logger.warn("Not unique url");
             //< what return ???
@@ -35,9 +33,8 @@ public class MsClientImpl implements MsClient{
         }
     }
 
-    private MsClientImpl(String host, int port, MessageSystem messageSystem) {
-        this.host = host;
-        this.port = port;
+    private MsClientImpl(String url, MessageSystem messageSystem) {
+        this.url = url;
         this.messageSystem = messageSystem;
     }
 
@@ -71,18 +68,13 @@ public class MsClientImpl implements MsClient{
     }
 
     @Override
-    public String getHost() {
-        return host;
+    public String getUrl() {
+        return url;
     }
 
     @Override
-    public int getPort() {
-        return port;
-    }
-
-    @Override
-    public <T> Message produceMessage(String toHost, int toPort, T data, ReqRespType type) {
-        return new Message(host, port, toHost, toPort, null, type.getValue(), Serializers.serialize(data));
+    public <T> Message produceMessage(String toUrl, T data, ReqRespType type) {
+        return new Message(url, toUrl, null, type.getValue(), Serializers.serialize(data));
     }
 
     @Override
@@ -90,12 +82,11 @@ public class MsClientImpl implements MsClient{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MsClientImpl msClient = (MsClientImpl) o;
-        return port == msClient.port &&
-                Objects.equals(host, msClient.host);
+        return Objects.equals(url, msClient.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(host, port);
+        return Objects.hash(url);
     }
 }

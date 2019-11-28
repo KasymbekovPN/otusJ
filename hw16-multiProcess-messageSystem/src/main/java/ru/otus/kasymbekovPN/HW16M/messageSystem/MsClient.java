@@ -6,7 +6,6 @@ public interface MsClient {
     void addHandler(ReqRespType type, ReqRespHandler handler);
     boolean sendMessage(Message message);
     void handle(Message message);
-    String getHost();
-    int getPort();
-    <T> Message produceMessage(String toHost, int toPort, T data, ReqRespType type);
+    String getUrl();
+    <T> Message produceMessage(String toUrl, T data, ReqRespType type);
 }

@@ -10,10 +10,8 @@ public class Message {
     static final Message VOID_MESSAGE = new Message();
 
     private final UUID id = UUID.randomUUID();
-    private final String fromHost;
-    private int fromPort;
-    private final String toHost;
-    private int toPort;
+    private final String fromUrl;
+    private final String toUrl;
     private final Optional<UUID> sourceMessageId;
     private final String type;
     private final int payloadLength;
@@ -27,24 +25,12 @@ public class Message {
         return id;
     }
 
-    public String getFromHost() {
-        return fromHost;
+    public String getFromUrl() {
+        return fromUrl;
     }
 
-    public int getFromPort() {
-        return fromPort;
-    }
-
-    public String getToHost() {
-        return toHost;
-    }
-
-    public int getToPort() {
-        return toPort;
-    }
-
-    public void setToPort(int toPort) {
-        this.toPort = toPort;
+    public String getToUrl() {
+        return toUrl;
     }
 
     public Optional<UUID> getSourceMessageId() {
@@ -64,21 +50,19 @@ public class Message {
     }
 
     public Message() {
-        this.fromHost = null;
-        this.toHost = null;
+        this.fromUrl = null;
+        this.toUrl = null;
         this.sourceMessageId = Optional.empty();
         this.type = "voidTechnicalMessage";
         this.payload = new byte[1];
         this.payloadLength = this.payload.length;
     }
 
-    public Message(String fromHost, int fromPort, String toHost, int toPort, Optional<UUID> sourceMessageId,
+    public Message(String fromUrl, String toUrl, Optional<UUID> sourceMessageId,
                    String type, byte[] payload)
     {
-        this.fromHost = fromHost;
-        this.fromPort = fromPort;
-        this.toHost = toHost;
-        this.toPort = toPort;
+        this.fromUrl = fromUrl;
+        this.toUrl = toUrl;
         this.sourceMessageId = sourceMessageId;
         this.type = type;
         this.payload = payload;
@@ -102,10 +86,8 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "id=" + id +
-                ", fromHost='" + fromHost + '\'' +
-                ", fromPort=" + fromPort +
-                ", toHost='" + toHost + '\'' +
-                ", toPort=" + toPort +
+                ", fromUrl='" + fromUrl + '\'' +
+                ", toUrl='" + toUrl + '\'' +
                 ", sourceMessageId=" + sourceMessageId +
                 ", type='" + type + '\'' +
                 ", payloadLength=" + payloadLength +
