@@ -1,6 +1,8 @@
 package sockets;
 
 public enum ReqRespType {
+    I_AM_REQUEST("iAmRequest"),
+    I_AM_RESPONSE("iAmResponse"),
     WRONG_TYPE("wrong"),
     AUTH_USER_REQUEST("authUserRequest"),
     ADD_USER_REQUEST("addUserRequest"),

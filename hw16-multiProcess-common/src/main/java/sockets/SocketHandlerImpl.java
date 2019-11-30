@@ -1,7 +1,7 @@
 package sockets;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import json.JsonCheckerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,16 +90,17 @@ public class SocketHandlerImpl implements SocketHandler {
 //            logger.info("as json : {}", jo);
 //            //<<
 
-            JsonObject jsonObject = (JsonObject) new JsonParser().parse(in);
-            String type = "wrongType";
-            if (jsonObject.has("type")){
-                String predictType = jsonObject.get("type").getAsString();
-                if (handlers.containsKey(predictType)){
-                    type = predictType;
-                }
-            }
-
-            handlers.get(type).handle(jsonObject);
+//            JsonObject jsonObject = (JsonObject) new JsonParser().parse(in);
+//            String type = ReqRespType.WRONG_TYPE.getValue();
+//            if (jsonObject.has("type")){
+//                String predictType = jsonObject.get("type").getAsString();
+//                if (handlers.containsKey(predictType)){
+//                    type = predictType;
+//                }
+//            }
+            //<
+            JsonCheckerImpl checker = new JsonCheckerImpl(in.readLine(), handlers.keySet());
+            handlers.get(checker.getType()).handle(checker.getJsonObject());
 
         } catch (Exception ex){
             //<

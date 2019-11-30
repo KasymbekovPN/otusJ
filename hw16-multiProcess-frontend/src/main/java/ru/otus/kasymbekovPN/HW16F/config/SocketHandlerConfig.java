@@ -26,7 +26,7 @@ public class SocketHandlerConfig {
 
         //< !!! replace port value
         SocketHandler socketHandler = SocketHandlerImpl.newInstance("localhost", 8081);
-        //< ???
+        //< ??
         socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserRespSIHandler(guiMessageTransmitter));
         socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserRespSIHandler(guiMessageTransmitter));
         socketHandler.addHandler(ReqRespType.DEL_USER_RESPONSE.getValue(), new DelUserRespSIHandler(guiMessageTransmitter));

@@ -102,7 +102,7 @@ public class MessageSystemImpl implements MessageSystem {
     }
 
     @Override
-    public synchronized void adClient(MsClient msClient) {
+    public synchronized void addClient(MsClient msClient) {
         logger.info("new client : {}", msClient.getUrl());
 
         //< ??? needed
@@ -110,6 +110,11 @@ public class MessageSystemImpl implements MessageSystem {
             throw new IllegalArgumentException("Error! Client : " + msClient.getUrl() + " already exits");
         }
         clientMap.put(msClient.getUrl(), msClient);
+    }
+
+    @Override
+    public MsClient getClient(String url) {
+        return clientMap.getOrDefault(url, null);
     }
 
     @Override

@@ -12,6 +12,6 @@ public class WrongRespSIHandler implements SocketInputHandler {
     @Override
     public void handle(JsonObject jsonObject) {
         //<
-        logger.info("WrongRespSIHandler");
+        logger.info("WrongRespSIHandler : {}", jsonObject);
     }
 }
