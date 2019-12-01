@@ -69,7 +69,7 @@ public class GuiMessageReceiver {
 //        logger.info("json : {}", jsonObject);
         //<
 
-        socketHandler.send(jsonObject, "localhost", 8082);
+//        socketHandler.send(jsonObject, "localhost", 8082);
 
 
 //        {

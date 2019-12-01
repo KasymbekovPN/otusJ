@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.socketHandler;
+package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
 
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;

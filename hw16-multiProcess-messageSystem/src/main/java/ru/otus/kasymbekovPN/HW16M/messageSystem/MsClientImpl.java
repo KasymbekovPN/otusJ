@@ -22,7 +22,7 @@ public class MsClientImpl implements MsClient{
     private final MessageSystem messageSystem;
     private final Map<String, ReqRespHandler> handlers = new ConcurrentHashMap<>();
 
-    public MsClientImpl newInstance(String url, MessageSystem messageSystem){
+    public static MsClientImpl newInstance(String url, MessageSystem messageSystem){
         if (!usedUrls.contains(url)){
             usedUrls.add(url);
             return new MsClientImpl(url, messageSystem);

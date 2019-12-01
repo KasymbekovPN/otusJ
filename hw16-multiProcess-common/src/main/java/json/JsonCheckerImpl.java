@@ -83,17 +83,19 @@ public class JsonCheckerImpl implements JsonChecker {
         } else {
             errorDescription.append("Message doesn't contain filed 'from'; ");
         }
-        if (jsonObject.has("to")){
-            JsonObject to = jsonObject.get("to").getAsJsonObject();
-            if (!to.has("host")){
-                errorDescription.append("Field 'to' doesn't contain filed 'host'; ");
-            }
-            if (!to.has("port")){
-                errorDescription.append("Field 'to' doesn't contain filed 'port'; ");
-            }
-        } else {
-            errorDescription.append("Message doesn't contain filed 'to'; ");
-        }
+
+        //<
+//        if (jsonObject.has("to")){
+//            JsonObject to = jsonObject.get("to").getAsJsonObject();
+//            if (!to.has("host")){
+//                errorDescription.append("Field 'to' doesn't contain filed 'host'; ");
+//            }
+//            if (!to.has("port")){
+//                errorDescription.append("Field 'to' doesn't contain filed 'port'; ");
+//            }
+//        } else {
+//            errorDescription.append("Message doesn't contain filed 'to'; ");
+//        }
 
         if (!errorDescription.toString().equals("")){
             errorDescription.append("Original type '").append(jsonObject.get("type").getAsString()).append("';");

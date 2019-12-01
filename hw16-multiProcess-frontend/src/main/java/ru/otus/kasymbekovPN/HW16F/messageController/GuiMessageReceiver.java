@@ -59,7 +59,8 @@ public class GuiMessageReceiver {
         jsonObject.addProperty("login", user.getLogin());
         jsonObject.addProperty("password", user.getPassword());
 
-        socketHandler.send(jsonObject, "localhost", 8091);
+        //<
+//        socketHandler.send(jsonObject, "localhost", 8091);
     }
 
     @MessageMapping("/addUserRequest")

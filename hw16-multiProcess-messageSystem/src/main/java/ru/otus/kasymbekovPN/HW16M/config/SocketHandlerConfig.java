@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
-import ru.otus.kasymbekovPN.HW16M.socketHandler.AuthUserReqSIHandler;
-import ru.otus.kasymbekovPN.HW16M.socketHandler.IAmReqSIHandler;
-import ru.otus.kasymbekovPN.HW16M.socketHandler.WrongSIHandler;
+import ru.otus.kasymbekovPN.HW16M.socketInputHandler.AuthUserReqSIHandler;
+import ru.otus.kasymbekovPN.HW16M.socketInputHandler.IAmRequestSIH;
+import ru.otus.kasymbekovPN.HW16M.socketInputHandler.WrongTypeSIH;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketHandlerImpl;
@@ -28,9 +28,9 @@ public class SocketHandlerConfig {
         //<
         SocketHandlerImpl socketHandler = SocketHandlerImpl.newInstance("localhost", 8091);
 
-        socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmReqSIHandler(messageSystem, socketHandler));
+        socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmRequestSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserReqSIHandler(messageSystem));
-        socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongSIHandler());
+        socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongTypeSIH());
 
         return socketHandler;
     }
