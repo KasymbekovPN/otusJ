@@ -40,22 +40,27 @@ public class RegistrarImpl implements Registrar {
 
     private void handleProcessor(){
 
-        //<
-        System.out.println(1);
-
-        while (runFlag.get()){
-            //<
-            System.out.println(2);
-
+        while(runFlag.get()){
+            registrarHandler.handle();
             sleep();
-
-            if (runFlag.get()){
-                //<
-                System.out.println(3);
-
-                registrarHandler.handle();
-            }
         }
+    //<
+//        //<
+//        System.out.println(1);
+//
+//        while (runFlag.get()){
+//            //<
+//            System.out.println(2);
+//
+//            sleep();
+//
+//            if (runFlag.get()){
+//                //<
+//                System.out.println(3);
+//
+//                registrarHandler.handle();
+//            }
+//        }
 
         processor.submit(this::shutdownProcessor);
     }

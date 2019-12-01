@@ -39,6 +39,7 @@
         <module>hw16-multiProcess-frontend</module>
         <module>hw16-multiProcess-common</module>
         <module>hw16-multiProcess-messageSystem</module>
+        <module>hw16-multiProcess-database</module>
     </modules>
 
     <properties>
