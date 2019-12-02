@@ -26,11 +26,12 @@ public class SendIAmToMSHandler implements RegistrarHandler {
         this.entity = entity;
         this.message = new JsonObject();
         this.message.addProperty("type", ReqRespType.I_AM_REQUEST.getValue());
-        this.message.addProperty("entity", entity.getValue());
+        //<
+//        this.message.addProperty("entity", entity.getValue());
     }
 
     @Override
     public void handle() {
-        socketHandler.send(message, TO_HOST, TO_PORT);
+        socketHandler.send(message, TO_HOST, TO_PORT, entity.getValue());
     }
 }

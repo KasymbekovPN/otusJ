@@ -45,11 +45,13 @@ public class IAmRequestSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("IAmRequestSIH : {}", jsonObject);
 
-        String entity = Entity.check(jsonObject.get("entity").getAsString());
+//        String entity = Entity.check(jsonObject.get("entity").getAsString());
+        //<
 
         JsonObject from = jsonObject.get("from").getAsJsonObject();
         String fromHost = from.get("host").getAsString();
         int fromPort = from.get("port").getAsInt();
+        String entity = Entity.check(from.get("entity").getAsString());
 
         String url = fromHost + ":" + String.valueOf(fromPort) + "/" + entity;
 
@@ -64,11 +66,15 @@ public class IAmRequestSIH implements SocketInputHandler {
             logger.warn("IAmRequestSIH : {}", args.status);
         }
 
+        JsonObject data = new JsonObject();
+        data.addProperty("url", url);
         JsonObject respJsonObject = new JsonObject();
         respJsonObject.addProperty("type", ReqRespType.I_AM_RESPONSE.getValue());
-        respJsonObject.addProperty("url", url);
+        respJsonObject.add("data", data);
+        //<
+//        respJsonObject.addProperty("url", url);
 
-        socketHandler.send(respJsonObject, fromHost, fromPort);
+        socketHandler.send(respJsonObject, fromHost, fromPort, Entity.MESSAGE_SYSTEM.getValue());
     }
 
     private static void createFrontendMsClient(Args args){

@@ -109,7 +109,7 @@ public class SocketHandlerImpl implements SocketHandler {
     }
 
     @Override
-    public void send(JsonObject jsonObject, String targetHost, int targetPort) {
+    public void send(JsonObject jsonObject, String targetHost, int targetPort, String fromEntity) {
         try(Socket clientSocket = new Socket(targetHost, targetPort)){
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
@@ -120,6 +120,7 @@ public class SocketHandlerImpl implements SocketHandler {
             JsonObject from = new JsonObject();
             from.addProperty("host", this.host);
             from.addProperty("port", this.port);
+            from.addProperty("entity", fromEntity);
 
             //<
 //            JsonObject to = new JsonObject();

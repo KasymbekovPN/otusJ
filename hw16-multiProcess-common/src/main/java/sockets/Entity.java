@@ -3,7 +3,8 @@ package sockets;
 public enum Entity {
     UNKNOWN("unknown"),
     FRONTEND("frontend"),
-    DATABASE("database");
+    DATABASE("database"),
+    MESSAGE_SYSTEM("messageSystem");
 
     private String value;
 
