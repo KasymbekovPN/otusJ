@@ -59,10 +59,14 @@ public class JsonCheckerImpl implements JsonChecker {
         authUserReqJsonObject.add("from", ft);
         authUserReqJsonObject.add("to", ft);
 
+        //< fill
+        JsonObject authUserRespJsonObject = new JsonObject();
+
         Map<String, JsonObject> tmp = new HashMap<>();
         tmp.put(ReqRespType.I_AM_REQUEST.getValue(), iAmReqStdJsonObject);
         tmp.put(ReqRespType.I_AM_RESPONSE.getValue(), iAmRespJsonObject);
         tmp.put(ReqRespType.AUTH_USER_REQUEST.getValue(), authUserReqJsonObject);
+        tmp.put(ReqRespType.AUTH_USER_RESPONSE.getValue(), authUserRespJsonObject);
 
         standardJsonObjects = Collections.unmodifiableMap(tmp);
     }

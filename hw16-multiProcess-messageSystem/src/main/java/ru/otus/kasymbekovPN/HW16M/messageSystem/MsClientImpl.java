@@ -73,8 +73,8 @@ public class MsClientImpl implements MsClient{
     }
 
     @Override
-    public <T> Message produceMessage(String toUrl, T data, ReqRespType type) {
-        return new Message(url, toUrl, null, type.getValue(), Serializers.serialize(data));
+    public <T> Message produceMessage(String fromUrl, T data, ReqRespType type) {
+        return new Message(fromUrl, url, null, type.getValue(), Serializers.serialize(data));
     }
 
     @Override
