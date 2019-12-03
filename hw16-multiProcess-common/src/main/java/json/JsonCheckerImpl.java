@@ -1,5 +1,6 @@
 package json;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -59,8 +60,17 @@ public class JsonCheckerImpl implements JsonChecker {
         authUserReqJsonObject.add("from", ft);
         authUserReqJsonObject.add("to", ft);
 
-        //< fill
+        JsonArray array = new JsonArray();
+        data = new JsonObject();
+        data.addProperty("login", "String");
+        data.addProperty("password", "String");
+        data.addProperty("status", "String");
+        data.add("users", array);
         JsonObject authUserRespJsonObject = new JsonObject();
+        authUserRespJsonObject.addProperty("type", "String");
+        authUserRespJsonObject.add("data", data);
+        authUserRespJsonObject.add("from", ft);
+        authUserRespJsonObject.add("to", ft);
 
         Map<String, JsonObject> tmp = new HashMap<>();
         tmp.put(ReqRespType.I_AM_REQUEST.getValue(), iAmReqStdJsonObject);
@@ -129,6 +139,12 @@ public class JsonCheckerImpl implements JsonChecker {
                         traverse(element.getAsJsonObject(), stdElement.getAsJsonObject(), errorDescription, currentPath);
                     } else {
                         errorDescription.append(" Field '").append(currentPath).append("' isn't object;");
+                    }
+                }
+            } else if (stdElement.isJsonArray()){
+                if (element != null){
+                    if (!element.isJsonArray()){
+                        errorDescription.append(" Field '").append(currentPath).append("' isn't array;");
                     }
                 }
             } else if (stdElement.isJsonPrimitive()){

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.socketInputHandler.AuthUserRequestSIH;
+import ru.otus.kasymbekovPN.HW16M.socketInputHandler.AuthUserResponseSIH;
 import ru.otus.kasymbekovPN.HW16M.socketInputHandler.IAmRequestSIH;
 import ru.otus.kasymbekovPN.HW16M.socketInputHandler.WrongTypeSIH;
 import sockets.ReqRespType;
@@ -30,6 +31,7 @@ public class SocketHandlerConfig {
 
         socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmRequestSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(messageSystem, socketHandler));
+        socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserResponseSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongTypeSIH());
 
         return socketHandler;

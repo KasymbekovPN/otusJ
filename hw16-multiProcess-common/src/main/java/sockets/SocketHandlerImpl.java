@@ -108,6 +108,7 @@ public class SocketHandlerImpl implements SocketHandler {
         }
     }
 
+    //< !!! fromEntity - член класса
     @Override
     public void send(JsonObject jsonObject, String targetHost, int targetPort, String fromEntity) {
         try(Socket clientSocket = new Socket(targetHost, targetPort)){
@@ -117,17 +118,21 @@ public class SocketHandlerImpl implements SocketHandler {
             logger.info("send to server : {}", jsonObject);
             //<
 
-            JsonObject from = new JsonObject();
-            from.addProperty("host", this.host);
-            from.addProperty("port", this.port);
-            from.addProperty("entity", fromEntity);
+            if (!jsonObject.has("from")){
+                JsonObject from = new JsonObject();
+                from.addProperty("host", this.host);
+                from.addProperty("port", this.port);
+                from.addProperty("entity", fromEntity);
+                jsonObject.add("from", from);
+            }
+
 
             //<
 //            JsonObject to = new JsonObject();
 //            to.addProperty("host", host);
 //            to.addProperty("port", port);
 
-            jsonObject.add("from", from);
+
             //<
 //            jsonObject.add("to", to);
 
