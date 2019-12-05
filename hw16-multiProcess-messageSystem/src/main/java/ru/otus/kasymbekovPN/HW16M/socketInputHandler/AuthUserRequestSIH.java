@@ -28,36 +28,46 @@ public class AuthUserRequestSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("AuthUserRequestSIH : " + jsonObject);
 
-        JsonObject data = jsonObject.get("data").getAsJsonObject();
-        JsonObject from = jsonObject.get("from").getAsJsonObject();
+//        AuthUserRequestSIH : {"type":"authUserRequest",
+//        "data":{"login":"admin","password":"qwerty"},
+//        "to":{"host":"localhost","port":8101,"entity":"database"},
+//        "from":{"host":"localhost","port":8081,"entity":"frontend"}}
 
-        //< how check !!!
+        JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+        JsonObject from = jsonObject.get("from").getAsJsonObject();
         String fromHost = from.get("host").getAsString();
+        String fromEntity = Entity.check(from.get("entity").getAsString());
         int fromPort = from.get("port").getAsInt();
-        String fromEntity = from.get("entity").getAsString();
         String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
 
         JsonObject to = jsonObject.get("to").getAsJsonObject();
+        String toHost = to.get("host").getAsString();
         String toEntity = Entity.check(to.get("entity").getAsString());
+        int toPort = to.get("port").getAsInt();
+        String toUrl = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
+
+        //<
+        logger.info("fromUrl : {}", fromUrl);
+        logger.info("toUrl : {}", toUrl);
+        //<
 
         String status = "";
-        if (!toEntity.equals(Entity.UNKNOWN.getValue())){
-            String toHost = to.get("host").getAsString();
-            Integer toPort = to.get("port").getAsInt();
-            String url = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
-            MsClient msClient = messageSystem.getClient(url);
-            if (msClient != null){
-                String str = jsonObject.toString();
-                Message message = msClient.produceMessage(fromUrl, str, ReqRespType.AUTH_USER_REQUEST);
-                msClient.sendMessage(message);
-            } else {
-                status = "Target '" + url + "' doesn't exist.";
-            }
-        } else {
-            status = "to:entity is unknown.";
+        MsClient fromClient = messageSystem.getClient(fromUrl);
+        MsClient toClient = messageSystem.getClient(toUrl);
+
+        if (fromClient == null){
+            status += "Client '" + fromUrl + "' doesn't exist; ";
+        }
+        if (toClient == null){
+            status += "Client '" + toUrl + "' doesn't exist; ";
         }
 
-        if (!status.equals("")){
+        if (status.equals("")){
+            String str = jsonObject.toString();
+            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.AUTH_USER_REQUEST);
+            fromClient.sendMessage(message);
+        } else {
             JsonArray users = new JsonArray();
             data.addProperty("status", status);
             data.add("users", users);
@@ -70,5 +80,49 @@ public class AuthUserRequestSIH implements SocketInputHandler {
             int targetPort = from.get("port").getAsInt();
             socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
         }
+
+        //<
+//        JsonObject data = jsonObject.get("data").getAsJsonObject();
+//        JsonObject from = jsonObject.get("from").getAsJsonObject();
+//
+//        //< how check !!!
+//        String fromHost = from.get("host").getAsString();
+//        int fromPort = from.get("port").getAsInt();
+//        String fromEntity = from.get("entity").getAsString();
+//        String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
+//
+//        JsonObject to = jsonObject.get("to").getAsJsonObject();
+//        String toEntity = Entity.check(to.get("entity").getAsString());
+//
+//        String status = "";
+//        if (!toEntity.equals(Entity.UNKNOWN.getValue())){
+//            String toHost = to.get("host").getAsString();
+//            Integer toPort = to.get("port").getAsInt();
+//            String url = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
+//            MsClient msClient = messageSystem.getClient(url);
+//            if (msClient != null){
+//                String str = jsonObject.toString();
+//                Message message = msClient.produceMessage(fromUrl, str, ReqRespType.AUTH_USER_REQUEST);
+//                msClient.sendMessage(message);
+//            } else {
+//                status = "Target '" + url + "' doesn't exist.";
+//            }
+//        } else {
+//            status = "to:entity is unknown.";
+//        }
+//
+//        if (!status.equals("")){
+//            JsonArray users = new JsonArray();
+//            data.addProperty("status", status);
+//            data.add("users", users);
+//
+//            JsonObject resp = new JsonObject();
+//            resp.addProperty("type", ReqRespType.AUTH_USER_RESPONSE.getValue());
+//            resp.add("data", data);
+//
+//            String targetHost = from.get("host").getAsString();
+//            int targetPort = from.get("port").getAsInt();
+//            socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
+//        }
     }
 }

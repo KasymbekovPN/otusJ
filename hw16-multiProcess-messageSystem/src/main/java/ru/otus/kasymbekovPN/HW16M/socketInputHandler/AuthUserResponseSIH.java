@@ -22,8 +22,22 @@ public class AuthUserResponseSIH implements SocketInputHandler {
     @Override
     public void handle(JsonObject jsonObject) {
         logger.info("AuthUserResponseSIH : {}", jsonObject);
+
+
+        //<
+//        AuthUserResponseSIH : {
+//        "type":"authUserResponse",
+//        "to":{"host":"localhost","port":8081,"entity":"frontend"},
+//        "from":{"host":"localhost","port":8101,"entity":"database"},
+//        "data":{
+//        "login":"admin",
+//        "password":"qwerty",
+//        "status":"admin",
+//        "users":[{"id":1,"login":"admin","password":"qwerty","isAdmin":true}]}}
     }
 
+
+    //<
 //    package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
 //
 //import com.google.gson.JsonArray;
