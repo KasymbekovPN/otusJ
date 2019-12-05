@@ -14,21 +14,21 @@ public class GuiMessageTransmitter {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    private void handleAuthUserResponse(OnlineUserPackage data){
+    public void handleAuthUserResponse(OnlineUserPackage data){
         simpMessagingTemplate.convertAndSend(
                 "/topic/authResponse",
                 data
         );
     }
 
-    private void handleAddUserResponse(OnlineUserPackage data){
+    public void handleAddUserResponse(OnlineUserPackage data){
         simpMessagingTemplate.convertAndSend(
                 "/topic/addUserResponse",
                 data
         );
     }
 
-    private void handleDelUserResponse(OnlineUserPackage data){
+    public void handleDelUserResponse(OnlineUserPackage data){
         simpMessagingTemplate.convertAndSend(
                 "/topic/delUserResponse",
                 data

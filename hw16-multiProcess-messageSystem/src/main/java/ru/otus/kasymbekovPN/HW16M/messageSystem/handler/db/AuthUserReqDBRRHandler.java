@@ -29,12 +29,6 @@ public class AuthUserReqDBRRHandler implements ReqRespHandler {
         String line = Serializers.deserialize(message.getPayload(), String.class);
         JsonObject jsonObject = (JsonObject)new JsonParser().parse(line);
 
-        //<
-//        {"type":"authUserRequest",
-//        "data":{"login":"admin","password":"qwerty"},
-//        "to":{"host":"localhost","port":8101,"entity":"database"},
-//        "from":{"host":"localhost","port":8081,"entity":"frontend"}}
-
         JsonObject to = jsonObject.get("to").getAsJsonObject();
         String targetHost = to.get("host").getAsString();
         int targetPort = to.get("port").getAsInt();

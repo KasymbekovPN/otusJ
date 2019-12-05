@@ -1,7 +1,9 @@
 package ru.otus.kasymbekovPN.HW16D.socketInputHandler;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,19 +38,19 @@ public class AuthUserRequestSIH implements SocketInputHandler {
         String status = "";
 
         if (!login.equals("") && !password.equals("")){
-
             List<OnlineUser> onlineUsers = dbService.loadRecord(login);
             if (onlineUsers.size() > 0){
                 OnlineUser onlineUser = onlineUsers.get(0);
                 if (onlineUser.isAdmin()){
                     List<OnlineUser> allUsers = dbService.loadAll();
+                    Gson gson = new Gson();
+                    JsonParser parser = new JsonParser();
                     for (OnlineUser user : allUsers) {
-                        JsonObject jsonUser = new JsonObject();
-                        jsonUser.addProperty("id", user.getId());
-                        jsonUser.addProperty("login", user.getLogin());
-                        jsonUser.addProperty("password", user.getPassword());
-                        jsonUser.addProperty("isAdmin", user.isAdmin());
-                        jsonUsers.add(jsonUser);
+                        jsonUsers.add(
+                                parser.parse(
+                                        gson.toJson(user)
+                                )
+                        );
                     }
                     status = "admin";
                 } else {

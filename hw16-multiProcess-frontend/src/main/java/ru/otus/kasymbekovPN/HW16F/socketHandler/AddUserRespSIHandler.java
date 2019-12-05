@@ -18,8 +18,6 @@ public class AddUserRespSIHandler implements SocketInputHandler {
 
     @Override
     public void handle(JsonObject jsonObject) {
-        //<
-        logger.info("AddUserRespSIHandler");
-        //<
+        logger.info("AddUserRespSIHandler : {}", jsonObject);
     }
 }
