@@ -69,6 +69,12 @@
             <artifactId>hw16-multiProcess-common</artifactId>
             <version>2019-06-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>HW15-messageSystem</artifactId>
+            <version>2.1.9.RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

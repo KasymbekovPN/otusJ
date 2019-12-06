@@ -72,11 +72,33 @@ public class JsonCheckerImpl implements JsonChecker {
         authUserRespJsonObject.add("from", ft);
         authUserRespJsonObject.add("to", ft);
 
+        data = new JsonObject();
+        data.addProperty("login", "String");
+        data.addProperty("password", "String");
+        JsonObject addUserReqJsonObject = new JsonObject();
+        addUserReqJsonObject.addProperty("type", "String");
+        addUserReqJsonObject.add("data", data);
+        addUserReqJsonObject.add("from", ft);
+        addUserReqJsonObject.add("to", ft);
+
+        data = new JsonObject();
+        data.addProperty("login", "String");
+        data.addProperty("password", "String");
+        data.addProperty("status", "String");
+        data.add("users", array);
+        JsonObject addUserRespJsonObject = new JsonObject();
+        addUserRespJsonObject.addProperty("type", "String");
+        addUserRespJsonObject.add("data", data);
+        addUserRespJsonObject.add("from", ft);
+        addUserRespJsonObject.add("to", ft);
+
         Map<String, JsonObject> tmp = new HashMap<>();
         tmp.put(ReqRespType.I_AM_REQUEST.getValue(), iAmReqStdJsonObject);
         tmp.put(ReqRespType.I_AM_RESPONSE.getValue(), iAmRespJsonObject);
         tmp.put(ReqRespType.AUTH_USER_REQUEST.getValue(), authUserReqJsonObject);
         tmp.put(ReqRespType.AUTH_USER_RESPONSE.getValue(), authUserRespJsonObject);
+        tmp.put(ReqRespType.ADD_USER_REQUEST.getValue(), addUserReqJsonObject);
+        tmp.put(ReqRespType.ADD_USER_RESPONSE.getValue(), addUserRespJsonObject);
 
         standardJsonObjects = Collections.unmodifiableMap(tmp);
     }

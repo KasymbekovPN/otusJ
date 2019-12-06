@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW16F.messageController;
 
 import com.google.gson.JsonObject;
+import json.JsonHelper;
 import lombok.RequiredArgsConstructor;
 import model.OnlineUser;
 import org.slf4j.Logger;
@@ -55,9 +56,7 @@ public class GuiMessageReceiver {
 
     @MessageMapping("/authUserRequest")
     public void handleAuthUserRequest(OnlineUser user){
-
-        //<
-        logger.info("auth data : {}", user);
+        logger.info("handleAuthUserRequest : {}", user);
 
         JsonObject to = new JsonObject();
         to.addProperty("host", TO_HOST);
@@ -70,17 +69,23 @@ public class GuiMessageReceiver {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", ReqRespType.AUTH_USER_REQUEST.getValue());
         jsonObject.add("data", data);
-        //<
-//        jsonObject.addProperty("login", user.getLogin());
-//        jsonObject.addProperty("password", user.getPassword());
 
         jsonObject.add("to", to);
 
+        //< target ???
         socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 
     @MessageMapping("/addUserRequest")
     public void handleAddUserRequest(OnlineUser user){
+        logger.info("handleAddUserRequest : {}", user);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
+        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
+        jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
+
+        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 
     @MessageMapping("/delUserRequest")
