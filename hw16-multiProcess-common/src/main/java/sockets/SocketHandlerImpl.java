@@ -1,7 +1,8 @@
 package sockets;
 
 import com.google.gson.JsonObject;
-import json.JsonCheckerImpl;
+import com.google.gson.JsonParser;
+import json.JsonChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,7 @@ public class SocketHandlerImpl implements SocketHandler {
     private final String host;
     private final int port;
     private final Map<String, SocketInputHandler> handlers = new ConcurrentHashMap<>();
+    private final JsonChecker jsonChecker;
 
     private final ExecutorService inProcessor = Executors.newSingleThreadExecutor(
             runnable -> {
@@ -36,11 +38,11 @@ public class SocketHandlerImpl implements SocketHandler {
             }
     );
 
-    public static SocketHandlerImpl newInstance(String host, int port){
+    public static SocketHandlerImpl newInstance(String host, int port, JsonChecker jsonChecker){
         String url = host + String.valueOf(port);
         if (!usedUrls.contains(url)){
             usedUrls.add(url);
-            return new SocketHandlerImpl(host, port);
+            return new SocketHandlerImpl(host, port, jsonChecker);
         } else {
             //< ??? null
             logger.error("Not equal URL");
@@ -59,9 +61,10 @@ public class SocketHandlerImpl implements SocketHandler {
 
 
 
-    private SocketHandlerImpl(String host, int port) {
+    private SocketHandlerImpl(String host, int port, JsonChecker jsonChecker) {
         this.host = host;
         this.port = port;
+        this.jsonChecker = jsonChecker;
         inProcessor.submit(this::handleInProcessor);
     }
 
@@ -99,8 +102,14 @@ public class SocketHandlerImpl implements SocketHandler {
 //                }
 //            }
             //<
-            JsonCheckerImpl checker = new JsonCheckerImpl(in.readLine(), handlers.keySet());
-            handlers.get(checker.getType()).handle(checker.getJsonObject());
+//            JsonCheckerImplOld checker = new JsonCheckerImplOld(in.readLine(), handlers.keySet());
+//            handlers.get(checker.getType()).handle(checker.getJsonObject());
+            //<
+            jsonChecker.setJsonObject(
+                    (JsonObject) new JsonParser().parse(in.readLine()),
+                    handlers.keySet()
+            );
+            handlers.get(jsonChecker.getType()).handle(jsonChecker.getJsonObject());
 
         } catch (Exception ex){
             //<

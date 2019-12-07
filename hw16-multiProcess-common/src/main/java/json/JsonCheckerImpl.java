@@ -1,6 +1,5 @@
 package json;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -8,142 +7,84 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sockets.ReqRespType;
 
-import java.util.Collections;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-//< сделать сервисом, json драть из файла
 public class JsonCheckerImpl implements JsonChecker {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonCheckerImpl.class);
+    private static final String FILE_NAME = "standardMessages.json";
 
-    private static Map<String, JsonObject> standardJsonObjects = new HashMap<>();
+    private Map<String, JsonObject> standardJsonObjects = new HashMap<>();
+    private JsonObject jsonObject;
 
-//    private static Map<String, Consumer<JsonObject>> handlers = new HashMap<>();
-    //<
-    static {
-//        handlers = Map.of(
-//                ReqRespType.I_AM_REQUEST.getValue(), JsonCheckerImpl::handleIAmRequest,
-//                ReqRespType.I_AM_RESPONSE.getValue(), JsonCheckerImpl::handleIAmResponse,
-//                ReqRespType.WRONG_TYPE.getValue(), JsonCheckerImpl::handleWrongType,
-//                ReqRespType.AUTH_USER_REQUEST.getValue(), JsonCheckerImpl::handleAuthUserRequest,
-//                ReqRespType.ADD_USER_REQUEST.getValue(), JsonCheckerImpl::handleAddUserRequest,
-//                ReqRespType.DEL_USER_REQUEST.getValue(), JsonCheckerImpl::handleDelUserRequest,
-//                ReqRespType.AUTH_USER_RESPONSE.getValue(), JsonCheckerImpl::handleAuthUserResponse,
-//                ReqRespType.ADD_USER_RESPONSE.getValue(), JsonCheckerImpl::handleAddUserResponse,
-//                ReqRespType.DEL_USER_RESPONSE.getValue(), JsonCheckerImpl::handleDelUserResponse
-//        );
-    //<
+    public JsonCheckerImpl() {
 
-        JsonObject ft = new JsonObject();
-        ft.addProperty("host", "String");
-        ft.addProperty("port", "Integer");
-        ft.addProperty("entity", "String");
+        this.jsonObject = new JsonObject();
 
-        JsonObject iAmReqStdJsonObject = new JsonObject();
-        iAmReqStdJsonObject.addProperty("type", "String");
-        iAmReqStdJsonObject.add("from", ft);
+        String content = "";
+        String fileName = getClass().getClassLoader().getResource(FILE_NAME).getFile();
+        if (fileName != null){
+            File file = new File(fileName);
+            if (file.exists()){
+                try {
+                    content = new String(Files.readAllBytes(file.toPath()));
+                } catch (IOException ex) {
+                    logger.warn("Failed convert file to string.");
+                }
+            }
+        } else {
+            logger.warn("File doesn't exist.");
+        }
 
-        JsonObject data = new JsonObject();
-        data.addProperty("url", "String");
-        JsonObject iAmRespJsonObject = new JsonObject();
-        iAmRespJsonObject.addProperty("type", "String");
-        iAmRespJsonObject.add("data", data);
-        iAmRespJsonObject.add("from", ft);
-
-        data = new JsonObject();
-        data.addProperty("login", "String");
-        data.addProperty("password", "String");
-        JsonObject authUserReqJsonObject = new JsonObject();
-        authUserReqJsonObject.addProperty("type", "String");
-        authUserReqJsonObject.add("data", data);
-        authUserReqJsonObject.add("from", ft);
-        authUserReqJsonObject.add("to", ft);
-
-        JsonArray array = new JsonArray();
-        data = new JsonObject();
-        data.addProperty("login", "String");
-        data.addProperty("password", "String");
-        data.addProperty("status", "String");
-        data.add("users", array);
-        JsonObject authUserRespJsonObject = new JsonObject();
-        authUserRespJsonObject.addProperty("type", "String");
-        authUserRespJsonObject.add("data", data);
-        authUserRespJsonObject.add("from", ft);
-        authUserRespJsonObject.add("to", ft);
-
-        data = new JsonObject();
-        data.addProperty("login", "String");
-        data.addProperty("password", "String");
-        JsonObject addUserReqJsonObject = new JsonObject();
-        addUserReqJsonObject.addProperty("type", "String");
-        addUserReqJsonObject.add("data", data);
-        addUserReqJsonObject.add("from", ft);
-        addUserReqJsonObject.add("to", ft);
-
-        data = new JsonObject();
-        data.addProperty("login", "String");
-        data.addProperty("password", "String");
-        data.addProperty("status", "String");
-        data.add("users", array);
-        JsonObject addUserRespJsonObject = new JsonObject();
-        addUserRespJsonObject.addProperty("type", "String");
-        addUserRespJsonObject.add("data", data);
-        addUserRespJsonObject.add("from", ft);
-        addUserRespJsonObject.add("to", ft);
-
-        data = new JsonObject();
-        data.addProperty("login", "String");
-        JsonObject delUserReqJsonObject = new JsonObject();
-        delUserReqJsonObject.addProperty("type", "String");
-        delUserReqJsonObject.add("data", data);
-        delUserReqJsonObject.add("from", ft);
-        delUserReqJsonObject.add("to", ft);
-
-        data = new JsonObject();
-        data.addProperty("login", "String");
-        data.addProperty("status", "String");
-        data.add("users", array);
-        JsonObject delUserRespJsonObject = new JsonObject();
-        delUserRespJsonObject.addProperty("type", "String");
-        delUserRespJsonObject.add("data", data);
-        delUserRespJsonObject.add("from", ft);
-        delUserRespJsonObject.add("to", ft);
-
-        Map<String, JsonObject> tmp = new HashMap<>();
-        tmp.put(ReqRespType.I_AM_REQUEST.getValue(), iAmReqStdJsonObject);
-        tmp.put(ReqRespType.I_AM_RESPONSE.getValue(), iAmRespJsonObject);
-        tmp.put(ReqRespType.AUTH_USER_REQUEST.getValue(), authUserReqJsonObject);
-        tmp.put(ReqRespType.AUTH_USER_RESPONSE.getValue(), authUserRespJsonObject);
-        tmp.put(ReqRespType.ADD_USER_REQUEST.getValue(), addUserReqJsonObject);
-        tmp.put(ReqRespType.ADD_USER_RESPONSE.getValue(), addUserRespJsonObject);
-        tmp.put(ReqRespType.DEL_USER_REQUEST.getValue(), delUserReqJsonObject);
-        tmp.put(ReqRespType.DEL_USER_RESPONSE.getValue(), delUserRespJsonObject);
-
-        standardJsonObjects = Collections.unmodifiableMap(tmp);
+        if (content.equals("")){
+            defaultInit();
+        } else {
+            init(content);
+        }
     }
 
-    private JsonObject jsonObject;
-    private Set<String> validTypes;
+    private void init(String content){
+        JsonObject parsedContent = (JsonObject) new JsonParser().parse(content);
+        for (ReqRespType item : ReqRespType.values()) {
+            String sItem = item.getValue();
+            if (parsedContent.has(sItem)){
+                standardJsonObjects.put(sItem, parsedContent.get(sItem).getAsJsonObject());
+            } else {
+                standardJsonObjects.put(sItem, new JsonObject());
+            }
+        }
+    }
+
+    private void defaultInit(){
+        for (ReqRespType item : ReqRespType.values()) {
+            standardJsonObjects.put(item.getValue(), new JsonObject());
+        }
+    }
+
+    @Override
+    public String getType() {
+        return jsonObject.has("type")
+                ? jsonObject.get("type").getAsString()
+                : ReqRespType.WRONG_TYPE.getValue();
+    }
+
+    @Override
+    public void setJsonObject(JsonObject jsonObject, Set<String> validTypes) {
+        this.jsonObject = jsonObject;
+        parse(validTypes);
+    }
 
     @Override
     public JsonObject getJsonObject() {
         return jsonObject;
     }
 
-    @Override
-    public String getType() {
-        return jsonObject.get("type").getAsString();
-    }
-
-    public JsonCheckerImpl(String line, Set<String> validTypes) {
-        this.jsonObject = (JsonObject) new JsonParser().parse(line);
-        this.validTypes = validTypes;
-        parse();
-    }
-
-    private void parse(){
+    private void parse(Set<String> validTypes){
         if (jsonObject.has("type")){
             String type = jsonObject.get("type").getAsString();
             if (validTypes.contains(type)){
@@ -153,15 +94,20 @@ public class JsonCheckerImpl implements JsonChecker {
 
                 if (!errorDescription.toString().equals("")){
                     errorDescription.append(" Original Type : ").append(type).append(";");
-                    changeByError(jsonObject, errorDescription.toString());
+                    changeByError(errorDescription.toString());
                 }
 
             } else {
-                changeByError(jsonObject,"Invalid field 'type' : " + type);
+                changeByError("Invalid field 'type' : " + type);
             }
         } else {
-            changeByError(jsonObject,"Field 'type' doesn't exist");
+            changeByError("Field 'type' doesn't exist");
         }
+    }
+
+    private void changeByError(String errorDescription){
+        jsonObject.addProperty("type", ReqRespType.WRONG_TYPE.getValue());
+        jsonObject.addProperty("errorDescription", errorDescription);
     }
 
     private static void traverse(JsonObject jsonObject, JsonObject std, StringBuilder errorDescription, String path){
@@ -215,91 +161,63 @@ public class JsonCheckerImpl implements JsonChecker {
             }
         }
     }
+    //<
+//    private static void traverse(JsonObject jsonObject, JsonObject std, StringBuilder errorDescription, String path){
+//        Set<String> keys = std.keySet();
+//        for (String key : keys) {
+//            String currentPath = path + ":" + key;
+//            JsonElement stdElement = std.get(key);
+//            JsonElement element = null;
+//            if (jsonObject.has(key)){
+//                element = jsonObject.get(key);
+//            } else {
+//                errorDescription.append(" Field '").append(currentPath).append("' doesn't exist;");
+//            }
+//
+//            if (stdElement.isJsonObject()){
+//                if (element != null){
+//                    if (element.isJsonObject()){
+//                        traverse(element.getAsJsonObject(), stdElement.getAsJsonObject(), errorDescription, currentPath);
+//                    } else {
+//                        errorDescription.append(" Field '").append(currentPath).append("' isn't object;");
+//                    }
+//                }
+//            } else if (stdElement.isJsonArray()){
+//                if (element != null){
+//                    if (!element.isJsonArray()){
+//                        errorDescription.append(" Field '").append(currentPath).append("' isn't array;");
+//                    }
+//                }
+//            } else if (stdElement.isJsonPrimitive()){
+//                if (element != null){
+//                    switch (stdElement.getAsString()){
+//                        case "String":
+//                            try{
+//                                element.getAsString();
+//                            } catch (NumberFormatException ex){
+//                                errorDescription.append(" Field '").append(currentPath).append("' isn't String;");
+//                            }
+//                            break;
+//                        case "Integer":
+//                            try {
+//                                element.getAsInt();
+//                            } catch (NumberFormatException ex){
+//                                errorDescription.append(" Field '").append(currentPath).append("' isn't Integer;");
+//                            }
+//                            break;
+//                        default:
+//                            errorDescription.append(" Field '").append(currentPath).append("' has unknown type;");
+//                            break;
+//                    }
+//                }
+//            }
+//        }
+//    }
 
-    private static void changeByError(JsonObject jsonObject, String errorDescription){
-        jsonObject.addProperty("type", ReqRespType.WRONG_TYPE.getValue());
-        jsonObject.addProperty("errorDescription", errorDescription);
-    }
 
     //<
-//    private static void handleIAmRequest(JsonObject jsonObject){
-//
-//        logger.info("{}", jsonObject);
-//
-////        StringBuilder errorDescription = new StringBuilder();
-////        if (!jsonObject.has("entity")){
-////            errorDescription.append("Message doesn't contain field 'entity'; ");
-////        }
-////        if (jsonObject.has("from")){
-////            JsonObject from = jsonObject.get("from").getAsJsonObject();
-////            if (!from.has("host")){
-////                errorDescription.append("Field 'from' doesn't contain filed 'host'; ");
-////            }
-////            if (!from.has("port")){
-////                errorDescription.append("Field 'from' doesn't contain filed 'port'; ");
-////            }
-////        } else {
-////            errorDescription.append("Message doesn't contain filed 'from'; ");
-////        }
-//
-//        //<
-////        if (jsonObject.has("to")){
-////            JsonObject to = jsonObject.get("to").getAsJsonObject();
-////            if (!to.has("host")){
-////                errorDescription.append("Field 'to' doesn't contain filed 'host'; ");
-////            }
-////            if (!to.has("port")){
-////                errorDescription.append("Field 'to' doesn't contain filed 'port'; ");
-////            }
-////        } else {
-////            errorDescription.append("Message doesn't contain filed 'to'; ");
-////        }
-//
-////        if (!errorDescription.toString().equals("")){
-////            errorDescription.append("Original type '").append(jsonObject.get("type").getAsString()).append("';");
-////            changeByError(jsonObject, errorDescription.toString());
-////        }
-//    }
-//
-//    private static void handleIAmResponse(JsonObject jsonObject){
-//        logger.info("{}", jsonObject);
-//    }
-//
-//    private static void handleWrongType(JsonObject jsonObject){
-//        logger.info("{}", jsonObject);
-//    }
-//
-//    private static void handleAuthUserRequest(JsonObject jsonObject) {
-//        logger.info("{}", jsonObject);
-//
-////        StringBuilder errorDescription;
-////
-////        Set<String> keys = jsonObject.keySet();
-////        for (String key : keys) {
-////            logger.info("--- : {} : {} {}", key, jsonObject.get(key), jsonObject.get(key).getClass());
-////        }
-////
-////        logger.info("{}", authUserRequestStandard);
-////{"type":"authUserRequest","login":"admin","password":"qwerty","to":{"host":"localhost","port":8101,"entity":"frontend"},"from":{"host":"localhost","port":8081}}
-//    }
-//
-//    private static void handleAddUserRequest(JsonObject jsonObject){
-//
-//    }
-//
-//    private static void handleDelUserRequest(JsonObject jsonObject){
-//
-//    }
-//
-//    private static void handleAuthUserResponse(JsonObject jsonObject) {
-//
-//    }
-//
-//    private static void handleAddUserResponse(JsonObject jsonObject){
-//
-//    }
-//
-//    private static void handleDelUserResponse(JsonObject jsonObject){
-//
+//    private static void changeByError(JsonObject jsonObject, String errorDescription){
+//        jsonObject.addProperty("type", ReqRespType.WRONG_TYPE.getValue());
+//        jsonObject.addProperty("errorDescription", errorDescription);
 //    }
 }

@@ -1,5 +1,6 @@
 package ru.otus.kasymbekovPN.HW16M.config;
 
+import json.JsonCheckerImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,7 @@ public class SocketHandlerConfig {
         //<
         logger.info("--------------MessageSystemSocketHandler---------------------");
         //<
-        SocketHandlerImpl socketHandler = SocketHandlerImpl.newInstance("localhost", 8091);
+        SocketHandlerImpl socketHandler = SocketHandlerImpl.newInstance("localhost", 8091, new JsonCheckerImpl());
 
         socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmRequestSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(messageSystem, socketHandler));

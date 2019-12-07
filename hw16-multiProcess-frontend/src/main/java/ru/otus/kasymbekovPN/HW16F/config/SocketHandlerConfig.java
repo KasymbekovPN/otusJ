@@ -1,5 +1,6 @@
 package ru.otus.kasymbekovPN.HW16F.config;
 
+import json.JsonCheckerImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,7 @@ public class SocketHandlerConfig {
         System.out.println("----------GuiMessageControllerSocketHandler-------------");
 
         //< !!! replace port value
-        SocketHandler socketHandler = SocketHandlerImpl.newInstance("localhost", 8081);
+        SocketHandler socketHandler = SocketHandlerImpl.newInstance("localhost", 8081, new JsonCheckerImpl());
         //< ??
         socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserRespSIHandler(guiMessageTransmitter));
         socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserRespSIHandler(guiMessageTransmitter));
