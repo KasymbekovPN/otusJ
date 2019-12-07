@@ -31,6 +31,8 @@ public class SocketHandlerConfig {
         socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserResponseSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.ADD_USER_REQUEST.getValue(), new AddUserRequestSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserResponseSIH(messageSystem, socketHandler));
+        socketHandler.addHandler(ReqRespType.DEL_USER_REQUEST.getValue(), new DelUserRequestSIH(messageSystem, socketHandler));
+        socketHandler.addHandler(ReqRespType.DEL_USER_RESPONSE.getValue(), new DelUserResponseSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongTypeSIH());
 
         return socketHandler;

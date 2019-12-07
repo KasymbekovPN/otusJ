@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+//< сделать сервисом, json драть из файла
 public class JsonCheckerImpl implements JsonChecker {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonCheckerImpl.class);
@@ -92,6 +93,24 @@ public class JsonCheckerImpl implements JsonChecker {
         addUserRespJsonObject.add("from", ft);
         addUserRespJsonObject.add("to", ft);
 
+        data = new JsonObject();
+        data.addProperty("login", "String");
+        JsonObject delUserReqJsonObject = new JsonObject();
+        delUserReqJsonObject.addProperty("type", "String");
+        delUserReqJsonObject.add("data", data);
+        delUserReqJsonObject.add("from", ft);
+        delUserReqJsonObject.add("to", ft);
+
+        data = new JsonObject();
+        data.addProperty("login", "String");
+        data.addProperty("status", "String");
+        data.add("users", array);
+        JsonObject delUserRespJsonObject = new JsonObject();
+        delUserRespJsonObject.addProperty("type", "String");
+        delUserRespJsonObject.add("data", data);
+        delUserRespJsonObject.add("from", ft);
+        delUserRespJsonObject.add("to", ft);
+
         Map<String, JsonObject> tmp = new HashMap<>();
         tmp.put(ReqRespType.I_AM_REQUEST.getValue(), iAmReqStdJsonObject);
         tmp.put(ReqRespType.I_AM_RESPONSE.getValue(), iAmRespJsonObject);
@@ -99,6 +118,8 @@ public class JsonCheckerImpl implements JsonChecker {
         tmp.put(ReqRespType.AUTH_USER_RESPONSE.getValue(), authUserRespJsonObject);
         tmp.put(ReqRespType.ADD_USER_REQUEST.getValue(), addUserReqJsonObject);
         tmp.put(ReqRespType.ADD_USER_RESPONSE.getValue(), addUserRespJsonObject);
+        tmp.put(ReqRespType.DEL_USER_REQUEST.getValue(), delUserReqJsonObject);
+        tmp.put(ReqRespType.DEL_USER_RESPONSE.getValue(), delUserRespJsonObject);
 
         standardJsonObjects = Collections.unmodifiableMap(tmp);
     }

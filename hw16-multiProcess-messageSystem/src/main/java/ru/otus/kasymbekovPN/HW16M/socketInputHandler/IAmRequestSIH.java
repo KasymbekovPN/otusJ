@@ -8,9 +8,11 @@ import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientImpl;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AddUserReqDBRRHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AuthUserReqDBRRHandler;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.DelUserReqDBRRHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.WrongTypeDBRRHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AddUserRespFERRHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AuthUserRespFERRHandler;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.DelUserRespFERRHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.WrongTypeFERRHandler;
 import sockets.Entity;
 import sockets.ReqRespType;
@@ -84,6 +86,7 @@ public class IAmRequestSIH implements SocketInputHandler {
         msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeFERRHandler());
         msClient.addHandler(ReqRespType.AUTH_USER_RESPONSE, new AuthUserRespFERRHandler(args.socketHandler));
         msClient.addHandler(ReqRespType.ADD_USER_RESPONSE, new AddUserRespFERRHandler(args.socketHandler));
+        msClient.addHandler(ReqRespType.DEL_USER_RESPONSE, new DelUserRespFERRHandler(args.socketHandler));
 
         args.ms.addClient(msClient);
 
@@ -95,6 +98,7 @@ public class IAmRequestSIH implements SocketInputHandler {
         msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeDBRRHandler());
         msClient.addHandler(ReqRespType.AUTH_USER_REQUEST, new AuthUserReqDBRRHandler(args.socketHandler));
         msClient.addHandler(ReqRespType.ADD_USER_REQUEST, new AddUserReqDBRRHandler(args.socketHandler));
+        msClient.addHandler(ReqRespType.DEL_USER_REQUEST, new DelUserReqDBRRHandler(args.socketHandler));
 
         args.ms.addClient(msClient);
 

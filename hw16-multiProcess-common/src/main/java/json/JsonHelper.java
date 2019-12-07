@@ -22,12 +22,28 @@ public class JsonHelper {
         return  host + ":" + String.valueOf(port) + "/" + entity;
     }
 
+    public static JsonObject makeData(String login){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("login", login);
+
+        return jsonObject;
+    }
+
     public static JsonObject makeData(String login, String password){
         JsonObject data = new JsonObject();
         data.addProperty("login", login);
         data.addProperty("password", password);
 
         return  data;
+    }
+
+    public static JsonObject makeData(String login, String status, JsonArray users){
+        JsonObject data = new JsonObject();
+        data.addProperty("login", login);
+        data.addProperty("status", status);
+        data.add("users", users);
+
+        return data;
     }
 
     public static JsonObject makeData(String login, String password, String status, JsonArray users){

@@ -90,5 +90,13 @@ public class GuiMessageReceiver {
 
     @MessageMapping("/delUserRequest")
     public void handleDelUserRequest(OnlineUser user){
+        logger.info("handleDelUserRequest : {}", user);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());
+        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
+        jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
+
+        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 }

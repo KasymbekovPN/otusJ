@@ -114,10 +114,6 @@ public class SocketHandlerImpl implements SocketHandler {
         try(Socket clientSocket = new Socket(targetHost, targetPort)){
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-            //<
-            logger.info("send to server : {}", jsonObject);
-            //<
-
             if (!jsonObject.has("from")){
                 JsonObject from = new JsonObject();
                 from.addProperty("host", this.host);
@@ -125,6 +121,10 @@ public class SocketHandlerImpl implements SocketHandler {
                 from.addProperty("entity", fromEntity);
                 jsonObject.add("from", from);
             }
+
+            //<
+            logger.info("send to server : {}", jsonObject);
+            //<
 
 
             //<

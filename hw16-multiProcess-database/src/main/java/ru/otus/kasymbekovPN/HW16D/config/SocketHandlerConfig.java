@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16D.db.api.service.DBServiceOnlineUser;
 import ru.otus.kasymbekovPN.HW16D.socketInputHandler.AddUserRequestSIH;
 import ru.otus.kasymbekovPN.HW16D.socketInputHandler.AuthUserRequestSIH;
+import ru.otus.kasymbekovPN.HW16D.socketInputHandler.DelUserRequestSIH;
 import ru.otus.kasymbekovPN.HW16D.socketInputHandler.WrongTypeSIH;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
@@ -29,6 +30,7 @@ public class SocketHandlerConfig {
         socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongTypeSIH());
         socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(dbService, socketHandler));
         socketHandler.addHandler(ReqRespType.ADD_USER_REQUEST.getValue(), new AddUserRequestSIH(dbService, socketHandler));
+        socketHandler.addHandler(ReqRespType.DEL_USER_REQUEST.getValue(), new DelUserRequestSIH(dbService, socketHandler));
 
         return socketHandler;
     }
