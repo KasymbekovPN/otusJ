@@ -28,6 +28,10 @@ public class JsonCheckerImpl implements JsonChecker {
 
         String content = "";
         String fileName = getClass().getClassLoader().getResource(FILE_NAME).getFile();
+
+        //<
+        logger.info("file name : {}", fileName);
+
         if (fileName != null){
             File file = new File(fileName);
             if (file.exists()){

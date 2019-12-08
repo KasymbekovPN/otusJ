@@ -65,7 +65,7 @@
         </dependency>
 
         <dependency>
-            <groupId>ru.otus.kasymbekovPN</groupId>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>hw16-multiProcess-common</artifactId>
             <version>2019-06-SNAPSHOT</version>
         </dependency>
@@ -90,6 +90,27 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../hw16-multiProcess-common/src/main/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
