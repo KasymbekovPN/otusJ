@@ -23,7 +23,8 @@ public class SocketHandlerConfig {
 
     private final DBServiceOnlineUser dbService;
 
-    @Bean(name = "sh")
+    @Bean
+    //<
     public SocketHandler socketHandler(){
         logger.info("created socketHandler");
 

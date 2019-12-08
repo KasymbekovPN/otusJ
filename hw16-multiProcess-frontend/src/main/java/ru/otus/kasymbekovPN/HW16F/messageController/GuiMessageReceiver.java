@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 
@@ -58,11 +57,6 @@ public class GuiMessageReceiver {
     public void handleAuthUserRequest(OnlineUser user){
         logger.info("handleAuthUserRequest : {}", user);
 
-        JsonObject to = new JsonObject();
-        to.addProperty("host", TO_HOST);
-        to.addProperty("port", TO_PORT);
-        to.addProperty("entity", Entity.DATABASE.getValue());
-
         JsonObject data = new JsonObject();
         data.addProperty("login", user.getLogin());
         data.addProperty("password", user.getPassword());
@@ -70,10 +64,24 @@ public class GuiMessageReceiver {
         jsonObject.addProperty("type", ReqRespType.AUTH_USER_REQUEST.getValue());
         jsonObject.add("data", data);
 
-        jsonObject.add("to", to);
-
-        //< target ???
-        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
+        socketHandler.sendF(jsonObject);
+        //<
+//        JsonObject to = new JsonObject();
+//        to.addProperty("host", TO_HOST);
+//        to.addProperty("port", TO_PORT);
+//        to.addProperty("entity", Entity.DATABASE.getValue());
+//
+//        JsonObject data = new JsonObject();
+//        data.addProperty("login", user.getLogin());
+//        data.addProperty("password", user.getPassword());
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("type", ReqRespType.AUTH_USER_REQUEST.getValue());
+//        jsonObject.add("data", data);
+//
+//        jsonObject.add("to", to);
+//
+//        //< target ???
+//        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 
     @MessageMapping("/addUserRequest")
@@ -82,10 +90,16 @@ public class GuiMessageReceiver {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
-        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
         jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
 
-        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
+        socketHandler.sendF(jsonObject);
+        //<
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
+//        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
+//        jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
+//
+//        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 
     @MessageMapping("/delUserRequest")
@@ -94,9 +108,15 @@ public class GuiMessageReceiver {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());
-        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
         jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
 
-        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
+        socketHandler.sendF(jsonObject);
+        //<
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());
+//        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
+//        jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
+//
+//        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 }

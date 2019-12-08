@@ -11,6 +11,7 @@ import sockets.SocketHandler;
 public class SendIAmToMSHandler implements RegistrarHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(SendIAmToMSHandler.class);
+    //<
     private static final String TO_HOST = "localhost";
     private static final int TO_PORT = 8091;
 
