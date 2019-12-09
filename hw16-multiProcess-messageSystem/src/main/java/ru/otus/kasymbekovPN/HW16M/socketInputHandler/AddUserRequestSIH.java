@@ -83,7 +83,7 @@ public class AddUserRequestSIH implements SocketInputHandler {
 //            int targetPort = from.get("port").getAsInt();
 //            socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
             //<
-            socketHandler.sendM(resp);
+            socketHandler.send(resp);
         }
     }
 }

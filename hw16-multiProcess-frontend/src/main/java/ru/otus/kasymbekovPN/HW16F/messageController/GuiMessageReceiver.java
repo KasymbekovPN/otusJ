@@ -64,7 +64,7 @@ public class GuiMessageReceiver {
         jsonObject.addProperty("type", ReqRespType.AUTH_USER_REQUEST.getValue());
         jsonObject.add("data", data);
 
-        socketHandler.sendF(jsonObject);
+        socketHandler.send(jsonObject);
         //<
 //        JsonObject to = new JsonObject();
 //        to.addProperty("host", TO_HOST);
@@ -92,7 +92,7 @@ public class GuiMessageReceiver {
         jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
         jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
 
-        socketHandler.sendF(jsonObject);
+        socketHandler.send(jsonObject);
         //<
 //        JsonObject jsonObject = new JsonObject();
 //        jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
@@ -110,7 +110,7 @@ public class GuiMessageReceiver {
         jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());
         jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
 
-        socketHandler.sendF(jsonObject);
+        socketHandler.send(jsonObject);
         //<
 //        JsonObject jsonObject = new JsonObject();
 //        jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());

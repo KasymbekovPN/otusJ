@@ -33,6 +33,8 @@ public class SendIAmToMSHandler implements RegistrarHandler {
 
     @Override
     public void handle() {
-        socketHandler.send(message, TO_HOST, TO_PORT, entity.getValue());
+//        socketHandler.send(message, TO_HOST, TO_PORT, entity.getValue());
+        //<
+        socketHandler.send(message);
     }
 }

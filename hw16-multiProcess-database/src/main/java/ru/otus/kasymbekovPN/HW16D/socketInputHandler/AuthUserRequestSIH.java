@@ -86,6 +86,6 @@ public class AuthUserRequestSIH implements SocketInputHandler {
         //< !!! как получать target...
 //        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
         //<
-        socketHandler.sendD(respJson);
+        socketHandler.send(respJson);
     }
 }

@@ -82,14 +82,14 @@ public class IAmRequestSIH implements SocketInputHandler {
         respJsonObject.add("data", data);
         respJsonObject.add("to", from);
 
-        //< replace 
+        //< replace
         respJsonObject.add("from", from);
         //<
 //        respJsonObject.addProperty("url", url);
 
 //        socketHandler.send(respJsonObject, fromHost, fromPort, Entity.MESSAGE_SYSTEM.getValue());
         //<
-        socketHandler.sendM(respJsonObject);
+        socketHandler.send(respJsonObject);
     }
 
     private static void createFrontendMsClient(Args args){

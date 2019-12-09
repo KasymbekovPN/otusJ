@@ -137,94 +137,128 @@ public class SocketHandlerImpl implements SocketHandler {
         }
     }
 
+    //<
+//    @Override
+//    public void sendD(JsonObject jsonObject) {
+//        if (validUrlData)
+//        {
+//            try(Socket clientSocket = new Socket(msHost, msPort)){
+//                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//
+//                jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, Entity.DATABASE));
+//                jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, Entity.FRONTEND));
+//
+//                //<
+//                logger.info("send to server : {}", jsonObject);
+//                //<
+//                out.println(jsonObject);
+//            } catch (Exception ex){
+//                logger.error("error", ex);
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void sendF(JsonObject jsonObject) {
+//        if (validUrlData)
+//        {
+//            try(Socket clientSocket = new Socket(msHost, msPort)){
+//                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//
+//                jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, Entity.FRONTEND));
+//                jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, Entity.DATABASE));
+//
+//                //<
+//                logger.info("send to server : {}", jsonObject);
+//                //<
+//                out.println(jsonObject);
+//            } catch (Exception ex){
+//                logger.error("error", ex);
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void sendM(JsonObject jsonObject) {
+//        if (validUrlData){
+//            //<
+//            System.out.println(jsonObject);
+//            //<
+//            JsonObject to = jsonObject.get("to").getAsJsonObject();
+//            String toHost = to.get("host").getAsString();
+//            int toPort = to.get("port").getAsInt();
+//            //<
+//            System.out.println("toHost : " + toHost + ", toPort : " + toPort);
+//            //<
+//            try(Socket clientSocket = new Socket(toHost, toPort)){
+//                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//                //<
+//                logger.info("send to server : {}", jsonObject);
+//                //<
+//                out.println(jsonObject);
+//            } catch (Exception ex){
+//                logger.error("error", ex);
+//            }
+//        }
+//    }
+//
+//    //< !!! fromEntity - член класса
+//    @Override
+//    public void send(JsonObject jsonObject, String targetHost, int targetPort, String fromEntity) {
+//
+//        if (validUrlData){
+//            try(Socket clientSocket = new Socket(targetHost, targetPort)){
+//                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//
+//                if (!jsonObject.has("from")){
+//                    JsonObject from = new JsonObject();
+//                    from.addProperty("host", this.host);
+//                    from.addProperty("port", this.port);
+//                    from.addProperty("entity", fromEntity);
+//                    jsonObject.add("from", from);
+//                }
+//
+//                //<
+//                logger.info("send to server : {}", jsonObject);
+//                //<
+//
+//                out.println(jsonObject);
+//            } catch (Exception ex){
+//                //<
+//                logger.error("error 111", ex);
+//            }
+//        }
+//    }
+
     @Override
-    public void sendD(JsonObject jsonObject) {
+    public void send(JsonObject jsonObject) {
         if (validUrlData)
         {
-            try(Socket clientSocket = new Socket(msHost, msPort)){
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            //< вынести функционал send в handler класса
+            String toHost = entity.equals(Entity.MESSAGE_SYSTEM)
+                    ? jsonObject.get("to").getAsJsonObject().get("host").getAsString()
+                    : msHost;
+            int toPort = entity.equals(Entity.MESSAGE_SYSTEM)
+                    ? jsonObject.get("to").getAsJsonObject().get("port").getAsInt()
+                    : msPort;
 
-                jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, Entity.DATABASE));
-                jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, Entity.FRONTEND));
-
-                //<
-                logger.info("send to server : {}", jsonObject);
-                //<
-                out.println(jsonObject);
-            } catch (Exception ex){
-                logger.error("error", ex);
-            }
-        }
-    }
-
-    @Override
-    public void sendF(JsonObject jsonObject) {
-        if (validUrlData)
-        {
-            try(Socket clientSocket = new Socket(msHost, msPort)){
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-                jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, Entity.FRONTEND));
-                jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, Entity.DATABASE));
-
-                //<
-                logger.info("send to server : {}", jsonObject);
-                //<
-                out.println(jsonObject);
-            } catch (Exception ex){
-                logger.error("error", ex);
-            }
-        }
-    }
-
-    @Override
-    public void sendM(JsonObject jsonObject) {
-        if (validUrlData){
-            //<
-            System.out.println(jsonObject);
-            //<
-            JsonObject to = jsonObject.get("to").getAsJsonObject();
-            String toHost = to.get("host").getAsString();
-            int toPort = to.get("port").getAsInt();
-            //<
-            System.out.println("toHost : " + toHost + ", toPort : " + toPort);
-            //<
             try(Socket clientSocket = new Socket(toHost, toPort)){
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                //<
-                logger.info("send to server : {}", jsonObject);
-                //<
-                out.println(jsonObject);
-            } catch (Exception ex){
-                logger.error("error", ex);
-            }
-        }
-    }
 
-    //< !!! fromEntity - член класса
-    @Override
-    public void send(JsonObject jsonObject, String targetHost, int targetPort, String fromEntity) {
-
-        if (validUrlData){
-            try(Socket clientSocket = new Socket(targetHost, targetPort)){
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-                if (!jsonObject.has("from")){
-                    JsonObject from = new JsonObject();
-                    from.addProperty("host", this.host);
-                    from.addProperty("port", this.port);
-                    from.addProperty("entity", fromEntity);
-                    jsonObject.add("from", from);
+                //< вынести
+                if (entity.equals(Entity.FRONTEND) || entity.equals(Entity.DATABASE))
+                {
+                    Entity targetEntity = entity.equals(Entity.FRONTEND) ? Entity.DATABASE : Entity.FRONTEND;
+                    jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, entity));
+                    jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, targetEntity));
                 }
 
                 //<
                 logger.info("send to server : {}", jsonObject);
                 //<
-
                 out.println(jsonObject);
             } catch (Exception ex){
-                //<
-                logger.error("error 111", ex);
+                logger.error("error", ex);
             }
         }
     }

@@ -34,7 +34,7 @@ public class AddUserReqDBRRHandler implements ReqRespHandler {
 
 //        socketHandler.send(jsonObject, targetHost, targetPort, Entity.UNKNOWN.getValue());
         //<
-        socketHandler.sendM(jsonObject);
+        socketHandler.send(jsonObject);
 
         return Optional.empty();
     }

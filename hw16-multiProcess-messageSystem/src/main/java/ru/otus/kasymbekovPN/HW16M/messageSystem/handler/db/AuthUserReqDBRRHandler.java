@@ -33,7 +33,7 @@ public class AuthUserReqDBRRHandler implements ReqRespHandler {
 //        int targetPort = to.get("port").getAsInt();
 //        socketHandler.send(jsonObject, targetHost, targetPort, Entity.UNKNOWN.getValue());
         //<
-        socketHandler.sendM(jsonObject);
+        socketHandler.send(jsonObject);
 
         return Optional.empty();
     }
