@@ -1,12 +1,12 @@
 package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
 
 import com.google.gson.JsonObject;
+import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
-import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
@@ -27,19 +27,24 @@ public class AuthUserResponseSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("AuthUserResponseSIH : {}", jsonObject);
 
-        JsonObject data = jsonObject.get("data").getAsJsonObject();
+//        JsonObject data = jsonObject.get("data").getAsJsonObject();
+        //<
 
-        JsonObject from = jsonObject.get("from").getAsJsonObject();
-        String fromHost = from.get("host").getAsString();
-        String fromEntity = Entity.check(Entity.check(from.get("entity").getAsString()));
-        int fromPort = from.get("port").getAsInt();
-        String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
+//        JsonObject from = jsonObject.get("from").getAsJsonObject();
+//        String fromHost = from.get("host").getAsString();
+//        String fromEntity = Entity.check(Entity.check(from.get("entity").getAsString()));
+//        int fromPort = from.get("port").getAsInt();
+//        String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
+        //<
+        String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
 
-        JsonObject to = jsonObject.get("to").getAsJsonObject();
-        String toHost = to.get("host").getAsString();
-        String toEntity = Entity.check(to.get("entity").getAsString());
-        int toPort = to.get("port").getAsInt();
-        String toUrl = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
+//        JsonObject to = jsonObject.get("to").getAsJsonObject();
+//        String toHost = to.get("host").getAsString();
+//        String toEntity = Entity.check(to.get("entity").getAsString());
+//        int toPort = to.get("port").getAsInt();
+//        String toUrl = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
+        //<
+        String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
 
         //<
         logger.info("AuthUserResponseSIH fromUrl : {}", fromUrl);

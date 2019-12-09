@@ -124,6 +124,7 @@ public class SocketHandlerImpl implements SocketHandler {
 //            JsonCheckerImplOld checker = new JsonCheckerImplOld(in.readLine(), handlers.keySet());
 //            handlers.get(checker.getType()).handle(checker.getJsonObject());
             //<
+
             jsonChecker.setJsonObject(
                     (JsonObject) new JsonParser().parse(in.readLine()),
                     handlers.keySet()
@@ -137,6 +138,26 @@ public class SocketHandlerImpl implements SocketHandler {
     }
 
     @Override
+    public void sendD(JsonObject jsonObject) {
+        if (validUrlData)
+        {
+            try(Socket clientSocket = new Socket(msHost, msPort)){
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+
+                jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, Entity.DATABASE));
+                jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, Entity.FRONTEND));
+
+                //<
+                logger.info("send to server : {}", jsonObject);
+                //<
+                out.println(jsonObject);
+            } catch (Exception ex){
+                logger.error("error", ex);
+            }
+        }
+    }
+
+    @Override
     public void sendF(JsonObject jsonObject) {
         if (validUrlData)
         {
@@ -146,6 +167,30 @@ public class SocketHandlerImpl implements SocketHandler {
                 jsonObject.add("from", JsonHelper.makeUrl(selfHost, selfPort, Entity.FRONTEND));
                 jsonObject.add("to", JsonHelper.makeUrl(targetHost, targetPort, Entity.DATABASE));
 
+                //<
+                logger.info("send to server : {}", jsonObject);
+                //<
+                out.println(jsonObject);
+            } catch (Exception ex){
+                logger.error("error", ex);
+            }
+        }
+    }
+
+    @Override
+    public void sendM(JsonObject jsonObject) {
+        if (validUrlData){
+            //<
+            System.out.println(jsonObject);
+            //<
+            JsonObject to = jsonObject.get("to").getAsJsonObject();
+            String toHost = to.get("host").getAsString();
+            int toPort = to.get("port").getAsInt();
+            //<
+            System.out.println("toHost : " + toHost + ", toPort : " + toPort);
+            //<
+            try(Socket clientSocket = new Socket(toHost, toPort)){
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                 //<
                 logger.info("send to server : {}", jsonObject);
                 //<

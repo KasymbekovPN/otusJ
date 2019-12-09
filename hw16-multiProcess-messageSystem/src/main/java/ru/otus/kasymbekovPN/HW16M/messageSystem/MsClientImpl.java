@@ -60,7 +60,7 @@ public class MsClientImpl implements MsClient{
             if (handler != null){
                 handler.handle(message).ifPresent(this::sendMessage);
             } else {
-                logger.error("Handler not found for the message type : {}", message.getType());
+                logger.error("Handler not found for the message type : {}; url : {}", message.getType(), url);
             }
         } catch(Exception ex){
             logger.error("Message : {}, {}", message, ex);

@@ -9,7 +9,6 @@ import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16D.db.api.service.DBServiceOnlineUser;
-import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
@@ -59,17 +58,21 @@ public class DelUserRequestSIH implements SocketInputHandler {
             );
         }
 
-        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
-        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
+//        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
+//        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
         JsonObject respData = JsonHelper.makeData(login, status, jsonUsers);
 
         JsonObject respJson = new JsonObject();
         respJson.addProperty("type", ReqRespType.DEL_USER_RESPONSE.getValue());
-        respJson.add("to", respTo);
-        respJson.add("from", respFrom);
+        //<
+//        respJson.add("to", respTo);
+//        respJson.add("from", respFrom);
+        //<
         respJson.add("data", respData);
 
         //< !!! как получать target...
-        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
+//        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
+        //<
+        socketHandler.sendD(respJson);
     }
 }

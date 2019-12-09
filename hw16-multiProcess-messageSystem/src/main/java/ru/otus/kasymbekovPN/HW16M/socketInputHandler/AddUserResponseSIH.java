@@ -27,7 +27,8 @@ public class AddUserResponseSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("AddUserResponseSIH : {}", jsonObject);
 
-        JsonObject data = jsonObject.get("data").getAsJsonObject();
+//        JsonObject data = jsonObject.get("data").getAsJsonObject();
+        //<
 
 //            JsonObject from = jsonObject.get("from").getAsJsonObject();
 //            String fromHost = from.get("host").getAsString();

@@ -1,6 +1,7 @@
 package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
 
 import com.google.gson.JsonObject;
+import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
@@ -52,12 +53,16 @@ public class IAmRequestSIH implements SocketInputHandler {
 //        String entity = Entity.check(jsonObject.get("entity").getAsString());
         //<
 
+//        JsonObject from = jsonObject.get("from").getAsJsonObject();
+//        String fromHost = from.get("host").getAsString();
+//        int fromPort = from.get("port").getAsInt();
+//        String entity = Entity.check(from.get("entity").getAsString());
+//
+//        String url = fromHost + ":" + String.valueOf(fromPort) + "/" + entity;
+        //<
         JsonObject from = jsonObject.get("from").getAsJsonObject();
-        String fromHost = from.get("host").getAsString();
-        int fromPort = from.get("port").getAsInt();
-        String entity = Entity.check(from.get("entity").getAsString());
-
-        String url = fromHost + ":" + String.valueOf(fromPort) + "/" + entity;
+        String url = JsonHelper.extractUrl(from);
+        String entity = from.get("entity").getAsString();
 
         String status;
         MsClient client = messageSystem.getClient(url);
@@ -75,10 +80,16 @@ public class IAmRequestSIH implements SocketInputHandler {
         JsonObject respJsonObject = new JsonObject();
         respJsonObject.addProperty("type", ReqRespType.I_AM_RESPONSE.getValue());
         respJsonObject.add("data", data);
+        respJsonObject.add("to", from);
+
+        //< replace 
+        respJsonObject.add("from", from);
         //<
 //        respJsonObject.addProperty("url", url);
 
-        socketHandler.send(respJsonObject, fromHost, fromPort, Entity.MESSAGE_SYSTEM.getValue());
+//        socketHandler.send(respJsonObject, fromHost, fromPort, Entity.MESSAGE_SYSTEM.getValue());
+        //<
+        socketHandler.sendM(respJsonObject);
     }
 
     private static void createFrontendMsClient(Args args){

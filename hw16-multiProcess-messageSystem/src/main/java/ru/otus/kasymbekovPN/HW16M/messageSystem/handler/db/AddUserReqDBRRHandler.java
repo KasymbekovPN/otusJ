@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.ReqRespHandler;
-import sockets.Entity;
 import sockets.SocketHandler;
 
 import java.util.Optional;
@@ -29,11 +28,13 @@ public class AddUserReqDBRRHandler implements ReqRespHandler {
         String line = Serializers.deserialize(message.getPayload(), String.class);
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(line);
 
-        JsonObject to = jsonObject.get("to").getAsJsonObject();
-        String targetHost = to.get("host").getAsString();
-        int targetPort = to.get("port").getAsInt();
+//        JsonObject to = jsonObject.get("to").getAsJsonObject();
+//        String targetHost = to.get("host").getAsString();
+//        int targetPort = to.get("port").getAsInt();
 
-        socketHandler.send(jsonObject, targetHost, targetPort, Entity.UNKNOWN.getValue());
+//        socketHandler.send(jsonObject, targetHost, targetPort, Entity.UNKNOWN.getValue());
+        //<
+        socketHandler.sendM(jsonObject);
 
         return Optional.empty();
     }

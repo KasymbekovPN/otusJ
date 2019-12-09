@@ -2,12 +2,12 @@ package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
-import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
@@ -28,19 +28,24 @@ public class AuthUserRequestSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("AuthUserRequestSIH : " + jsonObject);
 
-        JsonObject data = jsonObject.get("data").getAsJsonObject();
+        //<
+//        JsonObject data = jsonObject.get("data").getAsJsonObject();
 
-        JsonObject from = jsonObject.get("from").getAsJsonObject();
-        String fromHost = from.get("host").getAsString();
-        String fromEntity = Entity.check(from.get("entity").getAsString());
-        int fromPort = from.get("port").getAsInt();
-        String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
+//        JsonObject from = jsonObject.get("from").getAsJsonObject();
+//        String fromHost = from.get("host").getAsString();
+//        String fromEntity = Entity.check(from.get("entity").getAsString());
+//        int fromPort = from.get("port").getAsInt();
+//        String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
+        //<
+        String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
 
-        JsonObject to = jsonObject.get("to").getAsJsonObject();
-        String toHost = to.get("host").getAsString();
-        String toEntity = Entity.check(to.get("entity").getAsString());
-        int toPort = to.get("port").getAsInt();
-        String toUrl = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
+//        JsonObject to = jsonObject.get("to").getAsJsonObject();
+//        String toHost = to.get("host").getAsString();
+//        String toEntity = Entity.check(to.get("entity").getAsString());
+//        int toPort = to.get("port").getAsInt();
+//        String toUrl = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
+        //<
+        String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
 
         //<
         logger.info("fromUrl : {}", fromUrl);
@@ -64,16 +69,25 @@ public class AuthUserRequestSIH implements SocketInputHandler {
             fromClient.sendMessage(message);
         } else {
             JsonArray users = new JsonArray();
+            JsonObject data = jsonObject.get("data").getAsJsonObject();
             data.addProperty("status", status);
             data.add("users", users);
+
+            JsonObject from = jsonObject.get("from").getAsJsonObject();
 
             JsonObject resp = new JsonObject();
             resp.addProperty("type", ReqRespType.AUTH_USER_RESPONSE.getValue());
             resp.add("data", data);
+            resp.add("to", from);
 
-            String targetHost = from.get("host").getAsString();
-            int targetPort = from.get("port").getAsInt();
-            socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
+            //< change
+            resp.add("from", from);
+
+//            String targetHost = from.get("host").getAsString();
+//            int targetPort = from.get("port").getAsInt();
+//            socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
+            //<
+            socketHandler.sendM(resp);
         }
     }
 }

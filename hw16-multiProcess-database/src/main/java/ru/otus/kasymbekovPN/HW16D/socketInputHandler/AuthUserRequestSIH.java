@@ -8,7 +8,6 @@ import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16D.db.api.service.DBServiceOnlineUser;
-import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
@@ -67,8 +66,9 @@ public class AuthUserRequestSIH implements SocketInputHandler {
         }
         logger.info("AuthUserRequestSIH : {}", status);
 
-        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
-        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
+//        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
+//        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
+        //<
         JsonObject respData = new JsonObject();
         respData.addProperty("login", login);
         respData.addProperty("password", password);
@@ -77,11 +77,15 @@ public class AuthUserRequestSIH implements SocketInputHandler {
 
         JsonObject respJson = new JsonObject();
         respJson.addProperty("type", ReqRespType.AUTH_USER_RESPONSE.getValue());
-        respJson.add("to", respTo);
-        respJson.add("from", respFrom);
+        //<
+//        respJson.add("to", respTo);
+//        respJson.add("from", respFrom);
+        //<
         respJson.add("data", respData);
 
         //< !!! как получать target...
-        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
+//        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
+        //<
+        socketHandler.sendD(respJson);
     }
 }
