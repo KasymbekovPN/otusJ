@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16F.socketHandler;
+package ru.otus.kasymbekovPN.HW16F.socket.inputHandler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -14,19 +14,19 @@ import sockets.SocketInputHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddUserRespSIHandler implements SocketInputHandler {
+public class AuthUserResponseSIH implements SocketInputHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AddUserRespSIHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthUserResponseSIH.class);
 
     private GuiMessageTransmitter guiMessageTransmitter;
 
-    public AddUserRespSIHandler(GuiMessageTransmitter guiMessageTransmitter) {
+    public AuthUserResponseSIH(GuiMessageTransmitter guiMessageTransmitter) {
         this.guiMessageTransmitter = guiMessageTransmitter;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.info("AddUserRespSIHandler : {}", jsonObject);
+        logger.info("AuthUserResponseSIH : {}", jsonObject);
 
         JsonObject data = jsonObject.get("data").getAsJsonObject();
         String status = data.get("status").getAsString();
@@ -44,16 +44,6 @@ public class AddUserRespSIHandler implements SocketInputHandler {
         onlineUserPackage.setStatus(status);
         onlineUserPackage.setUsers(users);
 
-        guiMessageTransmitter.handleAddUserResponse(onlineUserPackage);
-        //<
-//        AddUserRespSIHandler :
-//        {"type":"addUserResponse",
-//        "to":{"host":"localhost","port":8081,"entity":"frontend"},
-//        "from":{"host":"localhost","port":8101,"entity":"database"},
-//        "data":{
-//        "login":"user1",
-//        "password":"user1pass",
-//        "status":"User 'user1' was create.",
-//        "users":[{"id":1,"login":"admin","password":"qwerty","admin":true},{"id":2,"login":"user1","password":"user1pass","admin":false}]}}
+        guiMessageTransmitter.handleAuthUserResponse(onlineUserPackage);
     }
 }

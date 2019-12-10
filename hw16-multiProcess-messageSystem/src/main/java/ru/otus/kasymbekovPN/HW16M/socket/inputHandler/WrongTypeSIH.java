@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16D.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16M.socket.inputHandler;
 
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
@@ -9,11 +9,8 @@ public class WrongTypeSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(WrongTypeSIH.class);
 
-    public WrongTypeSIH() {
-    }
-
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.warn("WrongTypeSIH : {}", jsonObject);
+        logger.info("WrongTypeSIH : {}", jsonObject);
     }
 }

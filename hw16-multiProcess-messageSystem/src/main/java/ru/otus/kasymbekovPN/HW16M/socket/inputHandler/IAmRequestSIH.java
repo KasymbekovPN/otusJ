@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16M.socket.inputHandler;
 
 import com.google.gson.JsonObject;
 import json.JsonHelper;
@@ -7,16 +7,6 @@ import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientImpl;
-//<
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AddUserReqDBRRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AuthUserReqDBRRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.DelUserReqDBRRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.WrongTypeDBRRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AddUserRespFERRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AuthUserRespFERRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.DelUserRespFERRHandler;
-//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.WrongTypeFERRHandler;
-//<
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.CommonMSMessageHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.WrongMSMessageHandler;
 import sockets.Entity;
@@ -54,16 +44,6 @@ public class IAmRequestSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("IAmRequestSIH : {}", jsonObject);
 
-//        String entity = Entity.check(jsonObject.get("entity").getAsString());
-        //<
-
-//        JsonObject from = jsonObject.get("from").getAsJsonObject();
-//        String fromHost = from.get("host").getAsString();
-//        int fromPort = from.get("port").getAsInt();
-//        String entity = Entity.check(from.get("entity").getAsString());
-//
-//        String url = fromHost + ":" + String.valueOf(fromPort) + "/" + entity;
-        //<
         JsonObject from = jsonObject.get("from").getAsJsonObject();
         String url = JsonHelper.extractUrl(from);
         String entity = from.get("entity").getAsString();
@@ -88,22 +68,13 @@ public class IAmRequestSIH implements SocketInputHandler {
 
         //< replace
         respJsonObject.add("from", from);
-        //<
-//        respJsonObject.addProperty("url", url);
 
-//        socketHandler.send(respJsonObject, fromHost, fromPort, Entity.MESSAGE_SYSTEM.getValue());
-        //<
         socketHandler.send(respJsonObject);
     }
 
     private static void createFrontendMsClient(Args args){
         MsClientImpl msClient = MsClientImpl.newInstance(args.url, args.ms);
 
-//        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeFERRHandler());
-//        msClient.addHandler(ReqRespType.AUTH_USER_RESPONSE, new AuthUserRespFERRHandler(args.socketHandler));
-//        msClient.addHandler(ReqRespType.ADD_USER_RESPONSE, new AddUserRespFERRHandler(args.socketHandler));
-//        msClient.addHandler(ReqRespType.DEL_USER_RESPONSE, new DelUserRespFERRHandler(args.socketHandler));
-        //<
         msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongMSMessageHandler());
         msClient.addHandler(ReqRespType.AUTH_USER_RESPONSE, new CommonMSMessageHandler(args.socketHandler));
         msClient.addHandler(ReqRespType.ADD_USER_RESPONSE, new CommonMSMessageHandler(args.socketHandler));
@@ -116,11 +87,7 @@ public class IAmRequestSIH implements SocketInputHandler {
 
     private static void createDatabaseMsClient(Args args){
         MsClientImpl msClient = MsClientImpl.newInstance(args.url, args.ms);
-//        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeDBRRHandler());
-//        msClient.addHandler(ReqRespType.AUTH_USER_REQUEST, new AuthUserReqDBRRHandler(args.socketHandler));
-//        msClient.addHandler(ReqRespType.ADD_USER_REQUEST, new AddUserReqDBRRHandler(args.socketHandler));
-//        msClient.addHandler(ReqRespType.DEL_USER_REQUEST, new DelUserReqDBRRHandler(args.socketHandler));
-        //<
+
         msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongMSMessageHandler());
         msClient.addHandler(ReqRespType.AUTH_USER_REQUEST, new CommonMSMessageHandler(args.socketHandler));
         msClient.addHandler(ReqRespType.ADD_USER_REQUEST, new CommonMSMessageHandler(args.socketHandler));

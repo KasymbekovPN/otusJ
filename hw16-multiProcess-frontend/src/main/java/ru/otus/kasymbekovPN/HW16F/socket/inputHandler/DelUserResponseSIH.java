@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16F.socketHandler;
+package ru.otus.kasymbekovPN.HW16F.socket.inputHandler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -14,19 +14,19 @@ import sockets.SocketInputHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DelUserRespSIHandler implements SocketInputHandler {
+public class DelUserResponseSIH implements SocketInputHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(DelUserRespSIHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(DelUserResponseSIH.class);
 
     private GuiMessageTransmitter guiMessageTransmitter;
 
-    public DelUserRespSIHandler(GuiMessageTransmitter guiMessageTransmitter) {
+    public DelUserResponseSIH(GuiMessageTransmitter guiMessageTransmitter) {
         this.guiMessageTransmitter = guiMessageTransmitter;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.info("DelUserRespSIHandler : {}", jsonObject);
+        logger.info("DelUserResponseSIH : {}", jsonObject);
 
         JsonObject data = jsonObject.get("data").getAsJsonObject();
         String status = data.get("status").getAsString();

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.otus.kasymbekovPN.HW16D.socketInputHandler.IAmResponseSIH;
+import ru.otus.kasymbekovPN.HW16D.socket.inputHandler.IAmResponseSIH;
 import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
@@ -24,7 +24,6 @@ public class RegistrarConfig {
 
     @Bean
     public Registrar registrar(){
-        logger.info("create registrar");
 
         RegistrarHandler registrarHandler = new SendIAmToMSHandler(socketHandler, Entity.DATABASE);
         Registrar registrar = new RegistrarImpl(registrarHandler);

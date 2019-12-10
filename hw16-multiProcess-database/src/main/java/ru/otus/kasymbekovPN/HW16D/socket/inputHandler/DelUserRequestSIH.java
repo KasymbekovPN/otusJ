@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16D.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16D.socket.inputHandler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -15,42 +15,39 @@ import sockets.SocketInputHandler;
 
 import java.util.List;
 
-public class AddUserRequestSIH implements SocketInputHandler {
+public class DelUserRequestSIH implements SocketInputHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AddUserRequestSIH.class);
+    private static final Logger logger = LoggerFactory.getLogger(DelUserRequestSIH.class);
 
     private final DBServiceOnlineUser dbService;
     private final SocketHandler socketHandler;
 
-    public AddUserRequestSIH(DBServiceOnlineUser dbService, SocketHandler socketHandler) {
+    public DelUserRequestSIH(DBServiceOnlineUser dbService, SocketHandler socketHandler) {
         this.dbService = dbService;
         this.socketHandler = socketHandler;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.info("AddUserRequestSIH : {}", jsonObject);
+        logger.info("DelUserRequestSIH : {}", jsonObject);
 
         JsonArray jsonUsers = new JsonArray();
         JsonObject data = jsonObject.get("data").getAsJsonObject();
         String login = data.get("login").getAsString().trim();
-        String password = data.get("password") .getAsString().trim();
         String status = "";
 
-        if (!login.equals("") && !password.equals("")){
+        if (!login.equals("")){
             List<OnlineUser> onlineUsers = dbService.loadRecord(login);
-            if (onlineUsers.size() == 0){
-                dbService.createRecord(
-                        new OnlineUser(0, login, password, false)
-                );
-                status = "User '" + login + "' was create.";
+            if (onlineUsers.size() != 0){
+                dbService.deleteRecord(login);
+                status = "User '" + login + "' was delete.";
             } else {
-                status = "User '" + login + "' already exists.";
+                status = "User '" + login + "' doesn't exist.";
             }
         } else {
-            status = "Login or/and password is empty.";
+            status = "Login is empty.";
         }
-        logger.info("AddUserRequestSIH : {}", status);
+        logger.info("DelUserRequestSIH : {}", status);
 
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -63,11 +60,10 @@ public class AddUserRequestSIH implements SocketInputHandler {
 
 //        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
 //        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
-        //<
-        JsonObject respData = JsonHelper.makeData(login, password, status, jsonUsers);
+        JsonObject respData = JsonHelper.makeData(login, status, jsonUsers);
 
         JsonObject respJson = new JsonObject();
-        respJson.addProperty("type", ReqRespType.ADD_USER_RESPONSE.getValue());
+        respJson.addProperty("type", ReqRespType.DEL_USER_RESPONSE.getValue());
         //<
 //        respJson.add("to", respTo);
 //        respJson.add("from", respFrom);

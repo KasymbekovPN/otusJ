@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16F.messageController.GuiMessageTransmitter;
-import ru.otus.kasymbekovPN.HW16F.socketHandler.AddUserRespSIHandler;
-import ru.otus.kasymbekovPN.HW16F.socketHandler.AuthUserRespSIHandler;
-import ru.otus.kasymbekovPN.HW16F.socketHandler.DelUserRespSIHandler;
-import ru.otus.kasymbekovPN.HW16F.socketHandler.WrongRespSIHandler;
+import ru.otus.kasymbekovPN.HW16F.socket.inputHandler.AddUserResponseSIH;
+import ru.otus.kasymbekovPN.HW16F.socket.inputHandler.AuthUserResponseSIH;
+import ru.otus.kasymbekovPN.HW16F.socket.inputHandler.DelUserResponseSIH;
+import ru.otus.kasymbekovPN.HW16F.socket.inputHandler.WrongResponseSIH;
+import ru.otus.kasymbekovPN.HW16F.socket.sendingHandler.FESocketSendingHandler;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketHandlerImpl;
@@ -21,17 +22,11 @@ public class SocketHandlerConfig {
 
     @Bean
     public SocketHandler socketHandler(){
-
-        //<
-        System.out.println("----------GuiMessageControllerSocketHandler-------------");
-
-        //< !!! replace port value
-        SocketHandler socketHandler = SocketHandlerImpl.newInstance("localhost", 8081, new JsonCheckerImpl());
-        //< ??
-        socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserRespSIHandler(guiMessageTransmitter));
-        socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserRespSIHandler(guiMessageTransmitter));
-        socketHandler.addHandler(ReqRespType.DEL_USER_RESPONSE.getValue(), new DelUserRespSIHandler(guiMessageTransmitter));
-        socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongRespSIHandler());
+        SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new FESocketSendingHandler());
+        socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserResponseSIH(guiMessageTransmitter));
+        socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserResponseSIH(guiMessageTransmitter));
+        socketHandler.addHandler(ReqRespType.DEL_USER_RESPONSE.getValue(), new DelUserResponseSIH(guiMessageTransmitter));
+        socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongResponseSIH());
 
         return socketHandler;
     }

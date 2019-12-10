@@ -1,5 +1,5 @@
 package sockets;
 
 public interface SocketHandlerArgApplier {
-    void setArgs(String... args) throws Exception;
+    void init(String... args) throws Exception;
 }

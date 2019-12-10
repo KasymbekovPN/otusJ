@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16M.socket.inputHandler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -28,28 +28,8 @@ public class AddUserRequestSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("AddUserRequestSIH : {}", jsonObject);
 
-//        JsonObject data = jsonObject.get("data").getAsJsonObject();
-//        JsonObject from = jsonObject.get("from").getAsJsonObject();
-        //<
         String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
-        //<
-//        String fromHost = from.get("host").getAsString();
-//        String fromEntity = Entity.check(from.get("entity").getAsString());
-//        int fromPort = from.get("port").getAsInt();
-//        String fromUrl = fromHost + ":" + String.valueOf(fromPort) + "/" + fromEntity;
-
         String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
-        //<
-//        JsonObject to = jsonObject.get("to").getAsJsonObject();
-//        String toHost = to.get("host").getAsString();
-//        String toEntity = Entity.check(to.get("entity").getAsString());
-//        int toPort = to.get("port").getAsInt();
-//        String toUrl = toHost + ":" + String.valueOf(toPort) + "/" + toEntity;
-
-        //<
-        logger.info("fromUrl : {}", fromUrl);
-        logger.info("toUrl : {}", toUrl);
-        //<
 
         String status = "";
         MsClient fromClient = messageSystem.getClient(fromUrl);
@@ -79,10 +59,6 @@ public class AddUserRequestSIH implements SocketInputHandler {
             resp.add("data", data);
             resp.add("to", to);
 
-//            String targetHost = from.get("host").getAsString();
-//            int targetPort = from.get("port").getAsInt();
-//            socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
-            //<
             socketHandler.send(resp);
         }
     }

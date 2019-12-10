@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16M.socket.inputHandler;
 
 import com.google.gson.JsonObject;
 import json.JsonHelper;
@@ -11,39 +11,35 @@ import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
-public class DelUserResponseSIH implements SocketInputHandler {
+public class AuthUserResponseSIH implements SocketInputHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(DelUserResponseSIH.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthUserResponseSIH.class);
 
     private final MessageSystem messageSystem;
     private final SocketHandler socketHandler;
 
-    public DelUserResponseSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
+    public AuthUserResponseSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
         this.messageSystem = messageSystem;
         this.socketHandler = socketHandler;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.info("DelUserResponseSIH : {}", jsonObject);
+        logger.info("AuthUserResponseSIH : {}", jsonObject);
 
         String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
         String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
-
-        //<
-        logger.info("DelUserResponseSIH fromUrl : {}", fromUrl);
-        logger.info("DelUserResponseSIH toUrl : {}", toUrl);
-        //<
 
         MsClient fromClient = messageSystem.getClient(fromUrl);
         MsClient toClient = messageSystem.getClient(toUrl);
 
         if (fromClient != null && toClient != null) {
             String str = jsonObject.toString();
-            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.DEL_USER_RESPONSE);
+            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.AUTH_USER_RESPONSE);
             fromClient.sendMessage(message);
-        }  else {
-            logger.error("DelUserResponseSIH : client not found.");
+        }
+        else {
+            logger.error("AuthUserResponseSIH : client not found.");
         }
     }
 }

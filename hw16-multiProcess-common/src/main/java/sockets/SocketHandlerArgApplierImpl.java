@@ -19,7 +19,7 @@ public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
     }
 
     @Override
-    public void setArgs(String... args) throws Exception {
+    public void init(String... args) throws Exception {
 
         List<String> hosts = new ArrayList<>();
         List<Integer> ports = new ArrayList<>();
@@ -53,7 +53,7 @@ public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
         }
 
         if (msg.equals("")){
-            socketHandler.setArgs(entity, hosts, ports);
+            socketHandler.init(entity, hosts, ports);
         } else {
             throw new Exception(msg);
         }

@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16M.socket.inputHandler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -12,32 +12,24 @@ import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
-public class DelUserRequestSIH implements SocketInputHandler {
+public class AuthUserRequestSIH implements SocketInputHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(DelUserRequestSIH.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthUserRequestSIH.class);
 
     private final MessageSystem messageSystem;
     private final SocketHandler socketHandler;
 
-    public DelUserRequestSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
+    public AuthUserRequestSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
         this.messageSystem = messageSystem;
         this.socketHandler = socketHandler;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.info("DelUserRequestSIH : {}", jsonObject);
+        logger.info("AuthUserRequestSIH : " + jsonObject);
 
-//        JsonObject data = jsonObject.get("data").getAsJsonObject();
-        //<
-//        JsonObject from = jsonObject.get("from").getAsJsonObject();
-//        String fromUrl = JsonHelper.extractUrl(from);
         String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
         String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
-        //<
-        logger.info("AuthUserResponseSIH fromUrl : {}", fromUrl);
-        logger.info("AuthUserResponseSIH toUrl : {}", toUrl);
-        //<
 
         String status = "";
         MsClient fromClient = messageSystem.getClient(fromUrl);
@@ -52,7 +44,7 @@ public class DelUserRequestSIH implements SocketInputHandler {
 
         if (status.equals("")){
             String str = jsonObject.toString();
-            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.DEL_USER_REQUEST);
+            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.AUTH_USER_REQUEST);
             fromClient.sendMessage(message);
         } else {
             JsonArray users = new JsonArray();
@@ -60,17 +52,16 @@ public class DelUserRequestSIH implements SocketInputHandler {
             data.addProperty("status", status);
             data.add("users", users);
 
-            JsonObject to = jsonObject.get("from").getAsJsonObject();
+            JsonObject from = jsonObject.get("from").getAsJsonObject();
 
             JsonObject resp = new JsonObject();
-            resp.addProperty("type", ReqRespType.DEL_USER_RESPONSE.getValue());
+            resp.addProperty("type", ReqRespType.AUTH_USER_RESPONSE.getValue());
             resp.add("data", data);
-            resp.add("to", to);
+            resp.add("to", from);
 
-//            String targetHost = from.get("host").getAsString();
-//            int targetPort = from.get("port").getAsInt();
-//            socketHandler.send(resp, targetHost, targetPort, Entity.MESSAGE_SYSTEM.getValue());
-            //<
+            //< change
+            resp.add("from", from);
+
             socketHandler.send(resp);
         }
     }

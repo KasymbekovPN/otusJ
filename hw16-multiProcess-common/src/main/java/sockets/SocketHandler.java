@@ -12,5 +12,5 @@ public interface SocketHandler {
     //<
     void send(JsonObject jsonObject);
     void addHandler(String name, SocketInputHandler handler);
-    void setArgs(Entity entity, List<String> hosts, List<Integer> ports);
+    void init(Entity entity, List<String> hosts, List<Integer> ports);
 }

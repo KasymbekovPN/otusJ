@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.otus.kasymbekovPN.HW16F.socketHandler.IAmRespSIHandler;
+import ru.otus.kasymbekovPN.HW16F.socket.inputHandler.IAmResponseSIH;
 import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
@@ -31,7 +31,7 @@ public class RegistrarConfig {
         //< ??? replace 'frontend'
         RegistrarHandler registrarHandler = new SendIAmToMSHandler(socketHandler, Entity.FRONTEND);
         RegistrarImpl registrar = new RegistrarImpl(registrarHandler);
-        socketHandler.addHandler(ReqRespType.I_AM_RESPONSE.getValue(), new IAmRespSIHandler(registrar));
+        socketHandler.addHandler(ReqRespType.I_AM_RESPONSE.getValue(), new IAmResponseSIH(registrar));
 
         return registrar;
     }

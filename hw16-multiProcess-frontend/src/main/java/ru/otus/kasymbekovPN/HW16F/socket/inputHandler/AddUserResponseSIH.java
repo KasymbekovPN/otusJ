@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16F.socketHandler;
+package ru.otus.kasymbekovPN.HW16F.socket.inputHandler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -14,20 +14,19 @@ import sockets.SocketInputHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthUserRespSIHandler implements SocketInputHandler {
+public class AddUserResponseSIH implements SocketInputHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthUserRespSIHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddUserResponseSIH.class);
 
     private GuiMessageTransmitter guiMessageTransmitter;
 
-    public AuthUserRespSIHandler(GuiMessageTransmitter guiMessageTransmitter) {
+    public AddUserResponseSIH(GuiMessageTransmitter guiMessageTransmitter) {
         this.guiMessageTransmitter = guiMessageTransmitter;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
-        logger.info("AuthUserRespSIHandler : {}", jsonObject);
-
+        logger.info("AddUserResponseSIH : {}", jsonObject);
 
         JsonObject data = jsonObject.get("data").getAsJsonObject();
         String status = data.get("status").getAsString();
@@ -39,27 +38,12 @@ public class AuthUserRespSIHandler implements SocketInputHandler {
             users.add(
                     gson.fromJson((JsonObject)element, OnlineUser.class)
             );
-            //<
-//            gson.fromJson((JsonObject)element, OnlineUser.class)
-//            JsonObject jsonUser = (JsonObject) element;
-//            OnlineUser user = new Gson().fromJson(jsonUser, OnlineUser.class);
-
-            //<
-//            logger.info("AuthUserRespSIHandler user : {}", user);
-
-            //<
-//            OnlineUser user = new OnlineUser(
-//                    jsonUser.get("id").getAsLong(),
-//                    jsonUser.get("login").getAsString(),
-//                    jsonUser.get("password").getAsString(),
-//                    jsonUser.get()
-//            );
         }
 
         OnlineUserPackage onlineUserPackage = new OnlineUserPackage();
         onlineUserPackage.setStatus(status);
         onlineUserPackage.setUsers(users);
 
-        guiMessageTransmitter.handleAuthUserResponse(onlineUserPackage);
+        guiMessageTransmitter.handleAddUserResponse(onlineUserPackage);
     }
 }

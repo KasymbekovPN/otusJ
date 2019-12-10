@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
-import ru.otus.kasymbekovPN.HW16M.socketInputHandler.*;
+import ru.otus.kasymbekovPN.HW16M.socket.inputHandler.*;
+import ru.otus.kasymbekovPN.HW16M.socket.sendingHandler.MSSocketSendingHandler;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
 import sockets.SocketHandlerImpl;
@@ -22,11 +23,8 @@ public class SocketHandlerConfig {
 
     @Bean
     public SocketHandler socketHandler(){
-        //<
-        logger.info("--------------MessageSystemSocketHandler---------------------");
-        //<
-        SocketHandlerImpl socketHandler = SocketHandlerImpl.newInstance("localhost", 8091, new JsonCheckerImpl());
 
+        SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new MSSocketSendingHandler());
         socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmRequestSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(messageSystem, socketHandler));
         socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserResponseSIH(messageSystem, socketHandler));
@@ -38,24 +36,4 @@ public class SocketHandlerConfig {
 
         return socketHandler;
     }
-
-    //<
-//        @Bean
-//        public SocketHandler socketHandler(){
-//
-//            //<
-//            System.out.println("----------GuiMessageControllerSocketHandler-------------");
-//
-//            //< !!! replace port value
-//            SocketHandler socketHandler = SocketHandlerImpl.newInstance("localhost", 8081);
-//            //< ???
-//            socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserRespSIHandler(guiMessageTransmitter));
-//            socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserRespSIHandler(guiMessageTransmitter));
-//            socketHandler.addHandler(ReqRespType.DEL_USER_RESPONSE.getValue(), new DelUserRespSIHandler(guiMessageTransmitter));
-//            socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongRespSIHandler());
-//
-//            return socketHandler;
-//        }
-//    }
-
 }

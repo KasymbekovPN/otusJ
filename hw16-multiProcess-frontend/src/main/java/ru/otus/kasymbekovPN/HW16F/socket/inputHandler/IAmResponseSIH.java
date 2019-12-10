@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16D.socketInputHandler;
+package ru.otus.kasymbekovPN.HW16F.socket.inputHandler;
 
 import com.google.gson.JsonObject;
 import introduce.Registrar;

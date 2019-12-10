@@ -18,6 +18,6 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        socketHandlerArgApplier.setArgs(args);
+        socketHandlerArgApplier.init(args);
     }
 }
