@@ -7,14 +7,18 @@ import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientImpl;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AddUserReqDBRRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AuthUserReqDBRRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.DelUserReqDBRRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.WrongTypeDBRRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AddUserRespFERRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AuthUserRespFERRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.DelUserRespFERRHandler;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.WrongTypeFERRHandler;
+//<
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AddUserReqDBRRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.AuthUserReqDBRRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.DelUserReqDBRRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.db.WrongTypeDBRRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AddUserRespFERRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.AuthUserRespFERRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.DelUserRespFERRHandler;
+//import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.frontend.WrongTypeFERRHandler;
+//<
+import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.CommonMSMessageHandler;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.WrongMSMessageHandler;
 import sockets.Entity;
 import sockets.ReqRespType;
 import sockets.SocketHandler;
@@ -94,10 +98,16 @@ public class IAmRequestSIH implements SocketInputHandler {
 
     private static void createFrontendMsClient(Args args){
         MsClientImpl msClient = MsClientImpl.newInstance(args.url, args.ms);
-        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeFERRHandler());
-        msClient.addHandler(ReqRespType.AUTH_USER_RESPONSE, new AuthUserRespFERRHandler(args.socketHandler));
-        msClient.addHandler(ReqRespType.ADD_USER_RESPONSE, new AddUserRespFERRHandler(args.socketHandler));
-        msClient.addHandler(ReqRespType.DEL_USER_RESPONSE, new DelUserRespFERRHandler(args.socketHandler));
+
+//        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeFERRHandler());
+//        msClient.addHandler(ReqRespType.AUTH_USER_RESPONSE, new AuthUserRespFERRHandler(args.socketHandler));
+//        msClient.addHandler(ReqRespType.ADD_USER_RESPONSE, new AddUserRespFERRHandler(args.socketHandler));
+//        msClient.addHandler(ReqRespType.DEL_USER_RESPONSE, new DelUserRespFERRHandler(args.socketHandler));
+        //<
+        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongMSMessageHandler());
+        msClient.addHandler(ReqRespType.AUTH_USER_RESPONSE, new CommonMSMessageHandler(args.socketHandler));
+        msClient.addHandler(ReqRespType.ADD_USER_RESPONSE, new CommonMSMessageHandler(args.socketHandler));
+        msClient.addHandler(ReqRespType.DEL_USER_RESPONSE, new CommonMSMessageHandler(args.socketHandler));
 
         args.ms.addClient(msClient);
 
@@ -106,10 +116,15 @@ public class IAmRequestSIH implements SocketInputHandler {
 
     private static void createDatabaseMsClient(Args args){
         MsClientImpl msClient = MsClientImpl.newInstance(args.url, args.ms);
-        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeDBRRHandler());
-        msClient.addHandler(ReqRespType.AUTH_USER_REQUEST, new AuthUserReqDBRRHandler(args.socketHandler));
-        msClient.addHandler(ReqRespType.ADD_USER_REQUEST, new AddUserReqDBRRHandler(args.socketHandler));
-        msClient.addHandler(ReqRespType.DEL_USER_REQUEST, new DelUserReqDBRRHandler(args.socketHandler));
+//        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongTypeDBRRHandler());
+//        msClient.addHandler(ReqRespType.AUTH_USER_REQUEST, new AuthUserReqDBRRHandler(args.socketHandler));
+//        msClient.addHandler(ReqRespType.ADD_USER_REQUEST, new AddUserReqDBRRHandler(args.socketHandler));
+//        msClient.addHandler(ReqRespType.DEL_USER_REQUEST, new DelUserReqDBRRHandler(args.socketHandler));
+        //<
+        msClient.addHandler(ReqRespType.WRONG_TYPE, new WrongMSMessageHandler());
+        msClient.addHandler(ReqRespType.AUTH_USER_REQUEST, new CommonMSMessageHandler(args.socketHandler));
+        msClient.addHandler(ReqRespType.ADD_USER_REQUEST, new CommonMSMessageHandler(args.socketHandler));
+        msClient.addHandler(ReqRespType.DEL_USER_REQUEST, new CommonMSMessageHandler(args.socketHandler));
 
         args.ms.addClient(msClient);
 

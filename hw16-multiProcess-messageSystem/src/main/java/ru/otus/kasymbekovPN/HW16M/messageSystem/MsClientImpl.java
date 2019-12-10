@@ -20,7 +20,7 @@ public class MsClientImpl implements MsClient{
 
     private final String url;
     private final MessageSystem messageSystem;
-    private final Map<String, ReqRespHandler> handlers = new ConcurrentHashMap<>();
+    private final Map<String, MSMessageHandler> handlers = new ConcurrentHashMap<>();
 
     public static MsClientImpl newInstance(String url, MessageSystem messageSystem){
         if (!usedUrls.contains(url)){
@@ -39,7 +39,7 @@ public class MsClientImpl implements MsClient{
     }
 
     @Override
-    public void addHandler(ReqRespType type, ReqRespHandler handler) {
+    public void addHandler(ReqRespType type, MSMessageHandler handler) {
         handlers.put(type.getValue(), handler);
     }
 
@@ -56,12 +56,19 @@ public class MsClientImpl implements MsClient{
     public void handle(Message message) {
         logger.info("New message : {}", message);
         try{
-            ReqRespHandler handler = handlers.get(message.getType());
+            MSMessageHandler handler = handlers.get(message.getType());
             if (handler != null){
-                handler.handle(message).ifPresent(this::sendMessage);
+                handler.handle(message);
             } else {
                 logger.error("Handler not found for the message type : {}; url : {}", message.getType(), url);
             }
+            //<
+//            ReqRespHandler handler = handlers.get(message.getType());
+//            if (handler != null){
+//                handler.handle(message).ifPresent(this::sendMessage);
+//            } else {
+//                logger.error("Handler not found for the message type : {}; url : {}", message.getType(), url);
+//            }
         } catch(Exception ex){
             logger.error("Message : {}, {}", message, ex);
         }
@@ -74,7 +81,9 @@ public class MsClientImpl implements MsClient{
 
     @Override
     public <T> Message produceMessage(String toUrl, T data, ReqRespType type) {
-        return new Message(url, toUrl, null, type.getValue(), Serializers.serialize(data));
+//        return new Message(url, toUrl, null, type.getValue(), Serializers.serialize(data));
+        //<
+        return new Message(url, toUrl, type.getValue(), Serializers.serialize(data));
     }
     //<
     //    @Override

@@ -2,7 +2,6 @@ package ru.otus.kasymbekovPN.HW16M.messageSystem;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 //< !!! comment !!!
@@ -12,7 +11,10 @@ public class Message {
     private final UUID id = UUID.randomUUID();
     private final String fromUrl;
     private final String toUrl;
-    private final Optional<UUID> sourceMessageId;
+
+    //
+//    private final Optional<UUID> sourceMessageId;
+
     private final String type;
     private final int payloadLength;
     private final byte[] payload;
@@ -33,9 +35,10 @@ public class Message {
         return toUrl;
     }
 
-    public Optional<UUID> getSourceMessageId() {
-        return sourceMessageId;
-    }
+    //<
+//    public Optional<UUID> getSourceMessageId() {
+//        return sourceMessageId;
+//    }
 
     public String getType() {
         return type;
@@ -52,18 +55,24 @@ public class Message {
     public Message() {
         this.fromUrl = null;
         this.toUrl = null;
-        this.sourceMessageId = Optional.empty();
+        //<
+//        this.sourceMessageId = Optional.empty();
+        //<
         this.type = "voidTechnicalMessage";
         this.payload = new byte[1];
         this.payloadLength = this.payload.length;
     }
 
-    public Message(String fromUrl, String toUrl, Optional<UUID> sourceMessageId,
-                   String type, byte[] payload)
+//    public Message(String fromUrl, String toUrl, Optional<UUID> sourceMessageId,
+//                   String type, byte[] payload)
+    //<
+    public Message(String fromUrl, String toUrl, String type, byte[] payload)
     {
         this.fromUrl = fromUrl;
         this.toUrl = toUrl;
-        this.sourceMessageId = sourceMessageId;
+        //<
+//        this.sourceMessageId = sourceMessageId;
+        //<
         this.type = type;
         this.payload = payload;
         this.payloadLength = this.payload.length;
@@ -88,7 +97,6 @@ public class Message {
                 "id=" + id +
                 ", fromUrl='" + fromUrl + '\'' +
                 ", toUrl='" + toUrl + '\'' +
-                ", sourceMessageId=" + sourceMessageId +
                 ", type='" + type + '\'' +
                 ", payloadLength=" + payloadLength +
                 ", payload=" + Arrays.toString(payload) +
