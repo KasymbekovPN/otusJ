@@ -5,23 +5,30 @@ import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientService;
 import sockets.ReqRespType;
-import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
 public class AuthUserResponseSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthUserResponseSIH.class);
 
-    private final MessageSystem messageSystem;
-    private final SocketHandler socketHandler;
+    private final MsClientService msClientService;
+    //<
+//    private final MessageSystem messageSystem;
+//    private final SocketHandler socketHandler;
 
-    public AuthUserResponseSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
-        this.messageSystem = messageSystem;
-        this.socketHandler = socketHandler;
+    public AuthUserResponseSIH(MsClientService msClientService) {
+        this.msClientService = msClientService;
     }
+
+
+    //<
+//    public AuthUserResponseSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
+//        this.messageSystem = messageSystem;
+//        this.socketHandler = socketHandler;
+//    }
 
     @Override
     public void handle(JsonObject jsonObject) {
@@ -30,8 +37,8 @@ public class AuthUserResponseSIH implements SocketInputHandler {
         String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
         String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
 
-        MsClient fromClient = messageSystem.getClient(fromUrl);
-        MsClient toClient = messageSystem.getClient(toUrl);
+        MsClient fromClient = msClientService.get(fromUrl);
+        MsClient toClient = msClientService.get(toUrl);
 
         if (fromClient != null && toClient != null) {
             String str = jsonObject.toString();

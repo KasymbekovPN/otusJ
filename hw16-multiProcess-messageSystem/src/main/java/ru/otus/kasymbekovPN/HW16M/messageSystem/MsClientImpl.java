@@ -5,10 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sockets.ReqRespType;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MsClientImpl implements MsClient{
@@ -16,24 +14,25 @@ public class MsClientImpl implements MsClient{
     private static final Logger logger = LoggerFactory.getLogger(MsClientImpl.class);
 
     //< ??? type ???
-    private static Set<String> usedUrls = new HashSet<>();
+//    private static Set<String> usedUrls = new HashSet<>();
 
     private final String url;
     private final MessageSystem messageSystem;
     private final Map<String, MSMessageHandler> handlers = new ConcurrentHashMap<>();
 
-    public static MsClientImpl newInstance(String url, MessageSystem messageSystem){
-        if (!usedUrls.contains(url)){
-            usedUrls.add(url);
-            return new MsClientImpl(url, messageSystem);
-        } else {
-            logger.warn("Not unique url");
-            //< what return ???
-            return null;
-        }
-    }
+    //<
+//    public static MsClientImpl newInstance(String url, MessageSystem messageSystem){
+//        if (!usedUrls.contains(url)){
+//            usedUrls.add(url);
+//            return new MsClientImpl(url, messageSystem);
+//        } else {
+//            logger.warn("Not unique url");
+//            //< what return ???
+//            return null;
+//        }
+//    }
 
-    private MsClientImpl(String url, MessageSystem messageSystem) {
+    public MsClientImpl(String url, MessageSystem messageSystem) {
         this.url = url;
         this.messageSystem = messageSystem;
     }

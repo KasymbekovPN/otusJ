@@ -112,10 +112,11 @@ public class MessageSystemImpl implements MessageSystem {
         clientMap.put(msClient.getUrl(), msClient);
     }
 
-    @Override
-    public MsClient getClient(String url) {
-        return clientMap.getOrDefault(url, null);
-    }
+    //<
+//    @Override
+//    public MsClient getClient(String url) {
+//        return clientMap.getOrDefault(url, null);
+//    }
 
     @Override
     public synchronized void removeClient(String clientId) {

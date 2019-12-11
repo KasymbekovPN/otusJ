@@ -1,10 +1,15 @@
 package sockets;
 
 public enum Entity {
-    UNKNOWN("unknown"),
-    FRONTEND("frontend"),
-    DATABASE("database"),
-    MESSAGE_SYSTEM("messageSystem");
+    UNKNOWN("UNKNOWN"),
+    FRONTEND("FRONTEND"),
+    DATABASE("DATABASE"),
+    MESSAGE_SYSTEM("MESSAGE_SYSTEM");
+    //<
+//    UNKNOWN("unknown"),
+//    FRONTEND("frontend"),
+//    DATABASE("database"),
+//    MESSAGE_SYSTEM("messageSystem");
 
     private String value;
 
