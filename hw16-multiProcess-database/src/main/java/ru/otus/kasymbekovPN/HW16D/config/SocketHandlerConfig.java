@@ -26,7 +26,6 @@ public class SocketHandlerConfig {
 
     @Bean
     public SocketHandler socketHandler(){
-
         SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new DBSocketSendingHandler());
         socketHandler.addHandler(MessageType.WRONG_TYPE.getValue(), new WrongTypeSIH());
         socketHandler.addHandler(MessageType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(dbService, socketHandler));

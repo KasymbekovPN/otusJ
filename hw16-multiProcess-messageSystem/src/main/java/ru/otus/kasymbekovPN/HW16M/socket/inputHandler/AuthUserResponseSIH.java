@@ -15,20 +15,10 @@ public class AuthUserResponseSIH implements SocketInputHandler {
     private static final Logger logger = LoggerFactory.getLogger(AuthUserResponseSIH.class);
 
     private final MsClientService msClientService;
-    //<
-//    private final MessageSystem messageSystem;
-//    private final SocketHandler socketHandler;
 
     public AuthUserResponseSIH(MsClientService msClientService) {
         this.msClientService = msClientService;
     }
-
-
-    //<
-//    public AuthUserResponseSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
-//        this.messageSystem = messageSystem;
-//        this.socketHandler = socketHandler;
-//    }
 
     @Override
     public void handle(JsonObject jsonObject) {

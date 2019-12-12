@@ -58,21 +58,10 @@ public class DelUserRequestSIH implements SocketInputHandler {
             );
         }
 
-//        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
-//        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
-        JsonObject respData = JsonHelper.makeData(login, status, jsonUsers);
+        JsonObject responseJsonData = new JsonObject();
+        responseJsonData.addProperty("type", MessageType.DEL_USER_RESPONSE.getValue());
+        responseJsonData.add("data", JsonHelper.makeData(login, status, jsonUsers));
 
-        JsonObject respJson = new JsonObject();
-        respJson.addProperty("type", MessageType.DEL_USER_RESPONSE.getValue());
-        //<
-//        respJson.add("to", respTo);
-//        respJson.add("from", respFrom);
-        //<
-        respJson.add("data", respData);
-
-        //< !!! как получать target...
-//        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
-        //<
-        socketHandler.send(respJson);
+        socketHandler.send(responseJsonData);
     }
 }

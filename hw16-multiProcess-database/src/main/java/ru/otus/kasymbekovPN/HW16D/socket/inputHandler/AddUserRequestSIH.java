@@ -61,22 +61,10 @@ public class AddUserRequestSIH implements SocketInputHandler {
             );
         }
 
-//        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
-//        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
-        //<
-        JsonObject respData = JsonHelper.makeData(login, password, status, jsonUsers);
+        JsonObject responseJsonObject = new JsonObject();
+        responseJsonObject.addProperty("type", MessageType.ADD_USER_RESPONSE.getValue());
+        responseJsonObject.add("data", JsonHelper.makeData(login, password, status, jsonUsers));
 
-        JsonObject respJson = new JsonObject();
-        respJson.addProperty("type", MessageType.ADD_USER_RESPONSE.getValue());
-        //<
-//        respJson.add("to", respTo);
-//        respJson.add("from", respFrom);
-        //<
-        respJson.add("data", respData);
-
-        //< !!! как получать target...
-//        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
-        //<
-        socketHandler.send(respJson);
+        socketHandler.send(responseJsonObject);
     }
 }

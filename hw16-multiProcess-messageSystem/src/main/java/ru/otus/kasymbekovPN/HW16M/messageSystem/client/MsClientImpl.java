@@ -16,24 +16,9 @@ public class MsClientImpl implements MsClient {
 
     private static final Logger logger = LoggerFactory.getLogger(MsClientImpl.class);
 
-    //< ??? type ???
-//    private static Set<String> usedUrls = new HashSet<>();
-
     private final String url;
     private final MessageSystem messageSystem;
     private final Map<String, MSMessageHandler> handlers = new ConcurrentHashMap<>();
-
-    //<
-//    public static MsClientImpl newInstance(String url, MessageSystem messageSystem){
-//        if (!usedUrls.contains(url)){
-//            usedUrls.add(url);
-//            return new MsClientImpl(url, messageSystem);
-//        } else {
-//            logger.warn("Not unique url");
-//            //< what return ???
-//            return null;
-//        }
-//    }
 
     public MsClientImpl(String url, MessageSystem messageSystem) {
         this.url = url;
@@ -64,13 +49,6 @@ public class MsClientImpl implements MsClient {
             } else {
                 logger.error("Handler not found for the message type : {}; url : {}", message.getType(), url);
             }
-            //<
-//            ReqRespHandler handler = handlers.get(message.getType());
-//            if (handler != null){
-//                handler.handle(message).ifPresent(this::sendMessage);
-//            } else {
-//                logger.error("Handler not found for the message type : {}; url : {}", message.getType(), url);
-//            }
         } catch(Exception ex){
             logger.error("Message : {}, {}", message, ex);
         }
@@ -83,15 +61,8 @@ public class MsClientImpl implements MsClient {
 
     @Override
     public <T> Message produceMessage(String toUrl, T data, MessageType type) {
-//        return new Message(url, toUrl, null, type.getValue(), Serializers.serialize(data));
-        //<
         return new Message(url, toUrl, type.getValue(), Serializers.serialize(data));
     }
-    //<
-    //    @Override
-//    public <T> Message produceMessage(String fromUrl, T data, ReqRespType type) {
-//        return new Message(fromUrl, url, null, type.getValue(), Serializers.serialize(data));
-//    }
 
     @Override
     public boolean equals(Object o) {

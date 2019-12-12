@@ -24,12 +24,3 @@ public class Main implements CommandLineRunner {
         socketHandlerArgApplier.init(args);
     }
 }
-//<
-//@SpringBootApplication
-//public class Main{
-//    public static void main(String[] args) {
-//        SpringApplication app = new SpringApplication(Main.class);
-//        app.setWebApplicationType(WebApplicationType.NONE);
-//        app.run(args);
-//    }
-//}

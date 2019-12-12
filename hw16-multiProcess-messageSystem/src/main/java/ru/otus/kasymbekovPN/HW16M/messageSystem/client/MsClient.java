@@ -9,7 +9,5 @@ public interface MsClient {
     boolean sendMessage(Message message);
     void handle(Message message);
     String getUrl();
-//    <T> Message produceMessage(String fromUrl, T data, ReqRespType type);
-    //<
     <T> Message produceMessage(String toUrl, T data, MessageType type);
 }

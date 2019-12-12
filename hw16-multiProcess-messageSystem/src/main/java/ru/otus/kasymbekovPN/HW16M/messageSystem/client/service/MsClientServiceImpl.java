@@ -34,15 +34,8 @@ public class MsClientServiceImpl implements MsClientService {
     }
 
     private final Map<String, MsClient> clients = new ConcurrentHashMap<>();
-    //<
-//    private final MessageSystem messageSystem;
 
     private SocketHandler socketHandler;
-
-    //<
-//    public MsClientServiceImpl(MessageSystem messageSystem) {
-//        this.messageSystem = messageSystem;
-//    }
 
     @Override
     public synchronized boolean createClient(String host, int port, Entity entity, MessageSystem messageSystem) {
@@ -51,8 +44,6 @@ public class MsClientServiceImpl implements MsClientService {
             MsClient client = msClientCreators.get(entity).create(url, socketHandler, messageSystem);
             if (client != null){
                 clients.put(url, client);
-                //<
-//                messageSystem.addClient(client);
                 return true;
             } else {
                 return false;

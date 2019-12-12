@@ -4,17 +4,12 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
-//< !!! comment !!!
 public class Message {
     static final Message VOID_MESSAGE = new Message();
 
     private final UUID id = UUID.randomUUID();
     private final String fromUrl;
     private final String toUrl;
-
-    //
-//    private final Optional<UUID> sourceMessageId;
-
     private final String type;
     private final int payloadLength;
     private final byte[] payload;
@@ -35,11 +30,6 @@ public class Message {
         return toUrl;
     }
 
-    //<
-//    public Optional<UUID> getSourceMessageId() {
-//        return sourceMessageId;
-//    }
-
     public String getType() {
         return type;
     }
@@ -55,24 +45,15 @@ public class Message {
     public Message() {
         this.fromUrl = null;
         this.toUrl = null;
-        //<
-//        this.sourceMessageId = Optional.empty();
-        //<
         this.type = "voidTechnicalMessage";
         this.payload = new byte[1];
         this.payloadLength = this.payload.length;
     }
 
-//    public Message(String fromUrl, String toUrl, Optional<UUID> sourceMessageId,
-//                   String type, byte[] payload)
-    //<
     public Message(String fromUrl, String toUrl, String type, byte[] payload)
     {
         this.fromUrl = fromUrl;
         this.toUrl = toUrl;
-        //<
-//        this.sourceMessageId = sourceMessageId;
-        //<
         this.type = type;
         this.payload = payload;
         this.payloadLength = this.payload.length;

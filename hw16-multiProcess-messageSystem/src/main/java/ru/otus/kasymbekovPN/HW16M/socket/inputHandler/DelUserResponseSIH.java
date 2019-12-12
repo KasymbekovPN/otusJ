@@ -20,15 +20,6 @@ public class DelUserResponseSIH implements SocketInputHandler {
         this.msClientService = msClientService;
     }
 
-    //<
-//    private final MessageSystem messageSystem;
-//    private final SocketHandler socketHandler;
-//
-//    public DelUserResponseSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
-//        this.messageSystem = messageSystem;
-//        this.socketHandler = socketHandler;
-//    }
-
     @Override
     public void handle(JsonObject jsonObject) {
         logger.info("DelUserResponseSIH : {}", jsonObject);

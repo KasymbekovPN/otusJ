@@ -21,12 +21,10 @@ public class SocketHandlerConfig {
     private static final Logger logger = LoggerFactory.getLogger(SocketHandlerConfig.class);
 
     private final MessageSystem messageSystem;
-    //<
     private final MsClientService msClientService;
 
     @Bean
     public SocketHandler socketHandler(){
-
         SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new MSSocketSendingHandler());
         socketHandler.addHandler(MessageType.I_AM_REQUEST.getValue(), new IAmRequestSIH(socketHandler, messageSystem, msClientService));
         socketHandler.addHandler(MessageType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(msClientService, socketHandler));
@@ -35,13 +33,6 @@ public class SocketHandlerConfig {
         socketHandler.addHandler(MessageType.ADD_USER_RESPONSE.getValue(), new AddUserResponseSIH(msClientService));
         socketHandler.addHandler(MessageType.DEL_USER_REQUEST.getValue(), new DelUserRequestSIH(msClientService, socketHandler));
         socketHandler.addHandler(MessageType.DEL_USER_RESPONSE.getValue(), new DelUserResponseSIH(msClientService));
-        //<
-//        socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(messageSystem, socketHandler));
-//        socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserResponseSIH(messageSystem, socketHandler));
-//        socketHandler.addHandler(ReqRespType.ADD_USER_REQUEST.getValue(), new AddUserRequestSIH(messageSystem, socketHandler));
-//        socketHandler.addHandler(ReqRespType.ADD_USER_RESPONSE.getValue(), new AddUserResponseSIH(messageSystem, socketHandler));
-//        socketHandler.addHandler(ReqRespType.DEL_USER_REQUEST.getValue(), new DelUserRequestSIH(messageSystem, socketHandler));
-//        socketHandler.addHandler(ReqRespType.DEL_USER_RESPONSE.getValue(), new DelUserResponseSIH(messageSystem, socketHandler));
         socketHandler.addHandler(MessageType.WRONG_TYPE.getValue(), new WrongTypeSIH());
 
         msClientService.setSocketHandler(socketHandler);

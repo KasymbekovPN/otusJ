@@ -23,9 +23,6 @@ public class MsNotifierConfig {
 
     @Bean
     public MsNotifier msNotifier(){
-
-//        RegistrarHandler registrarHandler = new SendIAmToMSHandler(socketHandler, Entity.DATABASE);
-        //<
         MsNotifierHandler msNotifierHandler = new IAmMsNotifierHandler(socketHandler);
         MsNotifier msNotifier = new MsNotifierImpl(msNotifierHandler);
         socketHandler.addHandler(MessageType.I_AM_RESPONSE.getValue(), new IAmResponseSIH(msNotifier));

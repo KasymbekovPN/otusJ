@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import json.JsonHelper;
 import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,17 +71,10 @@ public class AuthUserRequestSIH implements SocketInputHandler {
         }
         logger.info("AuthUserRequestSIH : {}", status);
 
-        JsonObject respData = new JsonObject();
-        respData.addProperty("login", login);
-        respData.addProperty("password", password);
-        respData.addProperty("status", status);
-        respData.add("users", jsonUsers);
+        JsonObject responseJsonObject = new JsonObject();
+        responseJsonObject.addProperty("type", MessageType.AUTH_USER_RESPONSE.getValue());
+        responseJsonObject.add("data", JsonHelper.makeData(login, password, status, jsonUsers));
 
-        JsonObject respJson = new JsonObject();
-        respJson.addProperty("type", MessageType.AUTH_USER_RESPONSE.getValue());
-
-        respJson.add("data", respData);
-
-        socketHandler.send(respJson);
+        socketHandler.send(responseJsonObject);
     }
 }

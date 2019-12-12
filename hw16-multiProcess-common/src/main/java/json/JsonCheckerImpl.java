@@ -29,20 +29,17 @@ public class JsonCheckerImpl implements JsonChecker {
         String content = "";
         String fileName = getClass().getClassLoader().getResource(FILE_NAME).getFile();
 
-        //<
-//        logger.info("file name : {}", fileName);
-
         if (fileName != null){
             File file = new File(fileName);
             if (file.exists()){
                 try {
                     content = new String(Files.readAllBytes(file.toPath()));
                 } catch (IOException ex) {
-                    logger.warn("Failed convert file to string.");
+                    logger.warn("JsonCheckerImpl : Failed convert file to string.");
                 }
             }
         } else {
-            logger.warn("File doesn't exist.");
+            logger.warn("JsonCheckerImpl : File doesn't exist.");
         }
 
         if (content.equals("")){
@@ -165,63 +162,4 @@ public class JsonCheckerImpl implements JsonChecker {
             }
         }
     }
-    //<
-//    private static void traverse(JsonObject jsonObject, JsonObject std, StringBuilder errorDescription, String path){
-//        Set<String> keys = std.keySet();
-//        for (String key : keys) {
-//            String currentPath = path + ":" + key;
-//            JsonElement stdElement = std.get(key);
-//            JsonElement element = null;
-//            if (jsonObject.has(key)){
-//                element = jsonObject.get(key);
-//            } else {
-//                errorDescription.append(" Field '").append(currentPath).append("' doesn't exist;");
-//            }
-//
-//            if (stdElement.isJsonObject()){
-//                if (element != null){
-//                    if (element.isJsonObject()){
-//                        traverse(element.getAsJsonObject(), stdElement.getAsJsonObject(), errorDescription, currentPath);
-//                    } else {
-//                        errorDescription.append(" Field '").append(currentPath).append("' isn't object;");
-//                    }
-//                }
-//            } else if (stdElement.isJsonArray()){
-//                if (element != null){
-//                    if (!element.isJsonArray()){
-//                        errorDescription.append(" Field '").append(currentPath).append("' isn't array;");
-//                    }
-//                }
-//            } else if (stdElement.isJsonPrimitive()){
-//                if (element != null){
-//                    switch (stdElement.getAsString()){
-//                        case "String":
-//                            try{
-//                                element.getAsString();
-//                            } catch (NumberFormatException ex){
-//                                errorDescription.append(" Field '").append(currentPath).append("' isn't String;");
-//                            }
-//                            break;
-//                        case "Integer":
-//                            try {
-//                                element.getAsInt();
-//                            } catch (NumberFormatException ex){
-//                                errorDescription.append(" Field '").append(currentPath).append("' isn't Integer;");
-//                            }
-//                            break;
-//                        default:
-//                            errorDescription.append(" Field '").append(currentPath).append("' has unknown type;");
-//                            break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-
-    //<
-//    private static void changeByError(JsonObject jsonObject, String errorDescription){
-//        jsonObject.addProperty("type", ReqRespType.WRONG_TYPE.getValue());
-//        jsonObject.addProperty("errorDescription", errorDescription);
-//    }
 }

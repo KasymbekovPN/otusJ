@@ -47,41 +47,17 @@ public class FrontendMessageReceiver {
 
     private static final Logger logger = LoggerFactory.getLogger(FrontendMessageReceiver.class);
 
-    //< вынести
-    private static final String TO_HOST = "localhost";
-    private static int TO_PORT = 8101;
-
     private final SocketHandler socketHandler;
 
     @MessageMapping("/authUserRequest")
     public void handleAuthUserRequest(OnlineUser user){
         logger.info("handleAuthUserRequest : {}", user);
 
-        JsonObject data = new JsonObject();
-        data.addProperty("login", user.getLogin());
-        data.addProperty("password", user.getPassword());
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("type", MessageType.AUTH_USER_REQUEST.getValue());
-        jsonObject.add("data", data);
+        jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
 
         socketHandler.send(jsonObject);
-        //<
-//        JsonObject to = new JsonObject();
-//        to.addProperty("host", TO_HOST);
-//        to.addProperty("port", TO_PORT);
-//        to.addProperty("entity", Entity.DATABASE.getValue());
-//
-//        JsonObject data = new JsonObject();
-//        data.addProperty("login", user.getLogin());
-//        data.addProperty("password", user.getPassword());
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("type", ReqRespType.AUTH_USER_REQUEST.getValue());
-//        jsonObject.add("data", data);
-//
-//        jsonObject.add("to", to);
-//
-//        //< target ???
-//        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 
     @MessageMapping("/addUserRequest")
@@ -93,13 +69,6 @@ public class FrontendMessageReceiver {
         jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
 
         socketHandler.send(jsonObject);
-        //<
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
-//        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
-//        jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
-//
-//        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 
     @MessageMapping("/delUserRequest")
@@ -111,12 +80,5 @@ public class FrontendMessageReceiver {
         jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
 
         socketHandler.send(jsonObject);
-        //<
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());
-//        jsonObject.add("to", JsonHelper.makeUrl(TO_HOST, TO_PORT, Entity.DATABASE));
-//        jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
-//
-//        socketHandler.send(jsonObject, "localhost", 8091, Entity.FRONTEND.getValue());
     }
 }

@@ -17,20 +17,12 @@ public class DelUserRequestSIH implements SocketInputHandler {
     private static final Logger logger = LoggerFactory.getLogger(DelUserRequestSIH.class);
 
     private final MsClientService msClientService;
-    //<
-//    private final MessageSystem messageSystem;
     private final SocketHandler socketHandler;
 
     public DelUserRequestSIH(MsClientService msClientService, SocketHandler socketHandler) {
         this.msClientService = msClientService;
         this.socketHandler = socketHandler;
     }
-
-    //<
-//    public DelUserRequestSIH(MessageSystem messageSystem, SocketHandler socketHandler) {
-//        this.messageSystem = messageSystem;
-//        this.socketHandler = socketHandler;
-//    }
 
     @Override
     public void handle(JsonObject jsonObject) {
@@ -55,19 +47,16 @@ public class DelUserRequestSIH implements SocketInputHandler {
             Message message = fromClient.produceMessage(toUrl, str, MessageType.DEL_USER_REQUEST);
             fromClient.sendMessage(message);
         } else {
-            JsonArray users = new JsonArray();
             JsonObject data = jsonObject.get("data").getAsJsonObject();
             data.addProperty("status", status);
-            data.add("users", users);
+            data.add("users", new JsonArray());
 
-            JsonObject to = jsonObject.get("from").getAsJsonObject();
+            JsonObject responseJsonObject = new JsonObject();
+            responseJsonObject.addProperty("type", MessageType.DEL_USER_RESPONSE.getValue());
+            responseJsonObject.add("data", data);
+            responseJsonObject.add("to", jsonObject.get("from").getAsJsonObject());
 
-            JsonObject resp = new JsonObject();
-            resp.addProperty("type", MessageType.DEL_USER_RESPONSE.getValue());
-            resp.add("data", data);
-            resp.add("to", to);
-
-            socketHandler.send(resp);
+            socketHandler.send(responseJsonObject);
         }
     }
 }
