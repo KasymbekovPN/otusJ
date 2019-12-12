@@ -40,23 +40,27 @@ public class AuthUserRequestSIH implements SocketInputHandler {
             List<OnlineUser> onlineUsers = dbService.loadRecord(login);
             if (onlineUsers.size() > 0){
                 OnlineUser onlineUser = onlineUsers.get(0);
-                if (onlineUser.isAdmin()){
-                    List<OnlineUser> allUsers = dbService.loadAll();
-                    Gson gson = new Gson();
-                    JsonParser parser = new JsonParser();
-                    for (OnlineUser user : allUsers) {
-                        jsonUsers.add(
-                                parser.parse(
-                                        gson.toJson(user)
-                                )
-                        );
+                if (onlineUser.getPassword().equals(password)){
+                    if (onlineUser.isAdmin()){
+                        List<OnlineUser> allUsers = dbService.loadAll();
+                        Gson gson = new Gson();
+                        JsonParser parser = new JsonParser();
+                        for (OnlineUser user : allUsers) {
+                            jsonUsers.add(
+                                    parser.parse(
+                                            gson.toJson(user)
+                                    )
+                            );
+                        }
+                        status = "admin";
+                    } else {
+                        JsonObject jsonUser = new JsonObject();
+                        jsonUser.addProperty("login", onlineUser.getLogin());
+                        jsonUsers.add(jsonUser);
+                        status = "user";
                     }
-                    status = "admin";
                 } else {
-                    JsonObject jsonUser = new JsonObject();
-                    jsonUser.addProperty("login", onlineUser.getLogin());
-                    jsonUsers.add(jsonUser);
-                    status = "user";
+                    status = "Wrong login or/and password.";
                 }
             } else {
                 status = "Wrong login or/and password.";
@@ -66,9 +70,6 @@ public class AuthUserRequestSIH implements SocketInputHandler {
         }
         logger.info("AuthUserRequestSIH : {}", status);
 
-//        JsonObject respTo = jsonObject.get("from").getAsJsonObject();
-//        JsonObject respFrom = jsonObject.get("to").getAsJsonObject();
-        //<
         JsonObject respData = new JsonObject();
         respData.addProperty("login", login);
         respData.addProperty("password", password);
@@ -77,15 +78,9 @@ public class AuthUserRequestSIH implements SocketInputHandler {
 
         JsonObject respJson = new JsonObject();
         respJson.addProperty("type", ReqRespType.AUTH_USER_RESPONSE.getValue());
-        //<
-//        respJson.add("to", respTo);
-//        respJson.add("from", respFrom);
-        //<
+
         respJson.add("data", respData);
 
-        //< !!! как получать target...
-//        socketHandler.send(respJson, "localhost", 8091, Entity.UNKNOWN.getValue());
-        //<
         socketHandler.send(respJson);
     }
 }
