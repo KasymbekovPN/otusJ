@@ -2,7 +2,6 @@ package ru.otus.kasymbekovPN.HW16M.messageSystem.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MSMessageHandler;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
 
 public class WrongMSMessageHandler implements MSMessageHandler {

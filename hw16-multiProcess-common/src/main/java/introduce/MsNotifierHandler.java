@@ -1,5 +1,5 @@
 package introduce;
 
-public interface RegistrarHandler {
+public interface MsNotifierHandler {
     void handle();
 }

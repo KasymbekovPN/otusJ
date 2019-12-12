@@ -5,9 +5,9 @@ import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientService;
-import sockets.ReqRespType;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
+import message.MessageType;
 import sockets.SocketInputHandler;
 
 public class AuthUserResponseSIH implements SocketInputHandler {
@@ -42,7 +42,7 @@ public class AuthUserResponseSIH implements SocketInputHandler {
 
         if (fromClient != null && toClient != null) {
             String str = jsonObject.toString();
-            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.AUTH_USER_RESPONSE);
+            Message message = fromClient.produceMessage(toUrl, str, MessageType.AUTH_USER_RESPONSE);
             fromClient.sendMessage(message);
         }
         else {

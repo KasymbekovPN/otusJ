@@ -6,9 +6,9 @@ import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientService;
-import sockets.ReqRespType;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
+import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
@@ -52,7 +52,7 @@ public class AddUserRequestSIH implements SocketInputHandler {
 
         if (status.equals("")){
             String str = jsonObject.toString();
-            Message message = fromClient.produceMessage(toUrl, str, ReqRespType.ADD_USER_REQUEST);
+            Message message = fromClient.produceMessage(toUrl, str, MessageType.ADD_USER_REQUEST);
             fromClient.sendMessage(message);
         } else {
             JsonArray users = new JsonArray();
@@ -63,7 +63,7 @@ public class AddUserRequestSIH implements SocketInputHandler {
             JsonObject to = jsonObject.get("from").getAsJsonObject();
 
             JsonObject resp = new JsonObject();
-            resp.addProperty("type", ReqRespType.ADD_USER_RESPONSE.getValue());
+            resp.addProperty("type", MessageType.ADD_USER_RESPONSE.getValue());
             resp.add("data", data);
             resp.add("to", to);
 

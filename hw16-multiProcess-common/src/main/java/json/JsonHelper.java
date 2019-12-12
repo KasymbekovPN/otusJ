@@ -2,7 +2,7 @@ package json;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import sockets.Entity;
+import entity.Entity;
 
 public class JsonHelper {
 

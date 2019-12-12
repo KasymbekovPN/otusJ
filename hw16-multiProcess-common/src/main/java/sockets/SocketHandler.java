@@ -1,6 +1,7 @@
 package sockets;
 
 import com.google.gson.JsonObject;
+import entity.Entity;
 
 import java.util.List;
 

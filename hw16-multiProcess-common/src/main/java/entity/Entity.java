@@ -1,4 +1,4 @@
-package sockets;
+package entity;
 
 public enum Entity {
     UNKNOWN("UNKNOWN"),
@@ -13,17 +13,18 @@ public enum Entity {
 
     private String value;
 
-    public static String check(String value){
-        String ret = Entity.UNKNOWN.getValue();
-        for (Entity entity : values()) {
-            if (entity.getValue().equals(value)){
-                ret = value;
-                break;
-            }
-        }
-
-        return ret;
-    }
+    //<
+//    public static String check(String value){
+//        String ret = Entity.UNKNOWN.getValue();
+//        for (Entity entity : values()) {
+//            if (entity.getValue().equals(value)){
+//                ret = value;
+//                break;
+//            }
+//        }
+//
+//        return ret;
+//    }
 
     public String getValue() {
         return value;

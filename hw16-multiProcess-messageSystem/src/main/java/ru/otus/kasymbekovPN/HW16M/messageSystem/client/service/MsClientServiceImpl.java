@@ -1,10 +1,16 @@
-package ru.otus.kasymbekovPN.HW16M.messageSystem;
+package ru.otus.kasymbekovPN.HW16M.messageSystem.client.service;
 
 import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import sockets.Entity;
+import entity.Entity;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.*;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator.DbMsClientCreator;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator.FeMsClientCreator;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator.MsClientCreator;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator.WrongMsClientCreator;
 import sockets.SocketHandler;
 
 import java.util.Collections;

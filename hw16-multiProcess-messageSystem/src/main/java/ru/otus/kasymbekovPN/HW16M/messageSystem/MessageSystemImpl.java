@@ -3,8 +3,9 @@ package ru.otus.kasymbekovPN.HW16M.messageSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
 
-import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -50,7 +51,7 @@ public class MessageSystemImpl implements MessageSystem {
     public MessageSystemImpl(MsClientService msClientService) {
         this.msClientService = msClientService;
         //<
-        logger.info("-------------MessageSystemImpl---------------");
+//        logger.info("-------------MessageSystemImpl---------------");
         //<
         messageProcessor.submit(this::messageProcessor);
     }

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GuiMessageTransmitter {
+public class FrontendMessageTransmitter {
 
-    private static final Logger logger = LoggerFactory.getLogger(GuiMessageTransmitter.class);
+    private static final Logger logger = LoggerFactory.getLogger(FrontendMessageTransmitter.class);
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 

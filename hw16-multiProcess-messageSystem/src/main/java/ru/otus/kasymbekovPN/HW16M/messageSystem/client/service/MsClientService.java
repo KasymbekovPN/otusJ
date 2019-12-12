@@ -1,6 +1,8 @@
-package ru.otus.kasymbekovPN.HW16M.messageSystem;
+package ru.otus.kasymbekovPN.HW16M.messageSystem.client.service;
 
-import sockets.Entity;
+import entity.Entity;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
 import sockets.SocketHandler;
 
 public interface MsClientService {

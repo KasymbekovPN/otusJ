@@ -5,10 +5,10 @@ import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientService;
-import sockets.Entity;
-import sockets.ReqRespType;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
+import entity.Entity;
+import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
@@ -80,12 +80,12 @@ public class IAmRequestSIH implements SocketInputHandler {
         JsonObject data = new JsonObject();
         data.addProperty("url", url);
         JsonObject respJsonObject = new JsonObject();
-        respJsonObject.addProperty("type", ReqRespType.I_AM_RESPONSE.getValue());
+        respJsonObject.addProperty("type", MessageType.I_AM_RESPONSE.getValue());
         respJsonObject.add("data", data);
         respJsonObject.add("to", from);
 
         //< replace
-        respJsonObject.add("from", from);
+//        respJsonObject.add("from", from);
 
         socketHandler.send(respJsonObject);
 

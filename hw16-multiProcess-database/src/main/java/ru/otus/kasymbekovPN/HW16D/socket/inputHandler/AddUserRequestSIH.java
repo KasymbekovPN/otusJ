@@ -9,7 +9,7 @@ import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16D.db.api.service.DBServiceOnlineUser;
-import sockets.ReqRespType;
+import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
@@ -67,7 +67,7 @@ public class AddUserRequestSIH implements SocketInputHandler {
         JsonObject respData = JsonHelper.makeData(login, password, status, jsonUsers);
 
         JsonObject respJson = new JsonObject();
-        respJson.addProperty("type", ReqRespType.ADD_USER_RESPONSE.getValue());
+        respJson.addProperty("type", MessageType.ADD_USER_RESPONSE.getValue());
         //<
 //        respJson.add("to", respTo);
 //        respJson.add("from", respFrom);

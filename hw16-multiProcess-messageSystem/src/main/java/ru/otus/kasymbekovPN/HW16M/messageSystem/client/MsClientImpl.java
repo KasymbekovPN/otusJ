@@ -1,15 +1,18 @@
-package ru.otus.kasymbekovPN.HW16M.messageSystem;
+package ru.otus.kasymbekovPN.HW16M.messageSystem.client;
 
 import common.Serializers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sockets.ReqRespType;
+import message.MessageType;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.MSMessageHandler;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MsClientImpl implements MsClient{
+public class MsClientImpl implements MsClient {
 
     private static final Logger logger = LoggerFactory.getLogger(MsClientImpl.class);
 
@@ -38,7 +41,7 @@ public class MsClientImpl implements MsClient{
     }
 
     @Override
-    public void addHandler(ReqRespType type, MSMessageHandler handler) {
+    public void addHandler(MessageType type, MSMessageHandler handler) {
         handlers.put(type.getValue(), handler);
     }
 
@@ -79,7 +82,7 @@ public class MsClientImpl implements MsClient{
     }
 
     @Override
-    public <T> Message produceMessage(String toUrl, T data, ReqRespType type) {
+    public <T> Message produceMessage(String toUrl, T data, MessageType type) {
 //        return new Message(url, toUrl, null, type.getValue(), Serializers.serialize(data));
         //<
         return new Message(url, toUrl, type.getValue(), Serializers.serialize(data));

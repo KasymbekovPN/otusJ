@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sockets.ReqRespType;
+import message.MessageType;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class JsonCheckerImpl implements JsonChecker {
         String fileName = getClass().getClassLoader().getResource(FILE_NAME).getFile();
 
         //<
-        logger.info("file name : {}", fileName);
+//        logger.info("file name : {}", fileName);
 
         if (fileName != null){
             File file = new File(fileName);
@@ -54,7 +54,7 @@ public class JsonCheckerImpl implements JsonChecker {
 
     private void init(String content){
         JsonObject parsedContent = (JsonObject) new JsonParser().parse(content);
-        for (ReqRespType item : ReqRespType.values()) {
+        for (MessageType item : MessageType.values()) {
             String sItem = item.getValue();
             if (parsedContent.has(sItem)){
                 standardJsonObjects.put(sItem, parsedContent.get(sItem).getAsJsonObject());
@@ -65,7 +65,7 @@ public class JsonCheckerImpl implements JsonChecker {
     }
 
     private void defaultInit(){
-        for (ReqRespType item : ReqRespType.values()) {
+        for (MessageType item : MessageType.values()) {
             standardJsonObjects.put(item.getValue(), new JsonObject());
         }
     }
@@ -74,7 +74,7 @@ public class JsonCheckerImpl implements JsonChecker {
     public String getType() {
         return jsonObject.has("type")
                 ? jsonObject.get("type").getAsString()
-                : ReqRespType.WRONG_TYPE.getValue();
+                : MessageType.WRONG_TYPE.getValue();
     }
 
     @Override
@@ -110,7 +110,7 @@ public class JsonCheckerImpl implements JsonChecker {
     }
 
     private void changeByError(String errorDescription){
-        jsonObject.addProperty("type", ReqRespType.WRONG_TYPE.getValue());
+        jsonObject.addProperty("type", MessageType.WRONG_TYPE.getValue());
         jsonObject.addProperty("errorDescription", errorDescription);
     }
 

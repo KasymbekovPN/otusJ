@@ -11,9 +11,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 //< ?? rename -> 'Notifier'
 @Service
 //@RequiredArgsConstructor
-public class RegistrarImpl implements Registrar {
+public class MsNotifierImpl implements MsNotifier {
 
-    private static Logger logger = LoggerFactory.getLogger(RegistrarImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(MsNotifierImpl.class);
 
     private final AtomicBoolean runFlag = new AtomicBoolean(true);
     private final ExecutorService processor = Executors.newSingleThreadExecutor(
@@ -24,14 +24,14 @@ public class RegistrarImpl implements Registrar {
             }
     );
 
-    private final RegistrarHandler registrarHandler;
+    private final MsNotifierHandler msNotifierHandler;
 
-    public RegistrarImpl(RegistrarHandler registrarHandler) {
+    public MsNotifierImpl(MsNotifierHandler msNotifierHandler) {
 
         //<
         logger.info("--- RegistrarImpl constructor ---");
 
-        this.registrarHandler = registrarHandler;
+        this.msNotifierHandler = msNotifierHandler;
         processor.submit(this::handleProcessor);
 
         //<
@@ -41,7 +41,7 @@ public class RegistrarImpl implements Registrar {
     private void handleProcessor(){
 
         while(runFlag.get()){
-            registrarHandler.handle();
+            msNotifierHandler.handle();
             sleep();
         }
     //<

@@ -1,7 +1,9 @@
-package ru.otus.kasymbekovPN.HW16M.messageSystem;
+package ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
 import sockets.SocketHandler;
 
 public class WrongMsClientCreator implements MsClientCreator {

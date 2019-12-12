@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.otus.kasymbekovPN.HW16F.messageController.GuiMessageTransmitter;
+import ru.otus.kasymbekovPN.HW16F.messageController.FrontendMessageTransmitter;
 import ru.otus.kasymbekovPN.HW16F.messageController.OnlineUserPackage;
 import sockets.SocketInputHandler;
 
@@ -18,10 +18,10 @@ public class AddUserResponseSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AddUserResponseSIH.class);
 
-    private GuiMessageTransmitter guiMessageTransmitter;
+    private FrontendMessageTransmitter frontendMessageTransmitter;
 
-    public AddUserResponseSIH(GuiMessageTransmitter guiMessageTransmitter) {
-        this.guiMessageTransmitter = guiMessageTransmitter;
+    public AddUserResponseSIH(FrontendMessageTransmitter frontendMessageTransmitter) {
+        this.frontendMessageTransmitter = frontendMessageTransmitter;
     }
 
     @Override
@@ -44,6 +44,6 @@ public class AddUserResponseSIH implements SocketInputHandler {
         onlineUserPackage.setStatus(status);
         onlineUserPackage.setUsers(users);
 
-        guiMessageTransmitter.handleAddUserResponse(onlineUserPackage);
+        frontendMessageTransmitter.handleAddUserResponse(onlineUserPackage);
     }
 }

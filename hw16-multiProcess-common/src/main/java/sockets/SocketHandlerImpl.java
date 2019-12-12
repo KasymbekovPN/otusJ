@@ -2,13 +2,13 @@ package sockets;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import entity.Entity;
 import json.JsonChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -28,13 +28,16 @@ public class SocketHandlerImpl implements SocketHandler {
 //    private final String host;
 //    private final int port;
 
-    private Entity entity;
-    private String selfHost;
-    private String targetHost;
-    private String msHost;
+//    private Entity entity;
+//    private String selfHost;
+//    private String targetHost;
+//    private String msHost;
+    //<
     private int selfPort;
-    private int targetPort;
-    private int msPort;
+    //<
+//    private int targetPort;
+//    private int msPort;
+    //<
     private boolean isValidUrlData;
 
     private final Map<String, SocketInputHandler> handlers = new ConcurrentHashMap<>();
@@ -94,21 +97,18 @@ public class SocketHandlerImpl implements SocketHandler {
     private void handleInProcessor(){
         try(ServerSocket serverSocket = new ServerSocket(selfPort)){
             while(!Thread.currentThread().isInterrupted()){
-                logger.info("Waiting for client connection");
+                logger.info("SocketHandlerImpl : Waiting for client connection");
                 try(Socket clientSocket = serverSocket.accept()){
                     handleClientSocket(clientSocket);
                 }
             }
         } catch (Exception ex){
-            //<
-            logger.error("error -------------", ex);
+            logger.error("SocketHandlerImpl::handleInProcessor : Error", ex);
         }
     }
 
     private void handleClientSocket(Socket clientSocket){
-        try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
-        ) {
+        try(BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
             jsonChecker.setJsonObject(
                     (JsonObject) new JsonParser().parse(in.readLine()),
                     handlers.keySet()
@@ -116,9 +116,22 @@ public class SocketHandlerImpl implements SocketHandler {
             handlers.get(jsonChecker.getType()).handle(jsonChecker.getJsonObject());
 
         } catch (Exception ex){
-            //<
-            logger.error("error 222", ex);
+            logger.error("SocketHandlerImpl::handleClientSocket : Error", ex);
         }
+        //<
+//        try(PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+//        ) {
+//            jsonChecker.setJsonObject(
+//                    (JsonObject) new JsonParser().parse(in.readLine()),
+//                    handlers.keySet()
+//            );
+//            handlers.get(jsonChecker.getType()).handle(jsonChecker.getJsonObject());
+//
+//        } catch (Exception ex){
+//            //<
+//            logger.error("error", ex);
+//        }
     }
 
     @Override
@@ -164,16 +177,20 @@ public class SocketHandlerImpl implements SocketHandler {
     //< check args size
     @Override
     public void init(Entity entity, List<String> hosts, List<Integer> ports) {
-        this.entity = entity;
+//        this.entity = entity;
+        //<
         this.isValidUrlData = true;
 
-        this.selfHost = hosts.get(0);
-        this.msHost = hosts.get(1);
-        this.targetHost = hosts.get(2);
+        //<
+//        this.selfHost = hosts.get(0);
+//        this.msHost = hosts.get(1);
+//        this.targetHost = hosts.get(2);
 
         this.selfPort = ports.get(0);
-        this.msPort = ports.get(1);
-        this.targetPort = ports.get(2);
+
+        //<
+//        this.msPort = ports.get(1);
+//        this.targetPort = ports.get(2);
 
         this.socketSendingHandler.init(hosts, ports);
 

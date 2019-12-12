@@ -1,5 +1,6 @@
 package sockets;
 
+import entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

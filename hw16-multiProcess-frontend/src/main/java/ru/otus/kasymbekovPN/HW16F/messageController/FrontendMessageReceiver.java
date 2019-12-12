@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import sockets.ReqRespType;
+import message.MessageType;
 import sockets.SocketHandler;
 
 //<
@@ -43,9 +43,9 @@ import sockets.SocketHandler;
 //     */
 @Controller
 @RequiredArgsConstructor
-public class GuiMessageReceiver {
+public class FrontendMessageReceiver {
 
-    private static final Logger logger = LoggerFactory.getLogger(GuiMessageReceiver.class);
+    private static final Logger logger = LoggerFactory.getLogger(FrontendMessageReceiver.class);
 
     //< вынести
     private static final String TO_HOST = "localhost";
@@ -61,7 +61,7 @@ public class GuiMessageReceiver {
         data.addProperty("login", user.getLogin());
         data.addProperty("password", user.getPassword());
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", ReqRespType.AUTH_USER_REQUEST.getValue());
+        jsonObject.addProperty("type", MessageType.AUTH_USER_REQUEST.getValue());
         jsonObject.add("data", data);
 
         socketHandler.send(jsonObject);
@@ -89,7 +89,7 @@ public class GuiMessageReceiver {
         logger.info("handleAddUserRequest : {}", user);
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", ReqRespType.ADD_USER_REQUEST.getValue());
+        jsonObject.addProperty("type", MessageType.ADD_USER_REQUEST.getValue());
         jsonObject.add("data", JsonHelper.makeData(user.getLogin(), user.getPassword()));
 
         socketHandler.send(jsonObject);
@@ -107,7 +107,7 @@ public class GuiMessageReceiver {
         logger.info("handleDelUserRequest : {}", user);
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("type", ReqRespType.DEL_USER_REQUEST.getValue());
+        jsonObject.addProperty("type", MessageType.DEL_USER_REQUEST.getValue());
         jsonObject.add("data", JsonHelper.makeData(user.getLogin()));
 
         socketHandler.send(jsonObject);

@@ -1,5 +1,5 @@
 package introduce;
 
-public interface Registrar {
+public interface MsNotifier {
     void stop();
 }

@@ -12,7 +12,7 @@ import ru.otus.kasymbekovPN.HW16D.socket.inputHandler.AddUserRequestSIH;
 import ru.otus.kasymbekovPN.HW16D.socket.inputHandler.AuthUserRequestSIH;
 import ru.otus.kasymbekovPN.HW16D.socket.inputHandler.DelUserRequestSIH;
 import ru.otus.kasymbekovPN.HW16D.socket.inputHandler.WrongTypeSIH;
-import sockets.ReqRespType;
+import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketHandlerImpl;
 
@@ -28,10 +28,10 @@ public class SocketHandlerConfig {
     public SocketHandler socketHandler(){
 
         SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new DBSocketSendingHandler());
-        socketHandler.addHandler(ReqRespType.WRONG_TYPE.getValue(), new WrongTypeSIH());
-        socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(dbService, socketHandler));
-        socketHandler.addHandler(ReqRespType.ADD_USER_REQUEST.getValue(), new AddUserRequestSIH(dbService, socketHandler));
-        socketHandler.addHandler(ReqRespType.DEL_USER_REQUEST.getValue(), new DelUserRequestSIH(dbService, socketHandler));
+        socketHandler.addHandler(MessageType.WRONG_TYPE.getValue(), new WrongTypeSIH());
+        socketHandler.addHandler(MessageType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(dbService, socketHandler));
+        socketHandler.addHandler(MessageType.ADD_USER_REQUEST.getValue(), new AddUserRequestSIH(dbService, socketHandler));
+        socketHandler.addHandler(MessageType.DEL_USER_REQUEST.getValue(), new DelUserRequestSIH(dbService, socketHandler));
 
         return socketHandler;
     }

@@ -1,6 +1,6 @@
-package sockets;
+package message;
 
-public enum ReqRespType {
+public enum MessageType {
     I_AM_REQUEST("iAmRequest"),
     I_AM_RESPONSE("iAmResponse"),
     WRONG_TYPE("wrong"),
@@ -17,7 +17,7 @@ public enum ReqRespType {
         return value;
     }
 
-    ReqRespType(String value) {
+    MessageType(String value) {
         this.value = value;
     }
 }

@@ -1,7 +1,7 @@
 package ru.otus.kasymbekovPN.HW16F.socket.inputHandler;
 
 import com.google.gson.JsonObject;
-import introduce.Registrar;
+import introduce.MsNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sockets.SocketInputHandler;
@@ -10,15 +10,15 @@ public class IAmResponseSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(IAmResponseSIH.class);
 
-    private final Registrar registrar;
+    private final MsNotifier msNotifier;
 
-    public IAmResponseSIH(Registrar registrar) {
-        this.registrar = registrar;
+    public IAmResponseSIH(MsNotifier msNotifier) {
+        this.msNotifier = msNotifier;
     }
 
     @Override
     public void handle(JsonObject jsonObject) {
         logger.info("IAmResponseSIH : {}", jsonObject);
-        registrar.stop();
+        msNotifier.stop();
     }
 }
