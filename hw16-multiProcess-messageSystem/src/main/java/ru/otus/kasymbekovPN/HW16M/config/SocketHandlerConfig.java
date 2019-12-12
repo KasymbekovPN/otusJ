@@ -21,13 +21,14 @@ public class SocketHandlerConfig {
     private static final Logger logger = LoggerFactory.getLogger(SocketHandlerConfig.class);
 
     private final MessageSystem messageSystem;
+    //<
     private final MsClientService msClientService;
 
     @Bean
     public SocketHandler socketHandler(){
 
         SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new MSSocketSendingHandler());
-        socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmRequestSIH(socketHandler, msClientService));
+        socketHandler.addHandler(ReqRespType.I_AM_REQUEST.getValue(), new IAmRequestSIH(socketHandler, messageSystem, msClientService));
         socketHandler.addHandler(ReqRespType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(msClientService, socketHandler));
         socketHandler.addHandler(ReqRespType.AUTH_USER_RESPONSE.getValue(), new AuthUserResponseSIH(msClientService));
         socketHandler.addHandler(ReqRespType.ADD_USER_REQUEST.getValue(), new AddUserRequestSIH(msClientService, socketHandler));

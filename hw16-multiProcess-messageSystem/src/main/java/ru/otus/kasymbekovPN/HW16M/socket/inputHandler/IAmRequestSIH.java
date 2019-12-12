@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MsClientService;
 import sockets.Entity;
@@ -27,12 +28,13 @@ public class IAmRequestSIH implements SocketInputHandler {
 
     private final SocketHandler socketHandler;
     //<
-//    private final MessageSystem messageSystem;
+    private final MessageSystem messageSystem;
     //<
     private final MsClientService msClientService;
 
-    public IAmRequestSIH(SocketHandler socketHandler, MsClientService msClientService) {
+    public IAmRequestSIH(SocketHandler socketHandler, MessageSystem messageSystem, MsClientService msClientService) {
         this.socketHandler = socketHandler;
+        this.messageSystem = messageSystem;
         this.msClientService = msClientService;
     }
 
@@ -55,7 +57,7 @@ public class IAmRequestSIH implements SocketInputHandler {
         String status;
         MsClient msClient = msClientService.get(url);
         if (msClient == null){
-            if (msClientService.createClient(host, port, Entity.valueOf(entity))) {
+            if (msClientService.createClient(host, port, Entity.valueOf(entity), messageSystem)) {
                 status = "Client '" + url + "' was add.";
             } else {
                 status = "Client '" + url + "' wasn't add.";

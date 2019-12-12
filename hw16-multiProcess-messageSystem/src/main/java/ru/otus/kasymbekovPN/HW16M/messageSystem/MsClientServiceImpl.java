@@ -27,28 +27,26 @@ public class MsClientServiceImpl implements MsClientService {
         msClientCreators = Collections.unmodifiableMap(buffer);
     }
 
-    private final Map<String, MsClient> clientMap = new ConcurrentHashMap<>();
-    private final MessageSystem messageSystem;
+    private final Map<String, MsClient> clients = new ConcurrentHashMap<>();
+    //<
+//    private final MessageSystem messageSystem;
 
     private SocketHandler socketHandler;
 
-    public MsClientServiceImpl(MessageSystem messageSystem) {
-        this.messageSystem = messageSystem;
-    }
+    //<
+//    public MsClientServiceImpl(MessageSystem messageSystem) {
+//        this.messageSystem = messageSystem;
+//    }
 
     @Override
-    public void setSocketHandler(SocketHandler socketHandler) {
-        this.socketHandler = socketHandler;
-    }
-
-    @Override
-    public boolean createClient(String host, int port, Entity entity) {
+    public synchronized boolean createClient(String host, int port, Entity entity, MessageSystem messageSystem) {
         String url = JsonHelper.extractUrl(JsonHelper.makeUrl(host, port, entity));
-        if (!clientMap.containsKey(url)){
+        if (!clients.containsKey(url)){
             MsClient client = msClientCreators.get(entity).create(url, socketHandler, messageSystem);
             if (client != null){
-                clientMap.put(url, client);
-                messageSystem.addClient(client);
+                clients.put(url, client);
+                //<
+//                messageSystem.addClient(client);
                 return true;
             } else {
                 return false;
@@ -59,7 +57,22 @@ public class MsClientServiceImpl implements MsClientService {
     }
 
     @Override
-    public MsClient get(String url) {
-        return clientMap.getOrDefault(url, null);
+    public synchronized void deleteClient(String url) {
+        MsClient removedClient = clients.remove(url);
+        if (removedClient == null){
+            logger.warn("MsClientServiceImpl::deleteClient : client '{}' not found", url);
+        } else {
+            logger.info("MsClientServiceImpl::deleteClient : client '{}' was delete", url);
+        }
+    }
+
+    @Override
+    public synchronized void setSocketHandler(SocketHandler socketHandler) {
+        this.socketHandler = socketHandler;
+    }
+
+    @Override
+    public synchronized MsClient get(String url) {
+        return clients.getOrDefault(url, null);
     }
 }

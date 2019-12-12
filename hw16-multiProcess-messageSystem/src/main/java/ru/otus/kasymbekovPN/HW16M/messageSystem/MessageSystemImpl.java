@@ -18,7 +18,12 @@ public class MessageSystemImpl implements MessageSystem {
     private static final int MESSAGE_HANDLER_THREAD_LIMIT = 2;
 
     private final AtomicBoolean runFlag = new AtomicBoolean(true);
-    private final Map<String, MsClient> clientMap = new ConcurrentHashMap<>();
+
+    //<
+//    private final Map<String, MsClient> clientMap = new ConcurrentHashMap<>();
+    //<
+    private final MsClientService msClientService;
+
     private final BlockingQueue<Message> messageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
 
     private final ExecutorService messageProcessor = Executors.newSingleThreadExecutor(
@@ -42,7 +47,8 @@ public class MessageSystemImpl implements MessageSystem {
             }
     );
 
-    public MessageSystemImpl() {
+    public MessageSystemImpl(MsClientService msClientService) {
+        this.msClientService = msClientService;
         //<
         logger.info("-------------MessageSystemImpl---------------");
         //<
@@ -58,7 +64,9 @@ public class MessageSystemImpl implements MessageSystem {
                 if (message == Message.getVoidMessage()){
                     logger.info("Received the stop message");
                 } else {
-                    MsClient clientTo = clientMap.get(message.getToUrl());
+//                    MsClient clientTo = clientMap.get(message.getToUrl());
+                    //<
+                    MsClient clientTo = msClientService.get(message.getToUrl());
                     if (clientTo == null){
                         logger.warn("Client not found");
                     } else {
@@ -101,16 +109,17 @@ public class MessageSystemImpl implements MessageSystem {
         }
     }
 
-    @Override
-    public synchronized void addClient(MsClient msClient) {
-        logger.info("new client : {}", msClient.getUrl());
-
-        //< ??? needed
-        if (clientMap.containsKey(msClient.getUrl())){
-            throw new IllegalArgumentException("Error! Client : " + msClient.getUrl() + " already exits");
-        }
-        clientMap.put(msClient.getUrl(), msClient);
-    }
+    //<
+//    @Override
+//    public synchronized void addClient(MsClient msClient) {
+//        logger.info("new client : {}", msClient.getUrl());
+//
+//        //< ??? needed
+//        if (clientMap.containsKey(msClient.getUrl())){
+//            throw new IllegalArgumentException("Error! Client : " + msClient.getUrl() + " already exits");
+//        }
+//        clientMap.put(msClient.getUrl(), msClient);
+//    }
 
     //<
 //    @Override
@@ -118,15 +127,16 @@ public class MessageSystemImpl implements MessageSystem {
 //        return clientMap.getOrDefault(url, null);
 //    }
 
-    @Override
-    public synchronized void removeClient(String clientId) {
-        MsClient removedClient = clientMap.remove(clientId);
-        if (removedClient == null){
-            logger.warn("Client not found : {}", clientId);
-        } else {
-            logger.info("Removed client : {}", removedClient);
-        }
-    }
+    //<
+//    @Override
+//    public synchronized void removeClient(String clientId) {
+//        MsClient removedClient = clientMap.remove(clientId);
+//        if (removedClient == null){
+//            logger.warn("Client not found : {}", clientId);
+//        } else {
+//            logger.info("Removed client : {}", removedClient);
+//        }
+//    }
 
     @Override
     public synchronized boolean newMessage(Message message) {
