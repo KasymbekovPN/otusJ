@@ -38,7 +38,7 @@ public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
                 msg = "Wrong arguments number";
             }
         } else if (entity.equals(Entity.DATABASE) || entity.equals(Entity.FRONTEND)){
-            if (args.length == 6){
+            if ((args.length == 6) || args.length == 7){
                 for(int i = 0; i < 6; ++i){
                     if (i % 2 == 0){
                         hosts.add(args[i]);
