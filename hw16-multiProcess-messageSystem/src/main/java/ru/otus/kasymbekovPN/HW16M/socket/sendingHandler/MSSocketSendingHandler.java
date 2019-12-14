@@ -41,7 +41,7 @@ public class MSSocketSendingHandler implements SocketSendingHandler {
             logger.info("MSSocketSendingHandler send : {}", jsonObject);
             out.println(jsonObject);
         } catch (Exception ex){
-            logger.error("MSSocketSendingHandler Error; ", ex);
+            logger.error("MSSocketSendingHandler Error : '{}:{}' is unreachable", toHost, toPort);
         }
     }
 }

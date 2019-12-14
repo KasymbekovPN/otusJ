@@ -48,7 +48,7 @@ public class DBSocketSendingHandler implements SocketSendingHandler {
             logger.info("DBSocketSendingHandler send : {}", jsonObject);
             out.println(jsonObject);
         } catch (Exception ex){
-            logger.error("DBSocketSendingHandler Error; ", ex);
+            logger.error("DBSocketSendingHandler Error : '{}:{}' is unreachable", msHost, msPort);
         }
     }
 }

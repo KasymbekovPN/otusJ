@@ -48,7 +48,7 @@ public class FESocketSendingHandler implements SocketSendingHandler {
             logger.info("FESocketSendingHandler send : {}", jsonObject);
             out.println(jsonObject);
         } catch (Exception ex){
-            logger.error("FESocketSendingHandler Error; ", ex);
+            logger.error("FESocketSendingHandler Error : '{}:{}' is unreachable", msHost, msPort);
         }
     }
 }
