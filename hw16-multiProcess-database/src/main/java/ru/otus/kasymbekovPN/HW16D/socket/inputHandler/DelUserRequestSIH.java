@@ -15,6 +15,12 @@ import sockets.SocketInputHandler;
 
 import java.util.List;
 
+/**
+ * Обработчик входящего сообщения типа {@link MessageType#DEL_USER_REQUEST} <br><br>
+ *
+ * {@link #handle(JsonObject)} - проверяет, переданные логин, в случае успешной проверки удаляет пользователя; отправляет
+ * сообщение содержащее данные пользователей.
+ */
 public class DelUserRequestSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(DelUserRequestSIH.class);

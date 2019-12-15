@@ -15,6 +15,12 @@ import sockets.SocketInputHandler;
 
 import java.util.List;
 
+/**
+ * Обработчик входящего сообщения типа {@link MessageType#AUTH_USER_REQUEST} <br><br>
+ *
+ * {@link #handle(JsonObject)} - проверяет, переданные логин и пароль, в случае успешной проверки отправляет сообщение
+ * содержащее данные пользователей; при неуспещеой проверке сообщение содержит описание ошибки.
+ */
 public class AuthUserRequestSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthUserRequestSIH.class);

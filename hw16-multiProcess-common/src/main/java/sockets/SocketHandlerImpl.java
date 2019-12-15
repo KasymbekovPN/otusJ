@@ -17,6 +17,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * Класс-обработчик сокетов.<br><br>
+ *
+ * {@link SocketHandlerImpl#handlers} - обработчики входящих сообщений. <br>
+ *
+ * {@link SocketHandlerImpl#jsonChecker} - инстанс, проверяющий json-сообщения. <br>
+ *
+ * {@link SocketHandlerImpl#socketSendingHandler} - инстанс, обрабатывающий отправку сообщений. <br>
+ *
+ * {@link SocketHandlerImpl#inProcessor} - тред, в котором крутится метод приема входящих сообщений <br>
+ *
+ * {@link SocketHandlerImpl#selfPort} - номер входящего порта. <br>
+ *
+ * {@link SocketHandlerImpl#isValidUrlData} - параметры данног онстанса валидны. <br>
+ *
+ * {@link SocketHandlerImpl#handleClientSocket(Socket)} - обработка входящего сообщения <br>
+ *
+ * {@link SocketHandlerImpl#send(JsonObject)} - отправка сообщения <br>
+ *
+ * {@link SocketHandlerImpl#addHandler(String, SocketInputHandler)} - добавление обработчиков принятых сообщений<br>
+ *
+ * {@link SocketHandlerImpl#init(Entity, List, List)} - инициализация<br>
+ */
 public class SocketHandlerImpl implements SocketHandler {
 
     private static Logger logger = LoggerFactory.getLogger(SocketHandler.class);

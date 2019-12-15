@@ -1,9 +1,9 @@
 package ru.otus.kasymbekovPN.HW16F.config;
 
-import introduce.MsNotifier;
-import introduce.MsNotifierHandler;
-import introduce.MsNotifierImpl;
-import introduce.IAmMsNotifierHandler;
+import introduce.Notifier;
+import introduce.NotifierRunner;
+import introduce.NotifierImpl;
+import introduce.IAmNotifierRunner;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +22,9 @@ public class MsNotifierConfig {
     private final SocketHandler socketHandler;
 
     @Bean
-    public MsNotifier msNotifier(){
-        MsNotifierHandler msNotifierHandler = new IAmMsNotifierHandler(socketHandler);
-        MsNotifierImpl registrar = new MsNotifierImpl(msNotifierHandler);
+    public Notifier msNotifier(){
+        NotifierRunner notifierRunner = new IAmNotifierRunner(socketHandler);
+        NotifierImpl registrar = new NotifierImpl(notifierRunner);
         socketHandler.addHandler(MessageType.I_AM_RESPONSE.getValue(), new IAmResponseSIH(registrar));
 
         return registrar;

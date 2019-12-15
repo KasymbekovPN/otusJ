@@ -12,6 +12,11 @@ import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
+/**
+ * Обработчик сообщений, регистрирующих программы-клиенты. <br><br>
+ *
+ * {@link #handle(JsonObject)} - в обработчике создаются клиенты {@link MsClient} системы обмена сообщениями. <br><br>
+ */
 public class IAmRequestSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(IAmRequestSIH.class);

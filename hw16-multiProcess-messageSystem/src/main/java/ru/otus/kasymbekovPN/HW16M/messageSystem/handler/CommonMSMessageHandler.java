@@ -8,6 +8,9 @@ import ru.otus.kasymbekovPN.HW15.common.Serializers;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.Message;
 import sockets.SocketHandler;
 
+/**
+ * Обработчик сообщений верного типа. <br><br>
+ */
 public class CommonMSMessageHandler implements MSMessageHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(CommonMSMessageHandler.class);

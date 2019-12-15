@@ -11,6 +11,11 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.List;
 
+/**
+ * Обработчик отправки сообщения. <br><br>
+ *
+ * {@link MSSocketSendingHandler#send(JsonObject)} - отправка сообщения. <br>
+ */
 public class MSSocketSendingHandler implements SocketSendingHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(MSSocketSendingHandler.class);

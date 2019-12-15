@@ -10,6 +10,9 @@ import ru.otus.kasymbekovPN.HW16M.messageSystem.handler.WrongMSMessageHandler;
 import message.MessageType;
 import sockets.SocketHandler;
 
+/**
+ * Класс, создающий {@link MsClient} для обмена сообщениями с программой-клиентом, работающим с frontend-ом.
+ */
 public class FeMsClientCreator implements MsClientCreator {
 
     private static final Logger logger = LoggerFactory.getLogger(FeMsClientCreator.class);

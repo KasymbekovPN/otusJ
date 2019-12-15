@@ -8,6 +8,20 @@ import sockets.SocketHandlerArgApplier;
 
 import java.util.Collections;
 
+/**
+ * Для запуска командная строка должна содержать 7 агруметов, например, localhost 9081 localhost 8091 localhost 9101 9080 <br><br>
+ *
+ * <ol>
+ *     <li>Собственный хост</li>
+ *     <li>Собственный порт</li>
+ *     <li>Хост системы сообщений</li>
+ *     <li>Порт системы сообщений</li>
+ *     <li>Хост frontend-клиента</li>
+ *     <li>Порт frontend-клиента</li>
+ *     <li>Порт веб-сервера</li>
+ * </ol>
+ *
+ */
 @SpringBootApplication
 @RequiredArgsConstructor
 public class Main implements CommandLineRunner {
@@ -50,6 +64,6 @@ public class Main implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        socketHandlerArgApplier.init(args);
+        socketHandlerArgApplier.apply(args);
     }
 }

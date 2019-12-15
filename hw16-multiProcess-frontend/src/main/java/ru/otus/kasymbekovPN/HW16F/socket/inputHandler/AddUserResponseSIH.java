@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import message.MessageType;
 import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,12 @@ import sockets.SocketInputHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Обработчик входящего сообщения типа {@link MessageType#ADD_USER_RESPONSE} <br><br>
+ *
+ * {@link #handle(JsonObject)} - преобразует ответ в инстанс {@link OnlineUserPackage}, передает полученный инстанс в
+ * соответствующий обработчик {@link #frontendMessageTransmitter}
+ */
 public class AddUserResponseSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(AddUserResponseSIH.class);

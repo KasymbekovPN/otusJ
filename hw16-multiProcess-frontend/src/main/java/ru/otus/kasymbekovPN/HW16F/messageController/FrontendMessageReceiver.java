@@ -11,36 +11,19 @@ import org.springframework.stereotype.Controller;
 import message.MessageType;
 import sockets.SocketHandler;
 
-//<
-//    /**
-//     * Контроллер, осуществляющий обработку сообщений из GUI.<br><br>
-//     *
-//     * {@link UserDataMessageController#handleAuthUserRequest(OnlineUser)} - обработчик авторизационного
-//     * запроса от GUI. В систему сообщений {@link MessageSystem} отправляется сообщение типа - {@link MessageType#AUTH_USER}
-//     * <br>
-//     * <br>
-//     * {@link UserDataMessageController#handleAddUserRequest(OnlineUser)} - обработчик запроса на
-//     * добавление пользователя от GUI. В систему сообщений {@link MessageSystem} отправляется сообщение
-//     * типа - {@link MessageType#ADD_USER}<br><br>
-//     *
-//     * {@link UserDataMessageController#handleDelUserRequest(OnlineUser)} - обработчик запроса на удаления
-//     * пользователя от GUI. В систему сообщений {@link MessageSystem} отправляется сообщение
-//     * типа - {@link MessageType#DEL_USER}<br><br>
-//     *
-//     * {@link UserDataMessageController#handleAuthUserResponse(OnlineUserPackage)} : обработчик ответа,
-//     * возвращенного системой сообщений {@link MessageSystem} на запрос типа {@link MessageType#AUTH_USER},
-//     * перенаправляет в GUI ответ {@link OnlineUserPackage} на соотв. запрос.<br><br>
-//     *
-//     * {@link UserDataMessageController#handleAddUserResponse(OnlineUserPackage)} : обработчик ответа,
-//     * возвращенного системой сообщений {@link MessageSystem} на запрос типа {@link MessageType#ADD_USER},
-//     * перенаправляет в GUI ответ {@link OnlineUserPackage} на соотв. запрос.<br><br>
-//     *
-//     * {@link UserDataMessageController#handleDelUserResponse(OnlineUserPackage)} : обработчик ответа,
-//     * возвращенного системой сообщений {@link MessageSystem} на запрос типа {@link MessageType#DEL_USER},
-//     * перенаправляет в GUI ответ {@link OnlineUserPackage} на соотв. запрос.<br><br>
-//     *
-//     * @see OnlineUserPackage
-//     */
+/**
+ * Контроллер, осуществляющий обработку сообщений из GUI.<br><br>
+ *
+ * {@link FrontendMessageReceiver#handleAuthUserRequest(OnlineUser)} - обработчик авторизационного
+ * запроса от GUI. В систему сообщений отправляется сообщение типа - {@link MessageType#AUTH_USER_REQUEST}
+ * <br>
+ * <br>
+ * {@link FrontendMessageReceiver#handleAddUserRequest(OnlineUser)} - обработчик запроса на
+ * добавление пользователя от GUI. В систему сообщений отправляется сообщение типа - {@link MessageType#ADD_USER_REQUEST}<br><br>
+ *
+ * {@link FrontendMessageReceiver#handleDelUserRequest(OnlineUser)} - обработчик запроса на удаления
+ * пользователя от GUI. В систему сообщений отправляется сообщение типа - {@link MessageType#DEL_USER_REQUEST}<br><br>
+ */
 @Controller
 @RequiredArgsConstructor
 public class FrontendMessageReceiver {

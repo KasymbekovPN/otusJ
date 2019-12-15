@@ -1,5 +1,15 @@
 package entity;
 
+/**
+ * Пересиление сущностей системы<br><br>
+ *
+ * <ul>
+ *     <li>{@link Entity#UNKNOWN} - неизвестная сущность</li>
+ *     <li>{@link Entity#FRONTEND} - отправляет в DATABASE запросы через MESSAGE_SYSTEM</li>
+ *     <li>{@link Entity#DATABASE} - отправляет в FRONTEND ответы через MESSAGE_SYSTEM</li>
+ *     <li>{@link Entity#MESSAGE_SYSTEM} - систеы сообщений</li>
+ * </ul>
+ */
 public enum Entity {
     UNKNOWN("UNKNOWN"),
     FRONTEND("FRONTEND"),

@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sockets.SocketInputHandler;
 
+/**
+ * Обработчик невалидный сообщений.
+ */
 public class WrongTypeSIH implements SocketInputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(WrongTypeSIH.class);

@@ -7,6 +7,13 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс, проверяющий агрументы командной строки и в случае успешной проверки применяющий
+ * их к {@link SocketHandler} <br><br>
+ *
+ * {@link SocketHandlerArgApplierImpl#apply(String...)} - метод проверяющий с учетом сущности ({@link Entity}) и
+ * применяющий аргументы командной строки к имплементации {@link SocketHandler}<br>
+ */
 public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
 
     private static final Logger logger = LoggerFactory.getLogger(SocketHandlerArgApplierImpl.class);
@@ -20,7 +27,7 @@ public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
     }
 
     @Override
-    public void init(String... args) throws Exception {
+    public void apply(String... args) throws Exception {
 
         List<String> hosts = new ArrayList<>();
         List<Integer> ports = new ArrayList<>();

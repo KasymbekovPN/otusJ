@@ -7,6 +7,15 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import sockets.SocketHandlerArgApplier;
 
+/**
+ * Для запуска командная строка должна содержать 2 агрумета, например, localhost 8091 <br><br>
+ *
+ * <ol>
+ *     <li>Собственный хост</li>
+ *     <li>Собственный порт</li>
+ * </ol>
+ *
+ */
 @SpringBootApplication
 @RequiredArgsConstructor
 public class Main implements CommandLineRunner{
@@ -21,6 +30,6 @@ public class Main implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-        socketHandlerArgApplier.init(args);
+        socketHandlerArgApplier.apply(args);
     }
 }

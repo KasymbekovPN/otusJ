@@ -18,6 +18,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Сервис клиентов {@link MsClient} системы сообщений {@link MessageSystem} <br><br>
+ *
+ * {@link #createClient(String, int, Entity, MessageSystem)} - создание нового клиента. Непосредственное создание клиента
+ * выполняет инстанс соответствующей имплементации {@link MsClientCreator}, хранящийся в {@link #msClientCreators}<br>
+ *
+ * {@link #deleteClient(String)} - удаление клиента <br>
+ *
+ * {@link #setSocketHandler(SocketHandler)} - сеттер обработчика сокета <br>
+ *
+ * {@link #get(String)} - геттер клиента <br>
+ */
 @Service
 public class MsClientServiceImpl implements MsClientService {
 

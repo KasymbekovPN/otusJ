@@ -14,6 +14,42 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Класс, реализующий провеку валидности json-объекта. <br><br>
+ *
+ * {@link JsonCheckerImpl#standardJsonObjects} - мапа эталонных сообщений, солученных из файла
+ * {@ling JsonCheckerImpl#FILE_NAME}. <br>
+ *
+ * {@link JsonCheckerImpl#jsonObject} - проверяемое сообщение. <br><br>
+ *
+ * {@link JsonCheckerImpl#JsonCheckerImpl()} - в конструкторе производится выгрузка содержимого файла
+ * {@link JsonCheckerImpl#FILE_NAME}; в случае удачной выгрузки производится инициализация содержимым файла через
+ * {@link JsonCheckerImpl#init(String)}; в случае неудачной выгрузки - через {@link JsonCheckerImpl#defaultInit()}  <br><br>
+ *
+ * {@link JsonCheckerImpl#init(String)} - в {@link JsonCheckerImpl#standardJsonObjects} добавляются пары, ключи которых
+ * соответствуют всем значением перечистения {@link MessageType}, если json-объект, полученный из агрумента метода,
+ * содержит соответствующее ключу эталонное сообщение, то значение, соответствующее ключу берется из данного объекта,
+ * иначе значение - пусной json-объект. <br>
+ *
+ * {@link JsonCheckerImpl#defaultInit()} - в {@link JsonCheckerImpl#standardJsonObjects} добавляются пары, ключи которых
+ * соответствуют всем значениям перечистления {@link MessageType}, значения по ключам - пустые json-объекты.<br>
+ *
+ * {@link JsonCheckerImpl#getType()} - возвращает тип проверенного json-сообщения<br>
+ *
+ * {@link JsonCheckerImpl#setJsonObject(JsonObject, Set)} - сеттер json-сообщения для проверки; передаются :
+ * json-сообщение и набор валинды типов. Так же здась производится проверки переданного сообения.<br>
+ *
+ * {@link JsonCheckerImpl#getJsonObject()} - геттер, проверенного json-сообщения<br>
+ *
+ * {@link JsonCheckerImpl#parse(Set)} - лпроизводит разбор проверяемого сообщения, в случае обнаружения невалидности
+ * сообщения - тип сообщения меняется на {@link MessageType#WRONG_TYPE} и добавляется поле errorDescription<br>
+ *
+ * {@link JsonCheckerImpl#changeByError(String)} - модифицирует проверяемое json-сообщение меняя его тип на
+ * {@link MessageType#WRONG_TYPE} и добавляя поле errorDescription<br>
+ *
+ * {@link JsonCheckerImpl#traverse(JsonObject, JsonObject, StringBuilder, String)} - осуществляет поуровневый обход,
+ * проверяемого сообщения. <br>
+ */
 public class JsonCheckerImpl implements JsonChecker {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonCheckerImpl.class);
