@@ -41,7 +41,7 @@ public class DelUserRequestSIH implements SocketInputHandler {
         String login = data.get("login").getAsString().trim();
         String status = "";
 
-        if (!login.equals("")){
+        if (!login.isEmpty()){
             List<OnlineUser> onlineUsers = dbService.loadRecord(login);
             if (onlineUsers.size() != 0){
                 dbService.deleteRecord(login);

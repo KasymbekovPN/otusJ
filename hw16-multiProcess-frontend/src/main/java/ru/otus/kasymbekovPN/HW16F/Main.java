@@ -55,7 +55,7 @@ public class Main implements CommandLineRunner {
             msg = "Wrong args number - need 7.";
         }
 
-        if (!msg.equals("")){
+        if (!msg.isEmpty()){
             throw new Exception(msg);
         }
 

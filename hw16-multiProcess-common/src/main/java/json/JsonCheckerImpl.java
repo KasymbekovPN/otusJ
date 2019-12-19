@@ -78,7 +78,7 @@ public class JsonCheckerImpl implements JsonChecker {
             logger.warn("JsonCheckerImpl : File doesn't exist.");
         }
 
-        if (content.equals("")){
+        if (content.isEmpty()){
             defaultInit();
         } else {
             init(content);
@@ -129,7 +129,7 @@ public class JsonCheckerImpl implements JsonChecker {
                 String path = "";
                 traverse(jsonObject, standardJsonObjects.get(type), errorDescription, path);
 
-                if (!errorDescription.toString().equals("")){
+                if (!errorDescription.toString().isEmpty()){
                     errorDescription.append(" Original Type : ").append(type).append(";");
                     changeByError(errorDescription.toString());
                 }

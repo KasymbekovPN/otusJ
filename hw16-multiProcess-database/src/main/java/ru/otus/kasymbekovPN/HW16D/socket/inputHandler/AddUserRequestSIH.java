@@ -42,7 +42,7 @@ public class AddUserRequestSIH implements SocketInputHandler {
         String password = data.get("password") .getAsString().trim();
         String status = "";
 
-        if (!login.equals("") && !password.equals("")){
+        if (!login.isEmpty() && !password.isEmpty()){
             List<OnlineUser> onlineUsers = dbService.loadRecord(login);
             if (onlineUsers.size() == 0){
                 dbService.createRecord(

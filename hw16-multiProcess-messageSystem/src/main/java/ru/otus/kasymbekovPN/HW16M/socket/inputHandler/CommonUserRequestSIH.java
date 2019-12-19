@@ -49,7 +49,7 @@ public class CommonUserRequestSIH implements SocketInputHandler {
             status += "Client '" + toUrl + "' doesn't exist; ";
         }
 
-        if (status.equals("")){
+        if (status.isEmpty()){
             String str = jsonObject.toString();
             Message message = fromClient.produceMessage(toUrl, str, MessageType.valueOf(type));
             fromClient.sendMessage(message);

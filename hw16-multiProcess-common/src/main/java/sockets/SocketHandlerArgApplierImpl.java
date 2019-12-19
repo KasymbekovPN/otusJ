@@ -60,7 +60,7 @@ public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
             msg = "Invalid entity type : " + entity.getValue();
         }
 
-        if (msg.equals("")){
+        if (msg.isEmpty()){
             socketHandler.init(entity, hosts, ports);
         } else {
             throw new Exception(msg);
