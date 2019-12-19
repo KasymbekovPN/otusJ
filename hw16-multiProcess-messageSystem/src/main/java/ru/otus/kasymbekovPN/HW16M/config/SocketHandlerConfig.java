@@ -1,8 +1,10 @@
 package ru.otus.kasymbekovPN.HW16M.config;
 
+import common.CLArgsParser;
 import json.JsonCheckerImpl;
 import lombok.RequiredArgsConstructor;
 import message.MessageType;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
@@ -19,12 +21,24 @@ import sockets.SocketHandlerImpl;
 @RequiredArgsConstructor
 public class SocketHandlerConfig {
 
+    private static final String MS_HOST_ARG_NAME = "ms.host";
+    private static final String MS_PORT_ARG_NAME = "ms.port";
+
     private final MessageSystem messageSystem;
     private final MsClientService msClientService;
 
     @Bean
-    public SocketHandler socketHandler(){
-        SocketHandlerImpl socketHandler = new SocketHandlerImpl(new JsonCheckerImpl(), new MSSocketSendingHandler());
+    public SocketHandler socketHandler(ApplicationArguments args) throws Exception {
+
+        CLArgsParser clArgsParser = new CLArgsParser(args);
+        String msHost = clArgsParser.extractArgAsString(MS_HOST_ARG_NAME);
+        int msPort = clArgsParser.extractArgAsInt(MS_PORT_ARG_NAME);
+
+        if (!clArgsParser.argsIsValid()){
+            throw new Exception(clArgsParser.getStatus());
+        }
+
+        SocketHandlerImpl socketHandler = new SocketHandlerImpl(msPort, new JsonCheckerImpl(), new MSSocketSendingHandler(msHost, msPort));
 
         socketHandler.addHandler(MessageType.I_AM_REQUEST.getValue(), new IAmRequestSIH(socketHandler, messageSystem, msClientService));
 

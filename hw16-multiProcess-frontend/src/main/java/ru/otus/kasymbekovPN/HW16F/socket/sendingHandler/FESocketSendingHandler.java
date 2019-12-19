@@ -1,15 +1,14 @@
 package ru.otus.kasymbekovPN.HW16F.socket.sendingHandler;
 
 import com.google.gson.JsonObject;
+import entity.Entity;
 import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import entity.Entity;
 import sockets.SocketSendingHandler;
 
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.List;
 
 
 /**
@@ -26,23 +25,21 @@ public class FESocketSendingHandler implements SocketSendingHandler {
     private static final Entity selfEntity = Entity.FRONTEND;
     private static final Entity targetEntity = Entity.DATABASE;
 
-    private String msHost;
-    private String selfHost;
-    private String targetHost;
+    private final String msHost;
+    private final String selfHost;
+    private final String targetHost;
 
-    private int msPort;
-    private int selfPort;
-    private int targetPort;
+    private final int msPort;
+    private final int selfPort;
+    private final int targetPort;
 
-    @Override
-    public void init(List<String> hosts, List<Integer> ports) {
-        this.selfHost = hosts.get(0);
-        this.msHost = hosts.get(1);
-        this.targetHost = hosts.get(2);
-
-        this.selfPort = ports.get(0);
-        this.msPort = ports.get(1);
-        this.targetPort = ports.get(2);
+    public FESocketSendingHandler(String msHost, String selfHost, String targetHost, int msPort, int selfPort, int targetPort) {
+        this.msHost = msHost;
+        this.selfHost = selfHost;
+        this.targetHost = targetHost;
+        this.msPort = msPort;
+        this.selfPort = selfPort;
+        this.targetPort = targetPort;
     }
 
     @Override

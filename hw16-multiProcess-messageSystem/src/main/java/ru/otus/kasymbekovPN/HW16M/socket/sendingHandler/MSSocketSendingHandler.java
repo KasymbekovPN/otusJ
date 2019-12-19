@@ -9,7 +9,6 @@ import sockets.SocketSendingHandler;
 
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.List;
 
 /**
  * Обработчик отправки сообщения. <br><br>
@@ -21,13 +20,12 @@ public class MSSocketSendingHandler implements SocketSendingHandler {
     private static final Logger logger = LoggerFactory.getLogger(MSSocketSendingHandler.class);
     private static final Entity SELF_ENTITY = Entity.MESSAGE_SYSTEM;
 
-    private String selfHost;
-    private int selfPort;
+    private final String selfHost;
+    private final int selfPort;
 
-    @Override
-    public void init(List<String> hosts, List<Integer> ports) {
-        this.selfHost = hosts.get(0);
-        this.selfPort = ports.get(0);
+    public MSSocketSendingHandler(String selfHost, int selfPort) {
+        this.selfHost = selfHost;
+        this.selfPort = selfPort;
     }
 
     @Override

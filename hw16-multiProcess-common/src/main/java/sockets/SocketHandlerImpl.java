@@ -2,7 +2,6 @@ package sockets;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import entity.Entity;
 import json.JsonChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -30,15 +28,11 @@ import java.util.concurrent.Executors;
  *
  * {@link SocketHandlerImpl#selfPort} - номер входящего порта. <br>
  *
- * {@link SocketHandlerImpl#isValidUrlData} - параметры данног онстанса валидны. <br>
- *
  * {@link SocketHandlerImpl#handleClientSocket(Socket)} - обработка входящего сообщения <br>
  *
  * {@link SocketHandlerImpl#send(JsonObject)} - отправка сообщения <br>
  *
  * {@link SocketHandlerImpl#addHandler(String, SocketInputHandler)} - добавление обработчиков принятых сообщений<br>
- *
- * {@link SocketHandlerImpl#init(Entity, List, List)} - инициализация<br>
  */
 public class SocketHandlerImpl implements SocketHandler {
 
@@ -56,12 +50,13 @@ public class SocketHandlerImpl implements SocketHandler {
     );
 
     private int selfPort;
-    private boolean isValidUrlData;
 
-    public SocketHandlerImpl(JsonChecker jsonChecker, SocketSendingHandler socketSendingHandler) {
+    public SocketHandlerImpl(int selfPort, JsonChecker jsonChecker, SocketSendingHandler socketSendingHandler) {
         this.jsonChecker = jsonChecker;
         this.socketSendingHandler = socketSendingHandler;
-        this.isValidUrlData = false;
+        this.selfPort = selfPort;
+
+        this.inProcessor.submit(this::handleInProcessor);
     }
 
     private void handleInProcessor(){
@@ -92,21 +87,11 @@ public class SocketHandlerImpl implements SocketHandler {
 
     @Override
     public void send(JsonObject jsonObject) {
-        if (isValidUrlData) {
-            socketSendingHandler.send(jsonObject);
-        }
+        socketSendingHandler.send(jsonObject);
     }
 
     @Override
     public void addHandler(String name, SocketInputHandler handler) {
         handlers.put(name, handler);
-    }
-
-    @Override
-    public void init(Entity entity, List<String> hosts, List<Integer> ports) {
-        this.isValidUrlData = true;
-        this.selfPort = ports.get(0);
-        this.socketSendingHandler.init(hosts, ports);
-        this.inProcessor.submit(this::handleInProcessor);
     }
 }
