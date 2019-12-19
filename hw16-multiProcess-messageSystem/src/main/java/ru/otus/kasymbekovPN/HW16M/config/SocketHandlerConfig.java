@@ -3,13 +3,14 @@ package ru.otus.kasymbekovPN.HW16M.config;
 import json.JsonCheckerImpl;
 import lombok.RequiredArgsConstructor;
 import message.MessageType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
-import ru.otus.kasymbekovPN.HW16M.socket.inputHandler.*;
+import ru.otus.kasymbekovPN.HW16M.socket.inputHandler.CommonUserRequestSIH;
+import ru.otus.kasymbekovPN.HW16M.socket.inputHandler.CommonUserResponseSIH;
+import ru.otus.kasymbekovPN.HW16M.socket.inputHandler.IAmRequestSIH;
+import ru.otus.kasymbekovPN.HW16M.socket.inputHandler.WrongTypeSIH;
 import ru.otus.kasymbekovPN.HW16M.socket.sendingHandler.MSSocketSendingHandler;
 import sockets.SocketHandler;
 import sockets.SocketHandlerImpl;
@@ -17,8 +18,6 @@ import sockets.SocketHandlerImpl;
 @Configuration
 @RequiredArgsConstructor
 public class SocketHandlerConfig {
-
-    private static final Logger logger = LoggerFactory.getLogger(SocketHandlerConfig.class);
 
     private final MessageSystem messageSystem;
     private final MsClientService msClientService;

@@ -2,8 +2,6 @@ package ru.otus.kasymbekovPN.HW16F.messageController;
 
 import lombok.RequiredArgsConstructor;
 import message.MessageType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +23,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FrontendMessageTransmitter {
-
-    private static final Logger logger = LoggerFactory.getLogger(FrontendMessageTransmitter.class);
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 

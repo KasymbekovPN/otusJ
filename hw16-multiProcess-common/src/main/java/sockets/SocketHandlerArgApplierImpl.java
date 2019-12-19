@@ -1,8 +1,6 @@
 package sockets;
 
 import entity.Entity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +13,6 @@ import java.util.List;
  * применяющий аргументы командной строки к имплементации {@link SocketHandler}<br>
  */
 public class SocketHandlerArgApplierImpl implements SocketHandlerArgApplier{
-
-    private static final Logger logger = LoggerFactory.getLogger(SocketHandlerArgApplierImpl.class);
 
     private final Entity entity;
     private final SocketHandler socketHandler;

@@ -1,8 +1,6 @@
 package introduce;
 
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import message.MessageType;
 import sockets.SocketHandler;
 
@@ -11,8 +9,6 @@ import sockets.SocketHandler;
  * также о его хосте и порте.
  */
 public class IAmNotifierRunner implements NotifierRunner {
-
-    private static final Logger logger = LoggerFactory.getLogger(IAmNotifierRunner.class);
 
     private final SocketHandler socketHandler;
     private final JsonObject message;
