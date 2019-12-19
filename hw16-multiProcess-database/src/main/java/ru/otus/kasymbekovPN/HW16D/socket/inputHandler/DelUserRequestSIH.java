@@ -37,7 +37,6 @@ public class DelUserRequestSIH implements SocketInputHandler {
     public void handle(JsonObject jsonObject) {
         logger.info("DelUserRequestSIH : {}", jsonObject);
 
-        JsonArray jsonUsers = new JsonArray();
         JsonObject data = jsonObject.get("data").getAsJsonObject();
         String login = data.get("login").getAsString().trim();
         String status = "";
@@ -55,15 +54,7 @@ public class DelUserRequestSIH implements SocketInputHandler {
         }
         logger.info("DelUserRequestSIH : {}", status);
 
-        Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        List<OnlineUser> allUsers = dbService.loadAll();
-        for (OnlineUser user : allUsers) {
-            jsonUsers.add(
-                    parser.parse(gson.toJson(user))
-            );
-        }
-
+        JsonArray jsonUsers = (JsonArray) new JsonParser().parse(new Gson().toJson(dbService.loadAll()));
         JsonObject responseJsonData = new JsonObject();
         responseJsonData.addProperty("type", MessageType.DEL_USER_RESPONSE.getValue());
         responseJsonData.add("data", JsonHelper.makeData(login, status, jsonUsers));

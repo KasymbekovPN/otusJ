@@ -5,11 +5,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import json.JsonHelper;
+import message.MessageType;
 import model.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16D.db.api.service.DBServiceOnlineUser;
-import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
@@ -49,16 +49,7 @@ public class AuthUserRequestSIH implements SocketInputHandler {
                 OnlineUser onlineUser = onlineUsers.get(0);
                 if (onlineUser.getPassword().equals(password)){
                     if (onlineUser.isAdmin()){
-                        List<OnlineUser> allUsers = dbService.loadAll();
-                        Gson gson = new Gson();
-                        JsonParser parser = new JsonParser();
-                        for (OnlineUser user : allUsers) {
-                            jsonUsers.add(
-                                    parser.parse(
-                                            gson.toJson(user)
-                                    )
-                            );
-                        }
+                        jsonUsers.addAll((JsonArray) new JsonParser().parse(new Gson().toJson(dbService.loadAll())));
                         status = "admin";
                     } else {
                         JsonObject jsonUser = new JsonObject();
