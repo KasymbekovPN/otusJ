@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator;
+package ru.otus.kasymbekovPN.HW16M.messageSystem.client.creation.creator;
 
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;

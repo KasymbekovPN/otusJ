@@ -1,4 +1,4 @@
-package ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator;
+package ru.otus.kasymbekovPN.HW16M.messageSystem.client.creation.creator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
