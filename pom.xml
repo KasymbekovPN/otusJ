@@ -75,7 +75,7 @@
         <assertj-core.version>3.13.2</assertj-core.version>
         <hibernate-core.version>5.4.4.Final</hibernate-core.version>
         <freemarker.version>2.3.28</freemarker.version>
-        <jetty.version>9.4.9.v20180320</jetty.version>
+        <jetty.version>9.4.24.v20191120</jetty.version>
         <!-- endregion -->
     </properties>
 
