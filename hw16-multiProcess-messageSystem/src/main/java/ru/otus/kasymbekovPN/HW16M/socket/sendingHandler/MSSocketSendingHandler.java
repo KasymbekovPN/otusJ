@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import sockets.SocketSendingHandler;
 
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Обработчик отправки сообщения. <br><br>
@@ -23,8 +25,8 @@ public class MSSocketSendingHandler implements SocketSendingHandler {
     private final String selfHost;
     private final int selfPort;
 
-    public MSSocketSendingHandler(String selfHost, int selfPort) {
-        this.selfHost = selfHost;
+    public MSSocketSendingHandler(int selfPort) throws UnknownHostException {
+        this.selfHost = InetAddress.getLocalHost().getHostAddress();
         this.selfPort = selfPort;
     }
 

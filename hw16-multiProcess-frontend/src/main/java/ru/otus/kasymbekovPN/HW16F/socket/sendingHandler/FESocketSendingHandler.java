@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import sockets.SocketSendingHandler;
 
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 
 /**
@@ -33,9 +35,9 @@ public class FESocketSendingHandler implements SocketSendingHandler {
     private final int selfPort;
     private final int targetPort;
 
-    public FESocketSendingHandler(String msHost, String selfHost, String targetHost, int msPort, int selfPort, int targetPort) {
+    public FESocketSendingHandler(String msHost, String targetHost, int msPort, int selfPort, int targetPort) throws UnknownHostException {
         this.msHost = msHost;
-        this.selfHost = selfHost;
+        this.selfHost = InetAddress.getLocalHost().getHostAddress();
         this.targetHost = targetHost;
         this.msPort = msPort;
         this.selfPort = selfPort;

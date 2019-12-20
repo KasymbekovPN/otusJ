@@ -5,10 +5,9 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Для запуска командная строка должна содержать 6 агруметов <br><br>
+ * Для запуска командная строка должна содержать 5 агруметов <br><br>
  *
  * <ol>
- *     <li>--self.host - собственный хост</li>
  *     <li>--self.port - собственный порт</li>
  *     <li>--ms.host - хост системы сообщений</li>
  *     <li>--ms.port - порт системы сообщений</li>

@@ -21,7 +21,6 @@ import sockets.SocketHandlerImpl;
 @RequiredArgsConstructor
 public class SocketHandlerConfig {
 
-    private static final String MS_HOST_ARG_NAME = "ms.host";
     private static final String MS_PORT_ARG_NAME = "ms.port";
 
     private final MessageSystem messageSystem;
@@ -31,14 +30,13 @@ public class SocketHandlerConfig {
     public SocketHandler socketHandler(ApplicationArguments args) throws Exception {
 
         CLArgsParser clArgsParser = new CLArgsParser(args);
-        String msHost = clArgsParser.extractArgAsString(MS_HOST_ARG_NAME);
         int msPort = clArgsParser.extractArgAsInt(MS_PORT_ARG_NAME);
 
         if (!clArgsParser.argsIsValid()){
             throw new Exception(clArgsParser.getStatus());
         }
 
-        SocketHandlerImpl socketHandler = new SocketHandlerImpl(msPort, new JsonCheckerImpl(), new MSSocketSendingHandler(msHost, msPort));
+        SocketHandlerImpl socketHandler = new SocketHandlerImpl(msPort, new JsonCheckerImpl(), new MSSocketSendingHandler(msPort));
 
         socketHandler.addHandler(MessageType.I_AM_REQUEST.getValue(), new IAmRequestSIH(socketHandler, messageSystem, msClientService));
 

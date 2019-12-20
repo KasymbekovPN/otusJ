@@ -20,7 +20,6 @@ import sockets.SocketHandlerImpl;
 @RequiredArgsConstructor
 public class SocketHandlerConfig {
 
-    private static final String SELF_HOST = "self.host";
     private static final String SELF_PORT = "self.port";
     private static final String MS_HOST = "ms.host";
     private static final String MS_PORT = "ms.port";
@@ -33,7 +32,6 @@ public class SocketHandlerConfig {
     public SocketHandler socketHandler(ApplicationArguments args) throws Exception {
 
         CLArgsParser clArgsParser = new CLArgsParser(args);
-        String selfHost = clArgsParser.extractArgAsString(SELF_HOST);
         int selfPort = clArgsParser.extractArgAsInt(SELF_PORT);
         String msHost = clArgsParser.extractArgAsString(MS_HOST);
         int msPort = clArgsParser.extractArgAsInt(MS_PORT);
@@ -47,7 +45,7 @@ public class SocketHandlerConfig {
         SocketHandlerImpl socketHandler = new SocketHandlerImpl(
                 selfPort,
                 new JsonCheckerImpl(),
-                new DBSocketSendingHandler(msHost, selfHost, targetHost, msPort, selfPort, targetPort)
+                new DBSocketSendingHandler(msHost, targetHost, msPort, selfPort, targetPort)
         );
         socketHandler.addHandler(MessageType.WRONG_TYPE.getValue(), new WrongTypeSIH());
         socketHandler.addHandler(MessageType.AUTH_USER_REQUEST.getValue(), new AuthUserRequestSIH(dbService, socketHandler));

@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import sockets.SocketSendingHandler;
 
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Обработчик отправки сообщения. <br><br>
@@ -32,9 +34,9 @@ public class DBSocketSendingHandler implements SocketSendingHandler {
     private final int selfPort;
     private final int targetPort;
 
-    public DBSocketSendingHandler(String msHost, String selfHost, String targetHost, int msPort, int selfPort, int targetPort) {
+    public DBSocketSendingHandler(String msHost, String targetHost, int msPort, int selfPort, int targetPort) throws UnknownHostException {
         this.msHost = msHost;
-        this.selfHost = selfHost;
+        this.selfHost = InetAddress.getLocalHost().getHostAddress();
         this.targetHost = targetHost;
         this.msPort = msPort;
         this.selfPort = selfPort;

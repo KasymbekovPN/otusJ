@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Для запуска командная строка должна содержать следующие агрументы <br><br>
  *
  * <ol>
- *     <li>--self.host - собственный хост</li>
  *     <li>--self.port - собственный порт</li>
  *     <li>--ms.host - хост системы сообщений</li>
  *     <li>--ms.port - порт системы сообщений</li>
