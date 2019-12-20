@@ -9,5 +9,5 @@ import sockets.SocketHandler;
  */
 @FunctionalInterface
 public interface MsClientCreator {
-    abstract public MsClient create(String url, SocketHandler socketHandler, MessageSystem messageSystem);
+    MsClient create(String url, SocketHandler socketHandler, MessageSystem messageSystem);
 }

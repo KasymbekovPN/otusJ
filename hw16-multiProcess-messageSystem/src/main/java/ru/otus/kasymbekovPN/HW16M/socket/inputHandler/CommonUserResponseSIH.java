@@ -10,6 +10,8 @@ import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
 import sockets.SocketInputHandler;
 
+import java.util.Optional;
+
 /**
  * Обработчик входящего request-сообщения <br><br>
  *
@@ -34,14 +36,15 @@ public class CommonUserResponseSIH implements SocketInputHandler {
         String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
         String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
 
-        MsClient fromClient = msClientService.get(fromUrl);
-        MsClient toClient = msClientService.get(toUrl);
+        Optional<MsClient> optFromMSClient = msClientService.get(fromUrl);
+        Optional<MsClient> optToMsClient = msClientService.get(toUrl);
 
-        if (fromClient != null && toClient != null) {
+        if (optFromMSClient.isPresent() && optToMsClient.isPresent()){
             String str = jsonObject.toString();
-            Message message = fromClient.produceMessage(toUrl, str, MessageType.valueOf(type));
-            fromClient.sendMessage(message);
-        }  else {
+            MsClient fromMsClient = optFromMSClient.get();
+            Message message = fromMsClient.produceMessage(toUrl, str, MessageType.valueOf(type));
+            fromMsClient.sendMessage(message);
+        } else {
             logger.error("DelUserResponseSIH : client not found.");
         }
     }

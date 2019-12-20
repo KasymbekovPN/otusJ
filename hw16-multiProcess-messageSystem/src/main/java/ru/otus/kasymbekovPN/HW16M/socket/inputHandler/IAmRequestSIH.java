@@ -1,16 +1,18 @@
 package ru.otus.kasymbekovPN.HW16M.socket.inputHandler;
 
 import com.google.gson.JsonObject;
+import entity.Entity;
 import json.JsonHelper;
+import message.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
-import entity.Entity;
-import message.MessageType;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
+
+import java.util.Optional;
 
 /**
  * Обработчик сообщений, регистрирующих программы-клиенты. <br><br>
@@ -42,15 +44,15 @@ public class IAmRequestSIH implements SocketInputHandler {
         int port = from.get("port").getAsInt();
 
         String status;
-        MsClient msClient = msClientService.get(url);
-        if (msClient == null){
+        Optional<MsClient> optMsClient = msClientService.get(url);
+        if (optMsClient.isPresent()){
+            status = "The client '" + url + "' already exists";
+        } else {
             if (msClientService.createClient(host, port, Entity.valueOf(entity), messageSystem)) {
                 status = "Client '" + url + "' was add.";
             } else {
                 status = "Client '" + url + "' wasn't add.";
             }
-        } else {
-            status = "The client '" + url + "' already exists";
         }
         logger.info("IAmRequestSIH : {}", status);
 

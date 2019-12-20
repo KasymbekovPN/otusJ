@@ -1,11 +1,11 @@
 package ru.otus.kasymbekovPN.HW16M.messageSystem.client.service;
 
+import entity.Entity;
 import json.JsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import entity.Entity;
-import ru.otus.kasymbekovPN.HW16M.messageSystem.*;
+import ru.otus.kasymbekovPN.HW16M.messageSystem.MessageSystem;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator.DbMsClientCreator;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.creator.FeMsClientCreator;
@@ -16,7 +16,7 @@ import sockets.SocketHandler;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 
 /**
  * Сервис клиентов {@link MsClient} системы сообщений {@link MessageSystem} <br><br>
@@ -45,7 +45,7 @@ public class MsClientServiceImpl implements MsClientService {
         msClientCreators = Collections.unmodifiableMap(buffer);
     }
 
-    private final Map<String, MsClient> clients = new ConcurrentHashMap<>();
+    private final Map<String, MsClient> clients = new HashMap<>();
 
     private SocketHandler socketHandler;
 
@@ -81,7 +81,7 @@ public class MsClientServiceImpl implements MsClientService {
     }
 
     @Override
-    public synchronized MsClient get(String url) {
-        return clients.getOrDefault(url, null);
+    public synchronized Optional<MsClient> get(String url) {
+        return Optional.ofNullable(clients.getOrDefault(url, null));
     }
 }

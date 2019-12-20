@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.MsClient;
 import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
 
+import java.util.Optional;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -55,13 +56,13 @@ public class MessageSystemImpl implements MessageSystem {
                 if (message == Message.getVoidMessage()){
                     logger.info("Received the stop message");
                 } else {
-                    MsClient clientTo = msClientService.get(message.getToUrl());
-                    if (clientTo == null){
-                        logger.warn("Client not found");
-                    } else {
+                    Optional<MsClient> optClientTo = msClientService.get(message.getToUrl());
+                    if (optClientTo.isPresent()){
                         messageHandler.submit(
-                                () -> handlerMessage(clientTo, message)
+                                () -> handlerMessage(optClientTo.get(), message)
                         );
+                    } else {
+                        logger.warn("Client not found");
                     }
                 }
             } catch (InterruptedException ex){

@@ -12,6 +12,8 @@ import ru.otus.kasymbekovPN.HW16M.messageSystem.client.service.MsClientService;
 import sockets.SocketHandler;
 import sockets.SocketInputHandler;
 
+import java.util.Optional;
+
 /**
  * Обработчик входящего request-сообщения <br><br>
  *
@@ -38,22 +40,23 @@ public class CommonUserRequestSIH implements SocketInputHandler {
         String fromUrl = JsonHelper.extractUrl(jsonObject.get("from").getAsJsonObject());
         String toUrl = JsonHelper.extractUrl(jsonObject.get("to").getAsJsonObject());
 
-        String status = "";
-        MsClient fromClient = msClientService.get(fromUrl);
-        MsClient toClient = msClientService.get(toUrl);
+        Optional<MsClient> optFromMsClient = msClientService.get(fromUrl);
+        Optional<MsClient> optToMsClient = msClientService.get(toUrl);
 
-        if (fromClient == null){
-            status += "Client '" + fromUrl + "' doesn't exist; ";
-        }
-        if (toClient == null){
-            status += "Client '" + toUrl + "' doesn't exist; ";
-        }
-
-        if (status.isEmpty()){
+        if (optFromMsClient.isPresent() && optToMsClient.isPresent()){
             String str = jsonObject.toString();
-            Message message = fromClient.produceMessage(toUrl, str, MessageType.valueOf(type));
-            fromClient.sendMessage(message);
+            MsClient fromMsClient = optFromMsClient.get();
+            Message message = fromMsClient.produceMessage(toUrl, str, MessageType.valueOf(type));
+            fromMsClient.sendMessage(message);
         } else {
+            String status = "";
+            if (!optFromMsClient.isPresent()){
+                status += "Client '" + fromUrl + "' doesn't exist; ";
+            }
+            if (!optToMsClient.isPresent()){
+                status += "Client '" + toUrl + "' doesn't exist; ";
+            }
+
             JsonObject data = jsonObject.get("data").getAsJsonObject();
             data.addProperty("status", status);
             data.add("users", new JsonArray());
